@@ -1,0 +1,39 @@
+C:\Users\user\Desktop\ConsoleApp1\bin\Debug\netcoreapp3.1\ConsoleApp1.exe
+C:\Users\user\Desktop\ConsoleApp1\bin\Debug\netcoreapp3.1\ConsoleApp1.deps.json
+C:\Users\user\Desktop\ConsoleApp1\bin\Debug\netcoreapp3.1\ConsoleApp1.runtimeconfig.json
+C:\Users\user\Desktop\ConsoleApp1\bin\Debug\netcoreapp3.1\ConsoleApp1.runtimeconfig.dev.json
+C:\Users\user\Desktop\ConsoleApp1\bin\Debug\netcoreapp3.1\ConsoleApp1.dll
+C:\Users\user\Desktop\ConsoleApp1\bin\Debug\netcoreapp3.1\ConsoleApp1.pdb
+C:\Users\user\Desktop\ConsoleApp1\obj\Debug\netcoreapp3.1\ConsoleApp1.csprojAssemblyReference.cache
+C:\Users\user\Desktop\ConsoleApp1\obj\Debug\netcoreapp3.1\ConsoleApp1.AssemblyInfoInputs.cache
+C:\Users\user\Desktop\ConsoleApp1\obj\Debug\netcoreapp3.1\ConsoleApp1.AssemblyInfo.cs
+C:\Users\user\Desktop\ConsoleApp1\obj\Debug\netcoreapp3.1\ConsoleApp1.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\ConsoleApp1\obj\Debug\netcoreapp3.1\ConsoleApp1.dll
+C:\Users\user\Desktop\ConsoleApp1\obj\Debug\netcoreapp3.1\ConsoleApp1.pdb
+C:\Users\user\Desktop\ConsoleApp1\obj\Debug\netcoreapp3.1\ConsoleApp1.genruntimeconfig.cache
+C:\Users\user\Desktop\source code\2020_10_09 檔案讀寫練習 in csharp\bin\Debug\netcoreapp3.1\ConsoleApp1.exe
+C:\Users\user\Desktop\source code\2020_10_09 檔案讀寫練習 in csharp\bin\Debug\netcoreapp3.1\ConsoleApp1.deps.json
+C:\Users\user\Desktop\source code\2020_10_09 檔案讀寫練習 in csharp\bin\Debug\netcoreapp3.1\ConsoleApp1.runtimeconfig.json
+C:\Users\user\Desktop\source code\2020_10_09 檔案讀寫練習 in csharp\bin\Debug\netcoreapp3.1\ConsoleApp1.runtimeconfig.dev.json
+C:\Users\user\Desktop\source code\2020_10_09 檔案讀寫練習 in csharp\bin\Debug\netcoreapp3.1\ConsoleApp1.dll
+C:\Users\user\Desktop\source code\2020_10_09 檔案讀寫練習 in csharp\bin\Debug\netcoreapp3.1\ConsoleApp1.pdb
+C:\Users\user\Desktop\source code\2020_10_09 檔案讀寫練習 in csharp\obj\Debug\netcoreapp3.1\ConsoleApp1.csprojAssemblyReference.cache
+C:\Users\user\Desktop\source code\2020_10_09 檔案讀寫練習 in csharp\obj\Debug\netcoreapp3.1\ConsoleApp1.AssemblyInfoInputs.cache
+C:\Users\user\Desktop\source code\2020_10_09 檔案讀寫練習 in csharp\obj\Debug\netcoreapp3.1\ConsoleApp1.AssemblyInfo.cs
+C:\Users\user\Desktop\source code\2020_10_09 檔案讀寫練習 in csharp\obj\Debug\netcoreapp3.1\ConsoleApp1.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\source code\2020_10_09 檔案讀寫練習 in csharp\obj\Debug\netcoreapp3.1\ConsoleApp1.dll
+C:\Users\user\Desktop\source code\2020_10_09 檔案讀寫練習 in csharp\obj\Debug\netcoreapp3.1\ConsoleApp1.pdb
+C:\Users\user\Desktop\source code\2020_10_09 檔案讀寫練習 in csharp\obj\Debug\netcoreapp3.1\ConsoleApp1.genruntimeconfig.cache
+C:\Users\user\Desktop\source code\TxtFile_Read_and_Write\C#\bin\Debug\netcoreapp3.1\ConsoleApp1.exe
+C:\Users\user\Desktop\source code\TxtFile_Read_and_Write\C#\bin\Debug\netcoreapp3.1\ConsoleApp1.deps.json
+C:\Users\user\Desktop\source code\TxtFile_Read_and_Write\C#\bin\Debug\netcoreapp3.1\ConsoleApp1.runtimeconfig.json
+C:\Users\user\Desktop\source code\TxtFile_Read_and_Write\C#\bin\Debug\netcoreapp3.1\ConsoleApp1.runtimeconfig.dev.json
+C:\Users\user\Desktop\source code\TxtFile_Read_and_Write\C#\bin\Debug\netcoreapp3.1\ConsoleApp1.dll
+C:\Users\user\Desktop\source code\TxtFile_Read_and_Write\C#\bin\Debug\netcoreapp3.1\ConsoleApp1.pdb
+C:\Users\user\Desktop\source code\TxtFile_Read_and_Write\C#\obj\Debug\netcoreapp3.1\ConsoleApp1.csprojAssemblyReference.cache
+C:\Users\user\Desktop\source code\TxtFile_Read_and_Write\C#\obj\Debug\netcoreapp3.1\ConsoleApp1.AssemblyInfoInputs.cache
+C:\Users\user\Desktop\source code\TxtFile_Read_and_Write\C#\obj\Debug\netcoreapp3.1\ConsoleApp1.AssemblyInfo.cs
+C:\Users\user\Desktop\source code\TxtFile_Read_and_Write\C#\obj\Debug\netcoreapp3.1\ConsoleApp1.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\source code\TxtFile_Read_and_Write\C#\obj\Debug\netcoreapp3.1\ConsoleApp1.dll
+C:\Users\user\Desktop\source code\TxtFile_Read_and_Write\C#\obj\Debug\netcoreapp3.1\ConsoleApp1.pdb
+C:\Users\user\Desktop\source code\TxtFile_Read_and_Write\C#\obj\Debug\netcoreapp3.1\ConsoleApp1.genruntimeconfig.cache

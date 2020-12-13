@@ -1,0 +1,4 @@
+﻿  Source.cpp
+C:\Users\user\Desktop\20201209_cpp_hw\solve2\Source.cpp(7,1): warning C4326: 'main' 的傳回類型應該是 'int'，而非 'void'
+C:\Users\user\Desktop\20201209_cpp_hw\solve2\Source.cpp(8,12): warning C4244: '引數': 將 'time_t' 轉換為 'unsigned int'，由於類型不同，可能導致資料遺失
+  solve2.vcxproj -> C:\Users\user\Desktop\20201209_cpp_hw\x64\Debug\solve2.exe

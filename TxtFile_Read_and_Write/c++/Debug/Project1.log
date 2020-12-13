@@ -1,0 +1,7 @@
+﻿  Source.cpp
+C:\Users\user\Desktop\source code\TxtFile_Read_and_Write\c++\Source.cpp(16,1): warning C4326: 'main' 的傳回類型應該是 'int'，而非 'void'
+C:\Users\user\Desktop\source code\TxtFile_Read_and_Write\c++\Source.cpp(35,14): warning C4244: '引數': 將 'double' 轉換為 'const unsigned int'，由於類型不同，可能導致資料遺失
+C:\Users\user\Desktop\source code\TxtFile_Read_and_Write\c++\Source.cpp(36,15): warning C4244: '引數': 將 'double' 轉換為 'const unsigned int'，由於類型不同，可能導致資料遺失
+C:\Users\user\Desktop\source code\TxtFile_Read_and_Write\c++\Source.cpp(37,22): warning C4244: '引數': 將 'double' 轉換為 'const unsigned int'，由於類型不同，可能導致資料遺失
+C:\Users\user\Desktop\source code\TxtFile_Read_and_Write\c++\Source.cpp(39,18): warning C4244: '引數': 將 'double' 轉換為 'const unsigned int'，由於類型不同，可能導致資料遺失
+  Project1.vcxproj -> C:\Users\user\Desktop\source code\TxtFile_Read_and_Write\c++\Debug\Project1.exe

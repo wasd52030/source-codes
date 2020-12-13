@@ -1,0 +1,5 @@
+﻿Form1.cs的第16行等效於下面的程式碼
+if (label1.Text == "0")
+	label1.Text = bt.Text;
+else
+	label1.Text += bt.Text;

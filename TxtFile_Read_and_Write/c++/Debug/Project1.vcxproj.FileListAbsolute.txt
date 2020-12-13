@@ -1,0 +1,4 @@
+C:\Users\user\Desktop\Project1\Debug\Project1.exe
+C:\Users\user\Desktop\Project1\Debug\Project1.pdb
+C:\Users\user\Desktop\source code\TxtFile_Read_and_Write\c++\Debug\Project1.exe
+C:\Users\user\Desktop\source code\TxtFile_Read_and_Write\c++\Debug\Project1.pdb

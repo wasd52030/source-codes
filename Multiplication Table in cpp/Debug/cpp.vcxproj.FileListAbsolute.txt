@@ -1,0 +1,4 @@
+C:\Users\user\Desktop\cpp\Debug\cpp.exe
+C:\Users\user\Desktop\cpp\Debug\cpp.pdb
+C:\Users\user\Desktop\source code\Multiplication Table in cpp\Debug\cpp.exe
+C:\Users\user\Desktop\source code\Multiplication Table in cpp\Debug\cpp.pdb

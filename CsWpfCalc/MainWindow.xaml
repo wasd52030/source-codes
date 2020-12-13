@@ -1,0 +1,42 @@
+﻿<Window x:Class="WpfApp1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="calc" Height="465.4" Width="467.6" ResizeMode="NoResize" Loaded="calc_initial">
+    <Grid Margin="0,0,3.6,3.4">
+        <Label x:Name="label1" Content="0" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="437" Height="70" FontSize="30" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Right"/>
+        <Button x:Name="btn1" Content="1" HorizontalAlignment="Left" Height="51" Margin="10,199,0,0" VerticalAlignment="Top" Width="69" FontSize="20" Click="addnum"/>
+        <Button x:Name="btn2" Content="2" HorizontalAlignment="Left" Height="51" Margin="84,199,0,0" VerticalAlignment="Top" Width="69" FontSize="20" Click="addnum"/>
+        <Button x:Name="btn3" Content="3" HorizontalAlignment="Left" Height="51" Margin="158,199,0,0" VerticalAlignment="Top" Width="69" FontSize="20" Click="addnum"/>
+        <Button x:Name="btn4" Content="4" HorizontalAlignment="Left" Height="51" Margin="10,141,0,0" VerticalAlignment="Top" Width="69" FontSize="20" Click="addnum"/>
+        <Button x:Name="btn5" Content="5" HorizontalAlignment="Left" Height="51" Margin="84,141,0,0" VerticalAlignment="Top" Width="69" FontSize="20" Click="addnum"/>
+        <Button x:Name="btn6" Content="6" HorizontalAlignment="Left" Height="51" Margin="158,141,0,0" VerticalAlignment="Top" Width="69" FontSize="20" Click="addnum"/>
+        <Button x:Name="btn7" Content="7" HorizontalAlignment="Left" Height="51" Margin="10,85,0,0" VerticalAlignment="Top" Width="69" FontSize="20" Click="addnum"/>
+        <Button x:Name="btn8" Content="8" HorizontalAlignment="Left" Height="51" Margin="84,85,0,0" VerticalAlignment="Top" Width="69" FontSize="20" Click="addnum"/>
+        <Button x:Name="btn9" Content="9" HorizontalAlignment="Left" Height="51" Margin="158,85,0,0" VerticalAlignment="Top" Width="69" FontSize="20" Click="addnum"/>
+        <Button x:Name="btn0" Content="0" HorizontalAlignment="Left" Height="51" Margin="10,255,0,0" VerticalAlignment="Top" Width="69" FontSize="20" Click="addnum"/>
+        <Button x:Name="btn00" Content="00" HorizontalAlignment="Left" Height="51" Margin="84,255,0,0" VerticalAlignment="Top" Width="69" FontSize="20" Click="addnum"/>
+        <Button x:Name="btndot" Content="." HorizontalAlignment="Left" Height="51" Margin="158,255,0,0" VerticalAlignment="Top" Width="69" FontSize="20" Click="btndot_Click"/>
+        <Button x:Name="btnSin" Content="sin( )" HorizontalAlignment="Left" Height="51" Margin="10,318,0,0" VerticalAlignment="Top" Width="143" FontSize="20" Click="trangle_fun"/>
+        <Button x:Name="btnArcSin" Content="arcsin( )" HorizontalAlignment="Left" Height="51" Margin="10,374,0,0" VerticalAlignment="Top" Width="143" FontSize="20" Click="trangle_fun"/>
+        <Button x:Name="btnCos" Content="cos( )" HorizontalAlignment="Left" Height="51" Margin="158,318,0,0" VerticalAlignment="Top" Width="143" FontSize="20" Click="trangle_fun"/>
+        <Button x:Name="btnTan" Content="tan( )" HorizontalAlignment="Left" Height="51" Margin="306,318,0,0" VerticalAlignment="Top" Width="143" FontSize="20" Click="trangle_fun"/>
+        <Button x:Name="btnArcCos" Content="arccos( )" HorizontalAlignment="Left" Height="51" Margin="158,374,0,0" VerticalAlignment="Top" Width="143" FontSize="20" Click="trangle_fun"/>
+        <Button x:Name="btnArcTan" Content="arctan( )" HorizontalAlignment="Left" Height="51" Margin="306,374,0,0" VerticalAlignment="Top" Width="143" FontSize="20" Click="trangle_fun"/>
+        <Button x:Name="btnClean" Content="C" HorizontalAlignment="Left" Height="51" Margin="232,85,0,0" VerticalAlignment="Top" Width="69" RenderTransformOrigin="1.516,0.514" FontSize="20" Click="btnClean_Click"/>
+        <Button x:Name="btnpn" Content="+/-" HorizontalAlignment="Left" Height="51" Margin="232,141,0,0" VerticalAlignment="Top" Width="69" RenderTransformOrigin="1.516,0.514" FontSize="20" Click="btnpn_Click"/>
+        <Button x:Name="btnSqrt" Content="√" HorizontalAlignment="Left" Height="51" Margin="232,199,0,0" VerticalAlignment="Top" Width="69" RenderTransformOrigin="1.516,0.514" FontSize="20" Click="btnSqrt_Click"/>
+        <Button x:Name="btnEqual" Content="=" HorizontalAlignment="Left" Height="51" Margin="232,255,0,0" VerticalAlignment="Top" Width="69" RenderTransformOrigin="1.516,0.514" FontSize="20" Click="btnEqual_Click"/>
+        <Button x:Name="btnAdd" Content="+" HorizontalAlignment="Left" Height="51" Margin="306,85,0,0" VerticalAlignment="Top" Width="69" RenderTransformOrigin="1.516,0.514" FontSize="20" Click="Arithmetic"/>
+        <Button x:Name="btnSub" Content="-" HorizontalAlignment="Left" Height="51" Margin="306,141,0,0" VerticalAlignment="Top" Width="69" RenderTransformOrigin="1.516,0.514" FontSize="20" Click="Arithmetic"/>
+        <Button x:Name="btnMult" Content="*" HorizontalAlignment="Left" Height="51" Margin="306,199,0,0" VerticalAlignment="Top" Width="69" RenderTransformOrigin="1.516,0.514" FontSize="20" Click="Arithmetic"/>
+        <Button x:Name="btnDev" Content="÷" HorizontalAlignment="Left" Height="51" Margin="306,255,0,0" VerticalAlignment="Top" Width="69" RenderTransformOrigin="1.516,0.514" FontSize="20" Click="Arithmetic"/>
+        <Button x:Name="btnPower" Content="x^y" HorizontalAlignment="Left" Height="51" Margin="380,85,0,0" VerticalAlignment="Top" Width="69" RenderTransformOrigin="1.516,0.514" FontSize="20" Click="Arithmetic"/>
+        <Button x:Name="btnFactorial1" Content="x!" HorizontalAlignment="Left" Height="51" Margin="380,141,0,0" VerticalAlignment="Top" Width="69" RenderTransformOrigin="1.516,0.514" FontSize="20" Click="btnFactorial1_Click"/>
+        <Button x:Name="btnE" Content="e" HorizontalAlignment="Left" Height="51" Margin="380,199,0,0" VerticalAlignment="Top" Width="69" RenderTransformOrigin="1.516,0.514" FontSize="20" Click="btnE_Click"/>
+        <Button x:Name="btnPI" Content="π" HorizontalAlignment="Left" Height="51" Margin="380,255,0,0" VerticalAlignment="Top" Width="69" RenderTransformOrigin="1.516,0.514" FontSize="20" Click="btnPI_Click"/>
+    </Grid>
+</Window>

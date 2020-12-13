@@ -1,0 +1,10 @@
+C:\Users\user\Desktop\source code\cscalc\bin\Release\cscalc.exe.config
+C:\Users\user\Desktop\source code\cscalc\bin\Release\cscalc.exe
+C:\Users\user\Desktop\source code\cscalc\bin\Release\cscalc.pdb
+C:\Users\user\Desktop\source code\cscalc\obj\Release\cscalc.csprojAssemblyReference.cache
+C:\Users\user\Desktop\source code\cscalc\obj\Release\cscalc.Form1.resources
+C:\Users\user\Desktop\source code\cscalc\obj\Release\cscalc.Properties.Resources.resources
+C:\Users\user\Desktop\source code\cscalc\obj\Release\cscalc.csproj.GenerateResource.cache
+C:\Users\user\Desktop\source code\cscalc\obj\Release\cscalc.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\source code\cscalc\obj\Release\cscalc.exe
+C:\Users\user\Desktop\source code\cscalc\obj\Release\cscalc.pdb

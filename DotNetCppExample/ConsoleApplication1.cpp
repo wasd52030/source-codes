@@ -40,12 +40,12 @@ String^ DotNetRegexExample(String^ in)
 
 int main(array<System::String ^> ^args)
 {
-    Console::WriteLine("---.Net C++ Regex Examole---");
+    Console::WriteLine("---.Net C++ Regex Example---");
     Console::Write("pls input you want to check : ");
     String^ in = Console::ReadLine();
     Console::WriteLine(DotNetRegexExample(in));
     Console::WriteLine();
-    Console::WriteLine("---.Net List Examole---");
+    Console::WriteLine("---.Net List Example---");
     DotNetListExample();
     Console::WriteLine();
     system("pause");

@@ -27,7 +27,6 @@ for i in PrimePow:
 
 out=out[:-1]
 
-
 for i in PrimeFactor:
     if i==in_num:
         out=str(i)+"是質數"

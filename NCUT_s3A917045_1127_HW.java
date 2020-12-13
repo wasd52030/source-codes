@@ -130,6 +130,6 @@ public class s3A917045_1127_HW
             }
         }
             if ( rtInd == 0 )
-                System.out.println( "這迷宮沒有出口"); 
+                System.out.println("這迷宮沒有出口"); 
     }
 }

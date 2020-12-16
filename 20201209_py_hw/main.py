@@ -1,5 +1,4 @@
-import os
-from random import sample
+import random
 import time
 data=[]
 g=[]
@@ -14,7 +13,7 @@ if(kin1==1):
         print("輸入要練幾個單字 : ",end="")
         words=int(input())
         t1=time.time()
-        g=sample(data,words)
+        g=random.sample(data,words)
         gc=0
         while True:
             if gc>=len(g):

@@ -6,7 +6,7 @@ import javafx.fxml.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class Controller implements  Initializable
+public class Controller implements Initializable
 {
     @FXML
     public Label Lbl1;

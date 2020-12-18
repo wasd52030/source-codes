@@ -1,0 +1,2 @@
+C:\Users\user\Desktop\gittest\Debug\gittest.exe
+C:\Users\user\Desktop\gittest\Debug\gittest.pdb

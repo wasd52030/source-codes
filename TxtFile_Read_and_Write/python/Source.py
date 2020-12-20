@@ -1,6 +1,6 @@
 import math
 f1=open("in.txt","r")
-f2=open("out.txt","w")
+f2=open("out.txt","w",encoding="utf-8")
 Data=[]
 sum=odd=even=0
 

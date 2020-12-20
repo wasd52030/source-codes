@@ -1,13 +1,13 @@
-#include <iostream>
+ï»¿#include <iostream>
 using namespace std;
 
 int main()
 {
-    string x; //¿é¤J¦r¦ê
+    string x;
     cin >> x;
-    string digits[] = { "¹s","³ü","¶L","°Ñ","¸v","¥î","³°","¬m","®Ã","¨h" };
-    string radices[] = { "", "¬B","¨Õ","¥a" };
-    string bigRadices[] = { "", "¸U" };
+    string digits[] = { "é›¶","å£¹","è²³","åƒ","è‚†","ä¼","é™¸","æŸ’","æŒ","çŽ–" };
+    string radices[] = { "", "æ‹¾","ä½°","ä»Ÿ" };
+    string bigRadices[] = { "", "è¬" };
     string out;
     if (atoi(x.c_str()) > 0)
     {

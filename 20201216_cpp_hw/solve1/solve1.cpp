@@ -1,121 +1,43 @@
 #include <iostream>
-#include <vector>
-#include <algorithm>
 using namespace std;
 
 int main()
 {
     string x; //輸入字串
     cin >> x;
-    vector<string> x_bar; //將輸入字串反轉，方便對數字的位數
-    string g;
-    for (int i=0;i<x.size();i++)
+    string digits[] = { "零","壹","貳","參","肆","伍","陸","柒","捌","玖" };
+    string radices[] = { "", "拾","佰","仟" };
+    string bigRadices[] = { "", "萬" };
+    string out;
+    if (atoi(x.c_str()) > 0)
     {
-        g = x[i];
-        x_bar.push_back(g);
-    }
-
-    reverse(x_bar.begin(), x_bar.end()); //反轉vector
-    string chinum[] = { "零","壹","貳","參","肆","伍","陸","柒","捌","玖" };
-    vector<string> out;
-
-    for (int i = 0; i < x_bar.size(); i++)
-    {
-        g = x_bar[i];
-        int x = atoi(g.c_str());
-        switch (i)
+        int zerocnt = 0;
+        for (int i = 0; i < x.size(); i++)
         {
-            case 0:
-                out.push_back(chinum[x]);
-                break;
-            case 1:
-                if (x != 0)
+            int p = x.size() - i - 1;
+            string d = x.substr(i, 1);
+            int quotient = p / 4;
+            int modulus = p % 4;
+            if (d == "0")
+            {
+                zerocnt++;
+            }
+            else
+            {
+                if (zerocnt > 0)
                 {
-                    out.push_back(chinum[x] + "拾");
+                    out += digits[0];
                 }
-                else
-                {
-                    out.push_back(chinum[x]);
-                }
-                break;
-            case 2:
-                if (x!=0)
-                {
-                    out.push_back(chinum[x] + "佰");
-                }
-                else
-                {
-                    out.push_back(chinum[x]);
-                }
-                break;
-            case 3:
-                if (x != 0)
-                {
-                    out.push_back(chinum[x] + "仟");
-                }
-                else
-                {
-                    out.push_back(chinum[x]);
-                }
-                break;
-            case 4:
-                if (x != 0)
-                {
-                    out.push_back(chinum[x] + "萬");
-                }
-                else
-                {
-                    out.push_back("萬");
-                }
-                break;
-            case 5:
-                if (x != 0)
-                {
-                    out.push_back(chinum[x] + "拾");
-                }
-                else
-                {
-                    out.push_back(chinum[x]);
-                }
-                break;
-            case 6:
-                if (x != 0)
-                {
-                    out.push_back(chinum[x] + "佰");
-                }
-                else
-                {
-                    out.push_back(chinum[x]);
-                }
-                break;
-            case 7:
-                if (x != 0)
-                {
-                    out.push_back(chinum[x] + "仟");
-                }
-                else
-                {
-                    out.push_back(chinum[x]);
-                }
-                break;
+                zerocnt = 0;
+                out += digits[atoi(d.c_str())] + radices[modulus];
+            }
+            if (modulus == 0 && zerocnt < 4)
+            {
+                out += bigRadices[quotient];
+            }
         }
     }
-
-    reverse(out.begin(), out.end());
-    out.erase(unique(out.begin(), out.end()), out.end()); //去掉重複的零
-    
-    if (out[1] == "零")
-    {
-        out.erase(out.begin() + 1);
-        out.insert(out.begin() + 2, "零");
-    }
-
-    if (out[out.size() - 1] == "零") //去掉最後一位的零
-        out.pop_back();
-
-    for (string k : out)
-        cout << k;
-
-    cout << "\n";
+    cout << out << "\n";
     system("pause");
+    return 0;
 }

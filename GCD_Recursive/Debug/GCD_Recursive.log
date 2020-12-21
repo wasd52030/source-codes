@@ -1,0 +1,3 @@
+﻿  Source.cpp
+C:\Users\user\Desktop\GCD_Recursive\Source.cpp(14): warning C4715: 'gcd': 不是所有控制路徑都傳回值
+  GCD_Recursive.vcxproj -> C:\Users\user\Desktop\GCD_Recursive\Debug\GCD_Recursive.exe

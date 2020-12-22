@@ -64,7 +64,7 @@ int main()
 	int a, b;
 	while (true)
 	{
-		cout << "Please input two positive numbers: ";
+		printf("Please input two positive numbers: ");
 		cin >> a >> b;
 		if (a == 0 || b == 0)
 		{
@@ -72,8 +72,9 @@ int main()
 		}
 		else
 		{
-			cout << "(" << a << ")_10 = (" << tran_base(a, b) << ")_" << b << "\n";
+			printf("(%d)_10=(%s)_%d\n", a, tran_base(a, b).c_str(), b);
 		}
 	}
 	system("pause");
+	return 0;
 }

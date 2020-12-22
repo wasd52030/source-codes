@@ -7,6 +7,7 @@ using namespace std;
 string out = "";
 vector<string> calc;
 
+
 string tran_base(int x, int y)
 {
 	out = "";
@@ -62,7 +63,7 @@ int main()
 	int a, b;
 	while (true)
 	{
-		cout << "Please input two positive numbers: ";
+		printf("Please input two positive numbers: ");
 		cin >> a >> b;
 		if (a == 0 || b == 0)
 		{
@@ -70,7 +71,8 @@ int main()
 		}
 		else
 		{
-			cout << "(" << a << ")_10 = (" << tran_base(a, b) << ")_" << b << "\n";
+			//printf的%s只接受C式字串，如要用printf印C++ string，請用std::string().cstr()去取得C式字串
+			printf("(%d)_10=(%s)_%d\n",a,tran_base(a,b).c_str(),b);
 		}
 	}
 	system("pause");

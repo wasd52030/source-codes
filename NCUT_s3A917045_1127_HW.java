@@ -1,5 +1,5 @@
 import java.util.*;
-public class s3A917045_1127_HW 
+public class NCUT_s3A917045_1127_HW 
 {
     static int maze[][];
     static int route[][];

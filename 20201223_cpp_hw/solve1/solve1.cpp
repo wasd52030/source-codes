@@ -27,24 +27,25 @@ struct Date
 	int date=0;
 	int month_date_flag=0;
 
-	int getminYr(string in)
-	{
-		return atoi(in.c_str()) - 1911;
-	}
-	string getfin_yr(int i)
+	string getyear(string in)
 	{
 		string out = "";
+		int i = atoi(in.c_str()) - 1911;
 		if (i<0)
 		{
-			out = "民國前" + to_string(abs(getminYr(year))) + "年";
+			out = "民國前" + to_string(abs(i)) + "年";
+		}
+		else if(i==0)
+		{
+			out = "民國元年";
 		}
 		else
 		{
-			out = "民國" + to_string(getminYr(year)) + "年";
+			out = "民國" + to_string(i) + "年";
 		}
 		return out;
 	}
-	string getEngmou(string in)
+	string getEngmon(string in)
 	{
 		return Eng_month[atoi(month.c_str()) - 1];
 	}
@@ -87,6 +88,18 @@ struct Date
 
 vector<Date> operation;
 
+bool rankflag(const Date& a, const Date& b)
+{
+	if (atoi(a.year.c_str()) == (atoi(b.year.c_str())))
+	{
+		return a.month_date_flag < b.month_date_flag;
+	}
+	else
+	{
+		return atoi(a.year.c_str()) < (atoi(b.year.c_str()));
+	}
+}
+
 void a()  //選單1
 {
 	string k;
@@ -101,24 +114,12 @@ void a()  //選單1
 	operation.push_back(d);
 }
 
-bool rankflag(const Date& a, const Date& b)
-{
-	if (atoi(a.year.c_str()) == (atoi(b.year.c_str())))
-	{
-		return a.month_date_flag < b.month_date_flag;
-	}
-	else
-	{
-		return atoi(a.year.c_str()) < (atoi(b.year.c_str()));
-	}
-}
-
 void b() //選單2
 {
 	sort(operation.begin(), operation.end(), rankflag);
 	for (auto d : operation)
 	{
-		cout<<d.getfin_yr(d.getminYr(d.year)) + d.getEngmou(d.month) + d.getchidate(d.date)<<"\n";
+		cout<< d.getyear(d.year) + d.getEngmon(d.month) + d.getchidate(d.date)<<"\n";
 	}
 }
 

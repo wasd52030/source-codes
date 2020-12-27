@@ -26,7 +26,7 @@ struct Date
 	int date=0;
 	int md_flag=0;
 
-	string getyear(string in)
+	string GetKmtYear(string in)
 	{
 		string out = "";
 		int i = atoi(in.c_str()) - 1911;
@@ -50,7 +50,7 @@ struct Date
 		return Eng_month[atoi(month.c_str()) - 1];
 	}
 
-	string getchidate(int in)
+	string GetCnDate(int in)
 	{
 		int m = in / 10;
 		int d = in % 10;
@@ -133,7 +133,7 @@ void b() //選單2
 	sort(operation.begin(), operation.end(), rankflag);
 	for (auto d : operation)
 	{
-		cout<< d.getyear(d.year) + d.GetEnMon(d.month) + d.getchidate(d.date)<<"\n";
+		cout<< d.GetKmtYear(d.year) + d.GetEnMon(d.month) + d.GetCnDate(d.date)<<"\n";
 	}
 	cout << "\n";
 }

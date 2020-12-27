@@ -165,7 +165,7 @@ void menu()
 		}
 		else
 		{
-			cout << "Error,pls reinput num\n";
+			cout << "輸入有誤，請重新輸入\n";
 			menu(); //如果輸入的不是 1、2、3時，遞迴呼叫menu函式去讓使用者輸入
 		}
 	}

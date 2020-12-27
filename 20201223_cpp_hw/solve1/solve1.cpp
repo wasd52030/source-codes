@@ -2,10 +2,9 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include <sstream>
+#include <sstream>  //string stream
 #include <regex>
 using namespace std;
-
 
 void split(const std::string& s, std::vector<std::string>& sv, const char delim = ' ')
 {
@@ -25,7 +24,7 @@ struct Date
 	string Eng_month[12] = { "January","February","March","April","May","June","July","August","September","October","November","December" };
 	string digits[10] = { "零","一","二","三","四","五","六","七","八","九" };
 	int date=0;
-	int month_date_flag=0;
+	int md_flag=0;
 
 	string getyear(string in)
 	{
@@ -45,10 +44,12 @@ struct Date
 		}
 		return out;
 	}
-	string getEngmon(string in)
+
+	string GetEnMon(string in)
 	{
 		return Eng_month[atoi(month.c_str()) - 1];
 	}
+
 	string getchidate(int in)
 	{
 		int m = in / 10;
@@ -80,19 +81,17 @@ struct Date
 		return out;
 	}
 	
-	int get_month_date_flag(int m, int d)
+	int get_md_flag(int m, int d)
 	{
-		return pow(m,2) + d; //set flag as m^2+d
+		return (pow(m,2) + d); //set flag as m^2+d
 	}
 };
-
-vector<Date> operation;
 
 bool rankflag(const Date& a, const Date& b)
 {
 	if (atoi(a.year.c_str()) == (atoi(b.year.c_str())))
 	{
-		return a.month_date_flag < b.month_date_flag;
+		return a.md_flag < b.md_flag;
 	}
 	else
 	{
@@ -100,18 +99,33 @@ bool rankflag(const Date& a, const Date& b)
 	}
 }
 
+vector<Date> operation;
 void a()  //選單1
 {
-	string k;
+	string x;
+	regex input_check("^(([1-9]{1})|([1-9]{1}[0-9]{1,3}))\/(([0]{1}[1-9]{1})|([1]{1}[0-2]{1}))\/(([0]{1}[1-9]{1})|([1-2]{1}[0-9]{1})|([3]{1}[0-1]{1}))$");
 	Date d;
-	vector<string> string_split_operation;
-	cin >> k;
-	split(k, string_split_operation, '/'); 
-	d.year = string_split_operation[0];
-	d.month = string_split_operation[1];
-	d.date = atoi(string_split_operation[2].c_str());
-	d.month_date_flag = d.get_month_date_flag(atoi(d.month.c_str()), d.date);
-	operation.push_back(d);
+	vector<string> split_contianer;
+	while (true)
+	{
+		cin >> x;
+		if (regex_match(x, input_check))
+		{
+			split(x, split_contianer, '/');
+			d.year = split_contianer[0];
+			d.month = split_contianer[1];
+			d.date = atoi(split_contianer[2].c_str());
+			d.md_flag = d.get_md_flag(atoi(d.month.c_str()), d.date);
+			operation.push_back(d);
+			cout << "\n";
+			break;
+		}
+		else
+		{
+			cout << "輸入有誤，請重新輸入\n";
+		}
+	}
+	
 }
 
 void b() //選單2
@@ -119,40 +133,46 @@ void b() //選單2
 	sort(operation.begin(), operation.end(), rankflag);
 	for (auto d : operation)
 	{
-		cout<< d.getyear(d.year) + d.getEngmon(d.month) + d.getchidate(d.date)<<"\n";
+		cout<< d.getyear(d.year) + d.GetEnMon(d.month) + d.getchidate(d.date)<<"\n";
 	}
+	cout << "\n";
 }
 
-int main()
-{	
-	int r;
+void menu()
+{
+	string r;
 	regex reg("^[1-3]{1}$");
 	while (true)
 	{
 		cout << "1->input\n2->output\n3->exit\n";
 		cin >> r;
-		if (regex_match(to_string(r), reg))
+		if (regex_match(r, reg))
 		{
-			if (r == 3)
+			if (r == "3")
 			{
 				cout << "Exit...\n";
-				break;
+				system("pause");
+				exit(0);  //把整個程式結束
 			}
-			else if (r == 1)
+			else if (r == "1")
 			{
 				a();
 			}
-			else if (r == 2)
+			else if (r == "2")
 			{
 				b();
 			}
 		}
 		else
 		{
-			cout << "Error,pls restart this program\n";
-			break;
+			cout << "Error,pls reinput num\n";
+			menu(); //如果輸入的不是 1、2、3時，遞迴呼叫menu函式去讓使用者輸入
 		}
 	}
-	system("pause");
+}
+
+int main()
+{	
+	menu();
 	return 0;
 }

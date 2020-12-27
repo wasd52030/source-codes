@@ -83,7 +83,7 @@ struct Date
 	
 	int get_md_flag(int m, int d)
 	{
-		return (pow(m,2) + d); //set flag as m^2+d
+		return pow(m,2) + d; //set flag as m^2+d
 	}
 };
 

@@ -143,16 +143,16 @@ void a()  //選單1
 	string x;
 	regex input_check("^(([1-9]{1})|([1-9]{1}[0-9]{1,}))\/(([0]{1}[1-9]{1})|([1]{1}[0-2]{1}))\/(([0]{1}[1-9]{1})|([1-2]{1}[0-9]{1})|([3]{1}[0-1]{1}))$");
 	Date d;
-	vector<string> split_contianer;
+	vector<string> split_container;
 	while (true)
 	{
 		cin >> x;
 		if (regex_match(x, input_check))
 		{
-			split(x, split_contianer, "/");
-			d.year = split_contianer[0];
-			d.month = split_contianer[1];
-			d.date = atoi(split_contianer[2].c_str());
+			split(x, split_container, "/");
+			d.year = split_container[0];
+			d.month = split_container[1];
+			d.date = atoi(split_container[2].c_str());
 			d.md_flag = d.get_md_flag(atoi(d.month.c_str()), d.date);
 			operation.push_back(d);
 			cout << "\n";

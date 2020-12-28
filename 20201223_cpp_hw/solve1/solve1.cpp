@@ -52,7 +52,7 @@ struct Date
 		return out;
 	}
 
-	string GetEnMonth(string in)
+	string GetEnMonth()
 	{
 		return Eng_month[atoi(month.c_str()) - 1];
 	}
@@ -172,7 +172,7 @@ void b() //選單2
 	sort(operation.begin(), operation.end(), rankflag);
 	for (auto d : operation)
 	{
-		cout<< d.GetKmtYear(d.year) + d.GetEnMonth(d.month) + d.GetCnDate(d.date)<<"\n";
+		cout<< d.GetKmtYear(d.year) + d.GetEnMonth() + d.GetCnDate(d.date)<<"\n";
 	}
 	cout << "\n";
 	menu();

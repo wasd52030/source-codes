@@ -8,7 +8,7 @@ namespace cscalc
     {
 
         public Form1( ) => InitializeComponent( );
-        double num1, num2, ctrl_trangle, x;
+        double num1, num2, x;
         string s;
         public void addnum(object sender, EventArgs e)
         {
@@ -20,7 +20,7 @@ namespace cscalc
         {
             this.Text = "calculator";
             label1.Text = 0.ToString( );
-            num1 = num2 = ctrl_trangle = x = 0; //所有變數的初始化
+            num1 = num2 = x = 0; //所有變數的初始化
         }
 
         private void button12_Click(object sender, EventArgs e)
@@ -132,7 +132,7 @@ namespace cscalc
 
         void trangle_fun(object sender, EventArgs e)
         {
-            x = ctrl_trangle = 0; //初始化所有變數，確保計算正確
+            x = 0; //初始化所有變數，確保計算正確
 
             //確保輸入為數字
             if (Regex.IsMatch(label1.Text, @"^.*°$"))
@@ -143,43 +143,21 @@ namespace cscalc
             switch (((Button)sender).Text)
             {
                 case "sin( )":
-                    ctrl_trangle = 1;
+                    label1.Text = Math.Sin(x * Math.PI / 180).ToString();
                     break;
                 case "cos( )":
-                    ctrl_trangle = 2;
+                    label1.Text = Math.Cos(x * Math.PI / 180).ToString();
                     break;
                 case "tan( )":
-                    ctrl_trangle = 3;
+                    label1.Text = Math.Tan(x * Math.PI / 180).ToString();
                     break;
                 case "arcsin( )":
-                    ctrl_trangle = 4;
-                    break;
-                case "arccos( )":
-                    ctrl_trangle = 5;
-                    break;
-                case "arctan( )":
-                    ctrl_trangle = 6;
-                    break;
-            }
-
-            switch (ctrl_trangle)
-            {
-                case 1:
-                    label1.Text = Math.Sin(x * Math.PI / 180).ToString( );
-                    break;
-                case 2:
-                    label1.Text = Math.Cos(x * Math.PI / 180).ToString( );
-                    break;
-                case 3:
-                    label1.Text = Math.Tan(x * Math.PI / 180).ToString( );
-                    break;
-                case 4:
                     label1.Text = Math.Asin(x) * 180 / 3.14 + "°";
                     break;
-                case 5:
+                case "arccos( )":
                     label1.Text = Math.Acos(x) * 180 / 3.14 + "°";
                     break;
-                case 6:
+                case "arctan( )":
                     label1.Text = Math.Atan(x) * 180 / 3.14 + "°";
                     break;
             }

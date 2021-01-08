@@ -10,7 +10,7 @@ namespace WpfApp1
     public partial class MainWindow : Window
     {
         public MainWindow() => InitializeComponent();
-        double num1, num2, ctrl_trangle, x;
+        double num1, num2, x;
         string s;
 
         private void addnum(object sender, RoutedEventArgs e)
@@ -27,7 +27,7 @@ namespace WpfApp1
         private void calc_initial(object sender, RoutedEventArgs e)
         {
             label1.Content = 0.ToString();
-            num1 = num2 = ctrl_trangle = x = 0; //所有變數的初始化
+            num1 = num2 = x = 0; //所有變數的初始化
         }
 
         private void Arithmetic(object sender, RoutedEventArgs e)
@@ -125,7 +125,7 @@ namespace WpfApp1
 
         private void trangle_fun(object sender, RoutedEventArgs e)
         {
-            x = ctrl_trangle = 0; //初始化所有變數，確保計算正確
+            x = 0; //初始化所有變數，確保計算正確
 
             //確保輸入為數字
             if (Regex.IsMatch(label1.Content.ToString(), @"^.*°$"))
@@ -136,47 +136,24 @@ namespace WpfApp1
             switch (((Button)sender).Content)
             {
                 case "sin( )":
-                    ctrl_trangle = 1;
-                    break;
-                case "cos( )":
-                    ctrl_trangle = 2;
-                    break;
-                case "tan( )":
-                    ctrl_trangle = 3;
-                    break;
-                case "arcsin( )":
-                    ctrl_trangle = 4;
-                    break;
-                case "arccos( )":
-                    ctrl_trangle = 5;
-                    break;
-                case "arctan( )":
-                    ctrl_trangle = 6;
-                    break;
-            }
-
-            switch (ctrl_trangle)
-            {
-                case 1:
                     label1.Content = Math.Sin(x * Math.PI / 180).ToString();
                     break;
-                case 2:
+                case "cos( )":
                     label1.Content = Math.Cos(x * Math.PI / 180).ToString();
                     break;
-                case 3:
+                case "tan( )":
                     label1.Content = Math.Tan(x * Math.PI / 180).ToString();
                     break;
-                case 4:
+                case "arcsin( )":
                     label1.Content = Math.Asin(x) * 180 / 3.14 + "°";
                     break;
-                case 5:
+                case "arccos( )":
                     label1.Content = Math.Acos(x) * 180 / 3.14 + "°";
                     break;
-                case 6:
+                case "arctan( )":
                     label1.Content = Math.Atan(x) * 180 / 3.14 + "°";
                     break;
             }
         }
-
     }
 }

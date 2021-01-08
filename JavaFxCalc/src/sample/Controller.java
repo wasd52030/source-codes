@@ -12,7 +12,7 @@ public class Controller implements Initializable
     public Label Lbl1;
 
     public String out="";
-    public double num1, num2, ctrl_trangle, x;
+    public double num1, num2, x;
     public String s="";
 
     @FXML
@@ -171,7 +171,7 @@ public class Controller implements Initializable
     {
         Button sender=(Button)event.getSource();
 
-        x = ctrl_trangle = 0;
+        x = 0;
         if(Lbl1.getText().matches("^.*°$"))
             x=Double.parseDouble(Lbl1.getText().substring(0,Lbl1.getText().length()-1));
         else
@@ -180,43 +180,21 @@ public class Controller implements Initializable
         switch (sender.getText())
         {
             case "sin( )":
-                ctrl_trangle = 1;
-                break;
-            case "cos( )":
-                ctrl_trangle = 2;
-                break;
-            case "tan( )":
-                ctrl_trangle = 3;
-                break;
-            case "arcsin( )":
-                ctrl_trangle = 4;
-                break;
-            case "arccos( )":
-                ctrl_trangle = 5;
-                break;
-            case "arctan( )":
-                ctrl_trangle = 6;
-                break;
-        }
-
-        switch ((int)ctrl_trangle)
-        {
-            case 1:
                 Lbl1.setText(Double.toString(Math.sin(x*Math.PI/180)));
                 break;
-            case 2:
+            case "cos( )":
                 Lbl1.setText(Double.toString(Math.cos(x*Math.PI/180)));
                 break;
-            case 3:
+            case "tan( )":
                 Lbl1.setText(Double.toString(Math.tan(x*Math.PI/180)));
                 break;
-            case 4:
+            case "arcsin( )":
                 Lbl1.setText(Double.toString(Math.asin(x)*180/3.14)+"°");
                 break;
-            case 5:
+            case "arccos( )":
                 Lbl1.setText(Double.toString(Math.acos(x)*180/3.14)+"°");
                 break;
-            case 6:
+            case "arctan( )":
                 Lbl1.setText(Double.toString(Math.atan(x)*180/3.14)+"°");
                 break;
         }
@@ -225,7 +203,7 @@ public class Controller implements Initializable
     private void var_default()
     {
         Lbl1.setText("0");
-        num1 = num2 = ctrl_trangle = x = 0;
+        num1 = num2 = x = 0;
     }
 
     @Override

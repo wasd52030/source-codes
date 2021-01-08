@@ -18,3 +18,13 @@ C:\Users\user\Desktop\source code\cscalc\obj\Debug\cscalc.csproj.GenerateResourc
 C:\Users\user\Desktop\source code\cscalc\obj\Debug\cscalc.csproj.CoreCompileInputs.cache
 C:\Users\user\Desktop\source code\cscalc\obj\Debug\cscalc.exe
 C:\Users\user\Desktop\source code\cscalc\obj\Debug\cscalc.pdb
+C:\Users\user\Desktop\source code\CSWinFormCalc\bin\Debug\cscalc.exe.config
+C:\Users\user\Desktop\source code\CSWinFormCalc\bin\Debug\cscalc.exe
+C:\Users\user\Desktop\source code\CSWinFormCalc\bin\Debug\cscalc.pdb
+C:\Users\user\Desktop\source code\CSWinFormCalc\obj\Debug\cscalc.csprojAssemblyReference.cache
+C:\Users\user\Desktop\source code\CSWinFormCalc\obj\Debug\cscalc.Form1.resources
+C:\Users\user\Desktop\source code\CSWinFormCalc\obj\Debug\cscalc.Properties.Resources.resources
+C:\Users\user\Desktop\source code\CSWinFormCalc\obj\Debug\cscalc.csproj.GenerateResource.cache
+C:\Users\user\Desktop\source code\CSWinFormCalc\obj\Debug\cscalc.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\source code\CSWinFormCalc\obj\Debug\cscalc.exe
+C:\Users\user\Desktop\source code\CSWinFormCalc\obj\Debug\cscalc.pdb

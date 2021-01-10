@@ -9,7 +9,7 @@ k=0
 while True:
     print("Please input a non-negative number: ",end="")
     k=int(input())
-    if k<0:
+    if k<=0:
         break
     else:
         print("The maximum number of cakes: %d"%calc(k))

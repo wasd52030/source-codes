@@ -1,31 +1,23 @@
+out_data=[]
 def tran_base(x,y):
-    a=0
-    b=0
-    out_data=[]
-    out=""
-    while True:
-        a=x%y
-        b=x/y
-        x=int(b)
-        out_data.append(str(int(a)))
-        if int(b)==0 and a==0 :
-            out_data.reverse()
-            out_data.pop(0)
-            break
+    if x==0:
+        out_data.reverse()
+        out=""       
+        hexs=[]
+        for i in range(65,91): #A的ascii=65 Z的ascii=90
+            hexs.append(chr(i))
             
-    hexs={}  #對10以上的數字建立數字跟字母的對照表
-    x=0
-    for i in range(10,36):
-        hexs[str(i)]=str(chr(65+x))
-        x+=1
+        for i in range(0,len(out_data)):
+            if out_data[i]>=10 and out_data[i]<=36:
+                out_data[i]=hexs[out_data[i]-10]
 
-    for q in range(0,len(out_data)):
-        if str(out_data[q]) in hexs:
-            out_data[q]=hexs[str(out_data[q])]
-
-    for r in range(0,len(out_data)):
-        out+=out_data[r]
-    return out
+        for k in out_data:
+            out+=str(k)
+        out_data.clear()
+        return out
+    else:
+        out_data.append(x%y)
+        return tran_base(int(x/y),y)
 
 while True:
     x,y=input().split()

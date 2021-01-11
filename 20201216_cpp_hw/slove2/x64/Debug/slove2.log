@@ -1,0 +1,5 @@
+﻿  slove2.cpp
+C:\Users\user\Desktop\source code\20201216_cpp_hw\slove2\slove2.cpp(13,13): warning C4477: 'scanf_s' : 格式字串 '%s' 需要 'unsigned int' 類型的引數，但 variadic 引數 2 的類型為 'size_t'
+C:\Users\user\Desktop\source code\20201216_cpp_hw\slove2\slove2.cpp(13,13): message : 此引數可用為緩衝區大小
+C:\Users\user\Desktop\source code\20201216_cpp_hw\slove2\slove2.cpp(19,38): warning C4267: '正在初始化': 將 'size_t' 轉換為 'int'，資料可能遺失
+  slove2.vcxproj -> C:\Users\user\Desktop\source code\20201216_cpp_hw\x64\Debug\slove2.exe

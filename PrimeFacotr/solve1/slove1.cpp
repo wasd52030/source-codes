@@ -43,11 +43,7 @@ int main()
 
     out = out.erase(out.length() - 1);
 
-    for (auto x : PrimeFactor)
-    {
-        if (x == in_num)
-            out = to_string(x) + "是質數";
-    }
+    if(PrimeFactor.size()==1) out = to_string(in_num) + "是質數";
 
     cout << out;
     system("pause");

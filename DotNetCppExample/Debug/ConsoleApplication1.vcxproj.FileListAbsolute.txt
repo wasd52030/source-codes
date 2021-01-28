@@ -1,9 +1,0 @@
-C:\Users\user\Desktop\ConsoleApplication1\Debug\ConsoleApplication1.vcxprojAssemblyReference.cache
-C:\Users\user\Desktop\ConsoleApplication1\Debug\ConsoleApplication1.exe
-C:\Users\user\Desktop\ConsoleApplication1\Debug\ConsoleApplication1.pdb
-C:\Users\user\Desktop\DotNetCppExample\Debug\ConsoleApplication1.vcxprojAssemblyReference.cache
-C:\Users\user\Desktop\DotNetCppExample\Debug\ConsoleApplication1.exe
-C:\Users\user\Desktop\DotNetCppExample\Debug\ConsoleApplication1.pdb
-C:\Users\user\Desktop\source code\DotNetCppExample\Debug\ConsoleApplication1.vcxprojAssemblyReference.cache
-C:\Users\user\Desktop\source code\DotNetCppExample\Debug\ConsoleApplication1.exe
-C:\Users\user\Desktop\source code\DotNetCppExample\Debug\ConsoleApplication1.pdb

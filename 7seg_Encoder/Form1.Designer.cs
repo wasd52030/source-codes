@@ -43,7 +43,7 @@
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("新細明體", 14F);
-            this.button1.Location = new System.Drawing.Point(69, 26);
+            this.button1.Location = new System.Drawing.Point(90, 24);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(116, 31);
             this.button1.TabIndex = 0;
@@ -54,7 +54,7 @@
             // button2
             // 
             this.button2.Font = new System.Drawing.Font("新細明體", 14F);
-            this.button2.Location = new System.Drawing.Point(191, 57);
+            this.button2.Location = new System.Drawing.Point(212, 55);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(37, 101);
             this.button2.TabIndex = 1;
@@ -65,7 +65,7 @@
             // button3
             // 
             this.button3.Font = new System.Drawing.Font("新細明體", 14F);
-            this.button3.Location = new System.Drawing.Point(191, 189);
+            this.button3.Location = new System.Drawing.Point(212, 187);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(37, 101);
             this.button3.TabIndex = 2;
@@ -76,7 +76,7 @@
             // button4
             // 
             this.button4.Font = new System.Drawing.Font("新細明體", 14F);
-            this.button4.Location = new System.Drawing.Point(69, 286);
+            this.button4.Location = new System.Drawing.Point(90, 284);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(116, 31);
             this.button4.TabIndex = 3;
@@ -87,7 +87,7 @@
             // button5
             // 
             this.button5.Font = new System.Drawing.Font("新細明體", 14F);
-            this.button5.Location = new System.Drawing.Point(26, 189);
+            this.button5.Location = new System.Drawing.Point(47, 187);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(37, 101);
             this.button5.TabIndex = 4;
@@ -98,7 +98,7 @@
             // button6
             // 
             this.button6.Font = new System.Drawing.Font("新細明體", 14F);
-            this.button6.Location = new System.Drawing.Point(26, 57);
+            this.button6.Location = new System.Drawing.Point(47, 55);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(37, 101);
             this.button6.TabIndex = 5;
@@ -109,7 +109,7 @@
             // button7
             // 
             this.button7.Font = new System.Drawing.Font("新細明體", 14F);
-            this.button7.Location = new System.Drawing.Point(69, 158);
+            this.button7.Location = new System.Drawing.Point(90, 156);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(116, 31);
             this.button7.TabIndex = 6;
@@ -120,7 +120,7 @@
             // button8
             // 
             this.button8.Font = new System.Drawing.Font("新細明體", 14F);
-            this.button8.Location = new System.Drawing.Point(208, 296);
+            this.button8.Location = new System.Drawing.Point(229, 294);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(35, 35);
             this.button8.TabIndex = 7;
@@ -131,7 +131,7 @@
             // button9
             // 
             this.button9.Font = new System.Drawing.Font("新細明體", 15F);
-            this.button9.Location = new System.Drawing.Point(26, 343);
+            this.button9.Location = new System.Drawing.Point(47, 341);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(202, 40);
             this.button9.TabIndex = 9;
@@ -143,7 +143,7 @@
             // 
             this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label1.Font = new System.Drawing.Font("新細明體", 24F);
-            this.label1.Location = new System.Drawing.Point(26, 410);
+            this.label1.Location = new System.Drawing.Point(47, 408);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(202, 40);
             this.label1.TabIndex = 10;
@@ -153,7 +153,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(280, 475);
+            this.ClientSize = new System.Drawing.Size(310, 475);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button9);
             this.Controls.Add(this.button8);
@@ -166,7 +166,7 @@
             this.Controls.Add(this.button1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "Form1";
-            this.Text = "7seg encoder";
+            this.Text = "7seg Encoder for common cathode";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
 

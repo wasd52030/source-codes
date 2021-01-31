@@ -9,6 +9,7 @@ namespace WindowsFormsApp1
     {
         bool[] segstate = new bool[8];
         int[] segdata = new int[8];
+        string k = "0";
         public Form1()
         {
             InitializeComponent();
@@ -184,7 +185,8 @@ namespace WindowsFormsApp1
             {
                 x |= i;
             }
-            label1.Text = "0x" + dec_to_hex(x);
+            k = "0x" + dec_to_hex(x);
+            label1.Text = k;
         }
     }
 }

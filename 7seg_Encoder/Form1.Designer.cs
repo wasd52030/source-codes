@@ -147,7 +147,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(202, 40);
             this.label1.TabIndex = 10;
-            this.label1.Text = "0x";
+            this.label1.Text = "0x0";
             // 
             // Form1
             // 

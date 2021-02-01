@@ -141,43 +141,6 @@ namespace WindowsFormsApp1
             }
         }
 
-        string dec_to_hex(int i,string o="")
-        {
-            if(i==0)
-            {
-                string r=Strings.StrReverse(o);
-                o = "";
-                return r;
-            }
-            else
-            {
-                string x = (i % 16).ToString();
-                switch(x)
-                {
-                    case "10":
-                        x = "A";
-                        break;
-                    case "11":
-                        x = "B";
-                        break;
-                    case "12":
-                        x = "C";
-                        break;
-                    case "13":
-                        x = "D";
-                        break;
-                    case "14":
-                        x = "E";
-                        break;
-                    case "15":
-                        x = "F";
-                        break;
-                }
-                o += x;
-                return dec_to_hex(i / 16,o);
-            }
-        }
-
         private void button9_Click(object sender, EventArgs e)
         {
             int x = 0;
@@ -185,8 +148,8 @@ namespace WindowsFormsApp1
             {
                 x |= i;
             }
-            k = "0x" + dec_to_hex(x);
-            label1.Text = k;
+            k = "0x" ;
+            label1.Text = k+x.ToString("X");
         }
     }
 }

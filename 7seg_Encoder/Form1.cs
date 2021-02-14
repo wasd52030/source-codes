@@ -73,10 +73,12 @@ namespace WindowsFormsApp1
             {
                 x |= i;
             }
+
             if (x > 15)
                 label1.Text = "0x" + x.ToString("X");
             else
                 label1.Text = "0x0" + x.ToString("X");
+
             x = 0;
         }
     }

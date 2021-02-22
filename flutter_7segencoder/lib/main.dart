@@ -44,8 +44,8 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           body: TabBarView(
             children: [
-              CommonCathode(),
-              CommonAnode()
+              new CommonCathode(),
+              new CommonAnode()
             ],
           ),
         )

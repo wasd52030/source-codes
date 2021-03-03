@@ -29,8 +29,6 @@ for i in range(0,int(in_data[0])+1):
             if p>0:
                 num_data.append(p)
 
-print(num_data)
-
 x=0
 out=""
 for i in range(int(in_data[0])+1):

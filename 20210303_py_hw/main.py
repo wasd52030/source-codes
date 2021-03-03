@@ -1,4 +1,5 @@
 from tkinter import *
+import math
 root=Tk()
 root.title("BSK TRA")
 
@@ -8,16 +9,6 @@ with open('input.txt') as f1:
     for k in f1:
         in_data.append(k)
 
-def factorial(x):
-    g=1
-    for i in range(1,x+1):
-        g*=i
-    if x==0:
-        g=1
-    return g
-
-def nCr(n,r):
-    return (factorial(n))//(factorial(n-r)*factorial(r))
 
 p=0
 for i in range(0,int(in_data[0])+1):
@@ -25,7 +16,7 @@ for i in range(0,int(in_data[0])+1):
         if i==0 and j==1:
             continue
         else:
-            p=nCr(i,j)
+            p=math.comb(i,j)   #計算nCr(i,j)，python3.8以上始可使用
             if p>0:
                 num_data.append(p)
 

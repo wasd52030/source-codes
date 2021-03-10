@@ -20,6 +20,6 @@ for i in range(1,int(in_data[0])+2):
     out+="  "
     out+="\n"
 
-o=Label(root,text=out,font=('Arial',16)).pack()
+Label(root,text=out,font=('Arial',16)).pack()
 
 root.mainloop()

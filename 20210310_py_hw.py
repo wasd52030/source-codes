@@ -1,110 +1,60 @@
 from tkinter import *
+import tkinter.messagebox
+import re
 
 root=Tk()
-s=""
-x=Label(root,text=s,width=48,height=3).grid(row=0,columnspan=3)
+root.resizable(0,0)
+
+r=0
+btns=[]
+btn_txt=['7','8','9','*','4','5','6','-','1','2','3','+']
+s="0"
 
 def clear():
     global s
-    s=""
-    Label(root,text=s,width=48,height=3).grid(row=0,columnspan=3)
+    s="0"
+    x['text']=s
 
-def x():
+def run(g):
     global s
-    s+="/"
-    Label(root,text=s,width=48,height=3).grid(row=0,columnspan=3)
+    if s=="0":
+        s=g
+    else:
+        s+=g
+    x['text']=s
 
-def y():
+def calc():
     global s
-    s+="*"
-    Label(root,text=s,width=48,height=3).grid(row=0,columnspan=3)
+    if re.match('^\d.*$',s) or re.match('^-\d.*$',s):
+        s=str(eval(s))
+    else:
+        tkinter.messagebox.showwarning('','輸入錯誤，將重設為0')
+        s="0"
+    x['text']=s
 
-def a():
-    global s
-    s+="-"
-    Label(root,text=s,width=48,height=3).grid(row=0,columnspan=3)
+x=Label(root,text=s,borderwidth=1,relief="solid",width=65,height=3)
+x.grid(row=0,columnspan=4)
 
-def b():
-    global s
-    s+="+"
-    Label(root,text=s,width=48,height=3).grid(row=0,columnspan=3)
+C=Button(root,text='C',width=48,height=3,command=clear)
+C.grid(row=1,column=0,columnspan=3)
 
-def dt():
-    global s
-    s+="."
-    Label(root,text=s,width=48,height=3).grid(row=0,columnspan=3)
+dev=Button(root,text='/',width=15,height=3,command=lambda n='/':run(n))
+dev.grid(row=1,column=3)
 
-def q():
-    global s
-    s+="7"
-    Label(root,text=s,width=48,height=3).grid(row=0,columnspan=3)
+zero=Button(root,text='0',width=31,height=3,command=lambda n='0':run(n))
+zero.grid(row=5,columnspan=2)
 
-def w():
-    global s
-    s+="8"
-    Label(root,text=s,width=48,height=3).grid(row=0,columnspan=3)
+dot=Button(root,text='.',width=15,height=3,command=lambda n='.':run(n))
+dot.grid(row=5,column=2)
 
-def e():
-    global s
-    s+="9"
-    Label(root,text=s,width=48,height=3).grid(row=0,columnspan=3)
+eq=Button(root,text='=',width=15,height=3,command=calc)
+eq.grid(row=5,column=3)
 
-def qq():
-    global s
-    s+="4"
-    Label(root,text=s,width=48,height=3).grid(row=0,columnspan=3)
-
-def ww():
-    global s
-    s+="5"
-    Label(root,text=s,width=48,height=3).grid(row=0,columnspan=3)
-
-def ee():
-    global s
-    s+="6"
-    Label(root,text=s,width=48,height=3).grid(row=0,columnspan=3)
-
-def qqq():
-    global s
-    s+="1"
-    Label(root,text=s,width=48,height=3).grid(row=0,columnspan=3)
-
-def www():
-    global s
-    s+="2"
-    Label(root,text=s,width=48,height=3).grid(row=0,columnspan=3)
-
-def eee():
-    global s
-    s+="3"
-    Label(root,text=s,width=48,height=3).grid(row=0,columnspan=3)
-
-def qqqq():
-    global s
-    s+="0"
-    Label(root,text=s,width=48,height=3).grid(row=0,columnspan=3)
-
-def eq():
-    global s
-    s=str(eval(s))
-    Label(root,text=s,width=48,height=3).grid(row=0,columnspan=3)
-
-Button(root,text='C',width=48,height=3,command=clear).grid(row=1,columnspan=3)
-Button(root,text='/',width=15,height=3,command=x).grid(row=1,column=3)
-Button(root,text='7',width=15,height=3,command=q).grid(row=2,column=0)
-Button(root,text='8',width=15,height=3,command=w).grid(row=2,column=1)
-Button(root,text='9',width=15,height=3,command=e).grid(row=2,column=2)
-Button(root,text='*',width=15,height=3,command=y).grid(row=2,column=3)
-Button(root,text='4',width=15,height=3,command=qq).grid(row=3,column=0)
-Button(root,text='5',width=15,height=3,command=ww).grid(row=3,column=1)
-Button(root,text='6',width=15,height=3,command=ee).grid(row=3,column=2)
-Button(root,text='-',width=15,height=3,command=a).grid(row=3,column=3)
-Button(root,text='1',width=15,height=3,command=qqq).grid(row=4,column=0)
-Button(root,text='2',width=15,height=3,command=www).grid(row=4,column=1)
-Button(root,text='3',width=15,height=3,command=eee).grid(row=4,column=2)
-Button(root,text='+',width=15,height=3,command=b).grid(row=4,column=3)
-Button(root,text='0',width=32,height=3,command=qqqq).grid(row=5,columnspan=2)
-Button(root,text='.',width=15,height=3,command=dt).grid(row=5,column=2)
-Button(root,text='=',width=15,height=3,command=eq).grid(row=5,column=3)
+for i in range(2,5):
+    for j in range(0,4):
+        b=Button(root,text=btn_txt[r],width=15,height=3,command=lambda n=btn_txt[r]:run(n))
+        b.grid(row=i,column=j)
+        btns.append(b)
+        r+=1
 
 root.mainloop()

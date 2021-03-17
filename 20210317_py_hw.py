@@ -1,8 +1,10 @@
 from tkinter import *
+import tkinter.messagebox
 import random
 import time
 
 root=Tk()
+root.resizable(0,0)
 n=0
 x=0
 a=[0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,0,0,9,9,8,8,7,7,6,6,5,5,4,4,3,3]
@@ -38,8 +40,7 @@ def run(x,y):
         btn_no.clear()
     print(n)
     if n==len(btns)/2:
-        print("all done!")
         t2=time.time()
-        print("%ds"%(t2-t1))
+        tkinter.messagebox.showwarning('title','共用%d秒'%(t2-t1))
 
 root.mainloop()

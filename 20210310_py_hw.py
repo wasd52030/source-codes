@@ -6,7 +6,6 @@ root=Tk()
 root.resizable(0,0)
 
 r=0
-btns=[]
 btn_txt=['7','8','9','*','4','5','6','-','1','2','3','+']
 s="0"
 
@@ -54,7 +53,6 @@ for i in range(2,5):
     for j in range(0,4):
         b=Button(root,text=btn_txt[r],width=15,height=3,command=lambda n=btn_txt[r]:run(n))
         b.grid(row=i,column=j)
-        btns.append(b)
         r+=1
 
 root.mainloop()

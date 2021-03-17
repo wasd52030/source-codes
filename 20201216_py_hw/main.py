@@ -53,10 +53,12 @@ def run_game():
                 break
             else:
                 yesvalue=False
+
         if user_input[i]==data[i]:
             yeslocate=True
         else:
             yeslocate=False
+            
         if yeslocate==True and yeslocate==True:
             doubleyes+=1
         if yeslocate!=True and yesvalue==True:

@@ -68,7 +68,6 @@ def run(Xans,Xid):
         else:
             sys.exit(0)
 
-
 def main():
     game_window_init()
     root.mainloop()

@@ -2,6 +2,7 @@ from tkinter import *
 import tkinter.messagebox
 import random
 import time
+import sys
 
 root=Tk()
 root.resizable(0,0)
@@ -58,11 +59,14 @@ def run(Xans,Xid):
 
     if n==len(btns)/2:
         t2=time.time()
-        tkinter.messagebox.showwarning('title','共用%d秒'%(t2-t1))
+        restart=tkinter.messagebox.showwarning('title','共用%d秒\n要重新開始嗎'%(t2-t1),type=tkinter.messagebox.YESNO)
         n=x=0
         btns.clear()
         a.clear()
-        game_window_init()
+        if restart=="yes":
+            game_window_init()
+        else:
+            sys.exit(0)
 
 
 def main():

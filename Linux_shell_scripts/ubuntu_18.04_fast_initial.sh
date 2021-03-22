@@ -1,9 +1,6 @@
-#建議在家目錄以外的目錄執行
+#建議以家目錄以外的目錄執行
 
 #把非英文的家目錄資料夾更名成英文的
-cd /
-pwd
-echo -e ""
 export LANG=en_us
 xdg-user-dirs-gtk-update
 
@@ -27,7 +24,7 @@ sudo apt install -y python3-pip
 sudo apt install -y software-properties-common apt-transport-https wget
 
 #裝VScode
-sudo wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
+wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
 sudo apt update
 sudo apt install -y code

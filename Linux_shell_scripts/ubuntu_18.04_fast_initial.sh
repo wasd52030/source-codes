@@ -1,9 +1,6 @@
 #建議在家目錄以外的目錄執行
 
 #把非英文的家目錄資料夾更名成英文的
-cd /
-pwd
-echo -e ""
 export LANG=en_us
 xdg-user-dirs-gtk-update
 

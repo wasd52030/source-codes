@@ -21,8 +21,14 @@ source ~/.bashrc
 #裝vim和open-vm-tools
 echo -e "\n開始安裝vim和open-vm-tools\n"
 sudo apt update && sudo apt upgrade
-sudo apt install -y open-vm-tools
 sudo apt install -y vim
+
+#裝open-vm-tools
+echo -e "\n開始安裝open-vm-tools\n"
+sudo apt install -y open-vm-tools open-vm-tools-desktop
+#sed 插入 => sed -i 'nistring' <檔名>
+#其中 nistring 要拆解成 ni + string 來看， ni 的意思就是在第 n 行插入，而 string 就是我們要插入的內容。
+sudo sed -i '2iAfter=display-manager.service' /lib/systemd/system/open-vm-tools.service
 
 #裝python3 tkinter和python3 pip
 echo -e "\n開始安裝python3 tkinter和python3 pip\n"

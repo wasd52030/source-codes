@@ -59,13 +59,8 @@ sudo apt -y remove firefox
 echo -e "\n把chrome安裝檔移除\n"
 sudo rm -rf ./google-chrome-stable_current_amd64.deb
 
-
-#設定於開機時自動Numlock
-echo  -e  "\n開始設定於開機時自動Numlock\n結束後請重新開機"
-sudo -i
-su gdm -s /bin/bash
-gsettings set org.gnome.settings-daemon.peripherals.keyboard numlock-state-'on'
-
-
+echo "將於5秒後自動重新開機"
+sleep 5
+shutdown -r now
 
 

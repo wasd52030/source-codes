@@ -1,19 +1,20 @@
 from tkinter import *
+import tkinter.font
+import tkinter.messagebox
 
 root=Tk()
-root.resizable(0,0)
+#root.resizable(0,0)
 s="由O開始"
 btns=[]
-game_data=[]
 player_flag=True
 n=0
 
-x=Label(root,text=s,borderwidth=1,relief="solid",width=49,height=3)
+x=Label(root,text=s,font=tkinter.font.Font(family="Arial", size=16))
 x.grid(row=0,columnspan=3)
 
 def win(n):
     global s
-    s="{}獲勝".format(n)
+    s='{}獲勝'.format(n)
     x['text']=s
     for i in btns:
         i['state']='disable'
@@ -37,19 +38,19 @@ def judgment(g):
         win(btns[2]['text'])
 
 def run(btnid):
-    global player_flag,s
-    fword=""
+    global player_flag
     c=0
-    if player_flag==True:
-        fword='O'
-        s="現在是O"
-        btns[btnid]['text']=fword
-        x['text']=s
+
+    if btns[btnid]['text']=='':
+        if player_flag==True:
+            btns[btnid]['text']='O'
+            x['text']='現在是X'
+        else:
+            btns[btnid]['text']='X'
+            x['text']='現在是O'
+        player_flag=~player_flag
     else:
-        fword='X'
-        s="現在是O"
-        btns[btnid]['text']=fword
-        x['text']=s
+        tkinter.messagebox.showwarning('title','此格已被用去')
 
     judgment("O")
     judgment("X")
@@ -59,19 +60,15 @@ def run(btnid):
             c+=1
 
     if c==9:
-        s="平手"
-        x['text']=s
+        x['text']='平手'
         for i in btns:
             i['state']='disable'
-
-    game_data.append(win)
-    player_flag=~player_flag
 
 def main():
     global n
     for i in range(0,3):
         for j in range(0,3):
-            b=Button(root,width=15,height=3,command=lambda c=n:run(c))
+            b=Button(root,width=10,height=5,relief='groove',command=lambda c=n:run(c))
             b.grid(row=i+1,column=j)
             btns.append(b)
             n+=1

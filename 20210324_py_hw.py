@@ -1,128 +1,58 @@
 from tkinter import *
 
 root=Tk()
+root.resizable(0,0)
 s="由O開始"
 btns=[]
 game_data=[]
 player_flag=True
-win_flag=False
 n=0
 
 x=Label(root,text=s,borderwidth=1,relief="solid",width=49,height=3)
 x.grid(row=0,columnspan=3)
 
+def win(n):
+    global s
+    s="{}獲勝".format(n)
+    x['text']=s
+    for i in btns:
+        i['state']='disable'
+
+def judgment(g):
+    if btns[0]['text'] == btns[1]['text'] == btns[2]['text']==g:
+        win(btns[0]['text'])
+    elif btns[3]['text'] == btns[4]['text'] == btns[5]['text']==g:
+        win(btns[3]['text'])
+    elif btns[6]['text'] == btns[7]['text'] == btns[8]['text']==g:
+        win(btns[6]['text'])
+    elif btns[0]['text'] == btns[4]['text'] == btns[8]['text']==g:
+        win(btns[0]['text'])
+    elif btns[2]['text'] == btns[4]['text'] == btns[6]['text']==g:
+        win(btns[2]['text'])
+    elif btns[0]['text'] == btns[3]['text'] == btns[6]['text']==g:
+        win(btns[0]['text'])
+    elif btns[1]['text'] == btns[4]['text'] == btns[7]['text']==g:
+        win(btns[1]['text'])
+    elif btns[2]['text'] == btns[5]['text'] == btns[8]['text']==g:
+        win(btns[2]['text'])
+
 def run(btnid):
-    global player_flag,s,win_flag
-    f=""
+    global player_flag,s
+    fword=""
     c=0
     if player_flag==True:
-        f='O'
-        s="現在是X"
-        btns[btnid]['text']=f
+        fword='O'
+        s="現在是O"
+        btns[btnid]['text']=fword
         x['text']=s
     else:
-        f='X'
+        fword='X'
         s="現在是O"
-        btns[btnid]['text']=f
+        btns[btnid]['text']=fword
         x['text']=s
 
-    if btns[0]['text']=="O" and btns[1]['text']=="O" and btns[2]['text']=="O":
-        s="O獲勝"
-        x['text']=s
-        win_flag=True
-        for i in btns:
-            i['state']='disable'
-    elif btns[3]['text']=="O" and btns[4]['text']=="O" and btns[5]['text']=="O":
-        s="O獲勝"
-        x['text']=s
-        win_flag=True
-        for i in btns:
-            i['state']='disable'
-    elif btns[6]['text']=="O" and btns[7]['text']=="O" and btns[8]['text']=="O":
-        s="O獲勝"
-        x['text']=s
-        win_flag=True
-        for i in btns:
-            i['state']='disable'
-    elif btns[0]['text']=="O" and btns[4]['text']=="O" and btns[8]['text']=="O":
-        s="O獲勝"
-        x['text']=s
-        win_flag=True
-        for i in btns:
-            i['state']='disable'
-    elif btns[2]['text']=="O" and btns[4]['text']=="O" and btns[6]['text']=="O":
-        s="O獲勝"
-        x['text']=s
-        win_flag=True
-        for i in btns:
-            i['state']='disable'
-    elif btns[0]['text']=="O" and btns[3]['text']=="O" and btns[6]['text']=="O":
-        s="O獲勝"
-        x['text']=s
-        win_flag=True
-        for i in btns:
-            i['state']='disable'
-    elif btns[1]['text']=="O" and btns[4]['text']=="O" and btns[7]['text']=="O":
-        s="O獲勝"
-        x['text']=s
-        win_flag=True
-        for i in btns:
-            i['state']='disable'
-    elif btns[2]['text']=="O" and btns[5]['text']=="O" and btns[8]['text']=="O":
-        s="O獲勝"
-        x['text']=s
-        win_flag=True
-        for i in btns:
-            i['state']='disable'
-
-    if btns[0]['text']=="X" and btns[1]['text']=="X" and btns[2]['text']=="X":
-        s="X獲勝"
-        x['text']=s
-        win_flag=True
-        for i in btns:
-            i['state']='disable'
-    elif btns[3]['text']=="X" and btns[4]['text']=="X" and btns[5]['text']=="X":
-        s="X獲勝"
-        x['text']=s
-        win_flag=True
-        for i in btns:
-            i['state']='disable'
-    elif btns[6]['text']=="X" and btns[7]['text']=="X" and btns[8]['text']=="X":
-        s="X獲勝"
-        x['text']=s
-        win_flag=True
-        for i in btns:
-            i['state']='disable'
-    elif btns[0]['text']=="X" and btns[4]['text']=="X" and btns[8]['text']=="X":
-        s="X獲勝"
-        x['text']=s
-        win_flag=True
-        for i in btns:
-            i['state']='disable'
-    elif btns[2]['text']=="X" and btns[4]['text']=="X" and btns[6]['text']=="X":
-        s="X獲勝"
-        x['text']=s
-        win_flag=True
-        for i in btns:
-            i['state']='disable'
-    elif btns[0]['text']=="X" and btns[3]['text']=="X" and btns[6]['text']=="X":
-        s="X獲勝"
-        x['text']=s
-        win_flag=True
-        for i in btns:
-            i['state']='disable'
-    elif btns[1]['text']=="X" and btns[4]['text']=="X" and btns[7]['text']=="X":
-        s="X獲勝"
-        x['text']=s
-        win_flag=True
-        for i in btns:
-            i['state']='disable'
-    elif btns[2]['text']=="X" and btns[5]['text']=="X" and btns[8]['text']=="X":
-        s="X獲勝"
-        x['text']=s
-        win_flag=True
-        for i in btns:
-            i['state']='disable'
+    judgment("O")
+    judgment("X")
 
     for i in btns:
         if i['text']!="":
@@ -134,17 +64,17 @@ def run(btnid):
         for i in btns:
             i['state']='disable'
 
-    game_data.append(f)
+    game_data.append(win)
     player_flag=~player_flag
 
+def main():
+    global n
+    for i in range(0,3):
+        for j in range(0,3):
+            b=Button(root,width=15,height=3,command=lambda c=n:run(c))
+            b.grid(row=i+1,column=j)
+            btns.append(b)
+            n+=1
+    root.mainloop()
 
-
-for i in range(0,3):
-    for j in range(0,3):
-        b=Button(root,width=15,height=3,command=lambda c=n:run(c))
-        b.grid(row=i+1,column=j)
-        btns.append(b)
-        n+=1
-
-
-root.mainloop()
+main()

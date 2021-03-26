@@ -15,7 +15,9 @@ n=0
 x=Label(root,text=s,font=tkinter.font.Font(family="Arial", size=16))
 x.grid(row=0,columnspan=3)
 
-#返回1 => 有人勝出，返回0 => 平手 返回-1 => 遊戲仍在進行
+#返回1 => 有人勝出
+#返回0 => 平手
+# 返回-1 => 遊戲仍在進行
 def judgment():
     global game_status
 

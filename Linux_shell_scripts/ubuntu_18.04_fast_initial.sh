@@ -51,10 +51,6 @@ echo -e "\n開始安裝chrome\n"
 sudo wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo apt install -y ./google-chrome-stable_current_amd64.deb
 
-#移除firefox
-echo -e "\n開始移除firefox\n"
-sudo apt -y remove firefox
-
 #移除chrome安裝檔
 echo -e "\n把chrome安裝檔移除\n"
 sudo rm -rf ./google-chrome-stable_current_amd64.deb

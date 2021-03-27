@@ -98,7 +98,7 @@ def run(btnid):
 def menu_init():
     MainMenu = tkinter.Menu(root)   #創建主要選單欄
     root.config(menu=MainMenu)  #綁定主要選單
-    menu1 = tkinter.Menu(MainMenu)  #創建子選單欄綁在父容器下
+    menu1 = tkinter.Menu(MainMenu,tearoff=0)  #創建子選單欄綁在父容器下
     menu1.add_command(label='重開一局',command=reset_game)  #新增子選單1內的項目一
     menu1.add_command(label='結束',command=lambda:sys.exit(0))  #新增子選單1內的項目二
     MainMenu.add_cascade(label='選項', menu=menu1)  #命名父選單第一欄的名稱, 並綁定子選單1所有項目

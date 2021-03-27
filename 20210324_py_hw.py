@@ -5,19 +5,19 @@ import sys
 
 root=Tk()
 root.resizable(0,0)
-s="由O開始"
+status_text=['現在是X','現在是O']
 player=1
 status=-1
 btns=[]
 game_status=[i for i in range(0,9)]
 n=0
 
-x=Label(root,text=s,font=tkinter.font.Font(family="Arial", size=16))
+x=Label(root,text='由O開始',font=tkinter.font.Font(family="Arial", size=16))
 x.grid(row=0,columnspan=3)
 
 #返回1 => 有人勝出
 #返回0 => 平手
-# 返回-1 => 遊戲仍在進行
+#返回-1 => 遊戲仍在進行
 def judgment():
     global game_status
 
@@ -54,10 +54,10 @@ def run(btnid):
     
     if player==1:
         mark='O'
-        x['text']='現在是X'
+        x['text']=status_text[player-1]
     else:
         mark='X'
-        x['text']='現在是O'
+        x['text']=status_text[player-1]
     
     if btnid == 0 and game_status[0] == 0:
         game_status[0] = mark
@@ -80,6 +80,7 @@ def run(btnid):
     else:
         tkinter.messagebox.showwarning('title','此格已被使用')
         player -= 1
+        x['text']=status_text[player-1]
                 
     status = judgment()
     player += 1

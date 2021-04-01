@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(MyApp());
@@ -28,6 +29,7 @@ class homepage extends StatefulWidget {
 
 class _homepageState extends State<homepage> {
   @override
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
@@ -35,11 +37,34 @@ class _homepageState extends State<homepage> {
         child: Column(
           children: [
             Text('aaaa'),
-                ElevatedButton(
-                  child: Text('dsad'),
-                  onPressed: (){
-                    Navigator.of(context).pushNamed('/s2');
-                  })
+            ElevatedButton(
+              child: Text('切換頁面'),
+                onPressed: (){
+                  Navigator.of(context).pushNamed('/s2');
+                }
+            ),
+            ElevatedButton(
+                onPressed: (){
+                  showDialog(
+                    context: context, 
+                    builder: (_){
+                      return AlertDialog(
+                        title: Text('title'),
+                        content: Text('a\nb\nc\n'),
+                        actions: [
+                          ElevatedButton(
+                            child: Text('ok'),
+                            onPressed: (){
+                              Navigator.of(context, rootNavigator: true).pop();
+                            }
+                          )
+                        ],
+                      );
+                    }
+                  );
+                },
+                child: Text('Dialog demo')
+            )
           ],
         )
       ),
@@ -65,11 +90,12 @@ class _second_widgetState extends State<second_widget> {
         child: Column(
           children: [
             Text('bbbb'),
-                ElevatedButton(
-                  child: Text('bbcd'),
-                  onPressed: (){
-                    Navigator.pop(context);
-                  } )
+            ElevatedButton(
+                child: Text('返回主頁面'),
+                onPressed: (){
+                  Navigator.pop(context);
+                } 
+            )
           ],
         ),
       )

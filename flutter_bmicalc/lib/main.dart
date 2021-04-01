@@ -11,6 +11,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(primarySwatch: Colors.blue),
       home: MyHomePage(title: 'Flutter BMI Calc Demo'),
+      debugShowCheckedModeBanner: false,  // 去除右上方Debug標誌
     );
   }
 }
@@ -34,6 +35,7 @@ class _MyHomePageState extends State<MyHomePage>
       double h=double.parse(_Textbox1Text.text);
       double w=double.parse(_Textbox2Text.text);
       setState(() {
+        h/=100;
         _x=w/(h*h);
       });
   }
@@ -60,7 +62,7 @@ class _MyHomePageState extends State<MyHomePage>
           ),
           ElevatedButton(onPressed:_bmi,child: Text("Calc")
           ),
-          Text("BMI = ${_x}",style: TextStyle(fontSize: 25))
+          Text("BMI = $_x",style: TextStyle(fontSize: 25))
         ],
       )
     );

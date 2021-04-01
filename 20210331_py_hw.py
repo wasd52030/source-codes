@@ -12,7 +12,7 @@ btns=[]
 grid_btn=[]
 n=0
 
-x=Label(root,text='由O開始',font=tkinter.font.Font(family="Arial", size=15))
+x=Label(root,text='由O開始',font=tkinter.font.Font(family="Arial", size=13))
 x.grid(row=0)
 
 #返回1 => 有人勝出
@@ -42,29 +42,26 @@ def judgment():
             if k!='':
                 if len(set(row[i]))==1:
                     rowok=True
+                    break
     
     for i in range(len(column)):
         for k in column[i]:
             if k!='':
                 if len(set(column[i]))==1:
                     columnok=True
+                    break
 
     for k in lfcross:
         if k!='':
             if len(set(lfcross))==1:
                 lfcrossok=True
+                break
     
     for k in ricross:
         if k!='':
             if len(set(ricross))==1:
                 ricrossok=True
-
-    for i in range(len(grid_btn)):
-        for j in range(len(grid_btn)):
-            if grid_btn[i][j]['text']=='':
-                nowin=False
-            else:
-                nowin=True
+                break
 
     no_void_cnt=0
     for k in total:
@@ -117,7 +114,6 @@ def reset_game():
     player=1
     status=-1
     x['text']='由O開始'
-    game_status=[i for i in range(0,level**2)]
     game_window_init(level)
 
 def game_window_init(level):

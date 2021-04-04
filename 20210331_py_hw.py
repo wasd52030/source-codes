@@ -3,7 +3,7 @@ import tkinter.font
 import tkinter.messagebox
 
 root=Tk()
-root.resizable(0,0)
+#root.resizable(0,0)
 status_text=['現在是X','現在是O']
 player=1
 status=-1
@@ -118,18 +118,16 @@ def reset_game():
 
 def game_window_init(level):
     global n,btns,grid_btn
-    row=0
     for i in range(0,level):
         k=[]
         for j in range(0,level):
-            b=Button(root,width=10,height=5,relief='groove',command=lambda c=n:run(c))
+            b=Button(root,width=10,height=4,relief='groove',command=lambda c=n:run(c))
             b.grid(row=i+1,column=j)
             btns.append(b)
             k.append(b)
             n+=1
-        row=i+1
         grid_btn.append(k)
-    func_btn(row)
+    # func_btn(row)
 
 def next_level():
     global level,btns,grid_btn
@@ -137,17 +135,19 @@ def next_level():
     grid_btn.clear()
     game_window_init(level)
 
-def func_btn(row):
-    global level
-    column=row+1
-    reset=Button(root,text='重設',width=21,height=5,relief='groove',command=reset_game)
-    reset.grid(row=row+1,columnspan=row-1)
-    btn_next=Button(root,text='下一關',width=10,height=5,relief='groove',command=next_level)
-    btn_next.grid(row=row+1,column=row-1)
+def menu_init():
+    MainMenu = tkinter.Menu(root)   #創建主要選單欄
+    root.config(menu=MainMenu)  #綁定主要選單
+    menu1 = tkinter.Menu(MainMenu,tearoff=0)  #創建子選單欄綁在父容器下
+    menu1.add_command(label='下一關',command=next_level)
+    menu1.add_command(label='重開一局',command=reset_game)  #新增子選單1內的項目一
+    menu1.add_command(label='結束',command=lambda:sys.exit(0))  #新增子選單1內的項目二
+    MainMenu.add_cascade(label='選項', menu=menu1)  #命名父選單第一欄的名稱, 並綁定子選單1所有項目
 
 def main():
     global level
     game_window_init(level)
+    menu_init()
     root.mainloop()
 
 main()

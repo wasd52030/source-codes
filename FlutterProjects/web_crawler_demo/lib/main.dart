@@ -1,4 +1,4 @@
-//如果套件友關係到特定平台的話需要重新編譯
+//如果套件有關係到特定平台的話需要重新編譯
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:html/parser.dart';

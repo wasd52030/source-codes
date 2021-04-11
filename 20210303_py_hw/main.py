@@ -2,7 +2,6 @@ from tkinter import *
 import math
 
 root=Tk()
-root.title("BSKTRA")
 in_data=[]
 num_data=[]
 

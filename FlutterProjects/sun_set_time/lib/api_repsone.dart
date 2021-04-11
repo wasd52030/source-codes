@@ -5,7 +5,7 @@ import 'dart:convert';
 class ApiRepsone{
   Future<Map> getData() async{
     final res=await http.get(
-      Uri.parse('https://api.sunrise-sunset.org/json?lat=22.62624&lng=120.2813142&date=today&formatted=0')
+      Uri.parse('https://api.sunrise-sunset.org/json?lat=22.6487354&lng=120.3287544&date=today&formatted=0')
     );
     final dataJson=jsonDecode(res.body);
     //對從API取得的json做第一次解析

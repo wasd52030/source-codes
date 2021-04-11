@@ -41,13 +41,18 @@ class _HomePageState extends State<HomePage> {
         child: FutureBuilder<String>(
           future: getTimeString(),
           builder: (context,snapshot){
-            if(snapshot.hasData){
+            if(snapshot.hasData)
+            {
               return ResultView(snapshot.data);
-            }else if(snapshot.hasError){
+            }
+            else if(snapshot.hasError)
+            {
               return ErrorView(
                 onRefshButtonClick:()=>setState((){})
               );
-            }else{
+            }
+            else
+            {
               return LoadgingView();
             }
           },

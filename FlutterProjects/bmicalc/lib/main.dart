@@ -26,14 +26,14 @@ class MyHomePage extends StatefulWidget
 
 class _MyHomePageState extends State<MyHomePage>
 {
-  TextEditingController _Textbox1Text=TextEditingController();
-  TextEditingController _Textbox2Text=TextEditingController();
+  TextEditingController _Textbox1=TextEditingController();
+  TextEditingController _Textbox2=TextEditingController();
   double _x=0;
 
   void _bmi()
   {
-      double h=double.parse(_Textbox1Text.text);
-      double w=double.parse(_Textbox2Text.text);
+      double h=double.parse(_Textbox1.text);
+      double w=double.parse(_Textbox2.text);
       setState(() {
         h/=100;
         _x=w/(h*h);
@@ -51,13 +51,13 @@ class _MyHomePageState extends State<MyHomePage>
           Row(
             children: [
               Text("身高: ",style: TextStyle(fontSize: 25)),
-              Expanded(child: TextField(keyboardType: TextInputType.number,controller: _Textbox1Text))
+              Expanded(child: TextField(keyboardType: TextInputType.number,controller: _Textbox1))
             ],
           ),
           Row(
             children: [
               Text("體重: ",style: TextStyle(fontSize: 25)),
-              Expanded(child: TextField(keyboardType: TextInputType.number,controller: _Textbox2Text))
+              Expanded(child: TextField(keyboardType: TextInputType.number,controller: _Textbox2))
             ],
           ),
           ElevatedButton(onPressed:_bmi,child: Text("Calc")

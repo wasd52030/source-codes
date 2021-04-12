@@ -3,7 +3,6 @@ import math
 
 root=Tk()
 in_data=[]
-num_data=[]
 
 with open('input.txt') as f1:
     in_data=[k for k in f1]

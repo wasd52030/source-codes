@@ -42,18 +42,18 @@ class _EditPgaeState extends State<EditPgae> {
             future: query(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               final result = snapshot.data;
-              if (snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.hasError) {
-                  return Text("Error: ${snapshot.error}");
-                } else {
+              if (snapshot.connectionState == ConnectionState.done) 
+              {
+                if (snapshot.hasError) 
+                return Text("Error: ${snapshot.error}"); 
+                else 
                   return Display(result);
-                }
-              } else {
-                return Center(child: CircularProgressIndicator());
-              }
+              } else 
+                  return Center(child: CircularProgressIndicator());
             },
           ),
-        ));
+        )
+      );
   }
 }
 
@@ -110,23 +110,6 @@ class _EditDialogState extends State<EditDialog> {
   var txtName=TextEditingController();
   var txtAddr=TextEditingController();
   var txtBirth=TextEditingController();
-
-
-  Future update(User m) async {
-    final sql = SqlConnect();
-    await sql.sqlInitial();
-    final querystr ='UPDATE `x` SET `name` = ?, `addr` = ?, `birth` = ? WHERE `x`.`id` = ?;';
-    await sql.conn.query(querystr, [m.name, m.addr, m.birth.toUtc(), m.id]);
-    sql.conn.close();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    txtName.text=widget.data[widget.index].name;
-    txtAddr.text=widget.data[widget.index].addr;
-    txtBirth.text=DateFormat('y-mM-dd').format(widget.data[widget.index].birth);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -204,7 +187,23 @@ class _EditDialogState extends State<EditDialog> {
                             widget.data[widget.index].addr=txtAddr.text;
                             widget.data[widget.index].birth=DateTime.parse(txtBirth.text);
                           });
-                          Navigator.popAndPushNamed(context, '/'); //先直接跳回主頁面，如何在修改完時直接變動顯示日後再議
+                          showDialog(
+                            context: context, 
+                            builder: (context)=>AlertDialog(
+                              content: Text('修改完畢，按下確定後3秒後將跳回主頁面'),
+                              actions: [
+                                ElevatedButton(
+                                  child: Text('確定'),
+                                  onPressed: (){
+                                    Future.delayed(
+                                      Duration(seconds: 3),
+                                      ()=>Navigator.popAndPushNamed(context, '/') //先直接跳回主頁面，如何在修改完時直接變動顯示日後再議
+                                    );
+                                  },
+                                )
+                              ],
+                            )
+                          );
                       }
                     ),
                 ),

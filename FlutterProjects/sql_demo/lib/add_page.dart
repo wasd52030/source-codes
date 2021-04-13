@@ -144,10 +144,10 @@ class _AddPgaeState extends State<AddPgae> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
-                child: Text('返回'),
-                onPressed: ()=>Navigator.of(context,rootNavigator: true).pop(),
-              ),
-            )
+                  child: Text('返回'),
+                  onPressed: ()=>Navigator.of(context,rootNavigator: true).pop(),
+                ),
+              )
             ],
           )
         ],

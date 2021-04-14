@@ -153,7 +153,7 @@ class _EditDialogState extends State<EditDialog> {
                       return showDatePicker(
                         context: context,
                         firstDate: DateTime(1),
-                        initialDate: currentValue ?? DateTime.now(),
+                        initialDate: currentValue ?? DateTime.now(),  // currentValue==null時，設為DateTime.now()
                         lastDate: DateTime(9999)
                       );
                     },

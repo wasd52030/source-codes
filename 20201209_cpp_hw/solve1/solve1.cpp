@@ -16,18 +16,18 @@ int main()
         {
             for (int i = 0; i < in; i++)
             {
-                lottery.clear();  //§â¤W¦¸¨ú³Ñªº¤¸¯À²MªÅ
+                lottery.clear();  //æŠŠä¸Šæ¬¡å–å‰©çš„å…ƒç´ æ¸…ç©º
                 for (int i = 0; i < 49; i++)
                 {
-                    lottery.push_back(i + 1);  //ªì©l¤Ælottery vector,­«·s±N1-49©ñ¤J
+                    lottery.push_back(i + 1);  //åˆå§‹åŒ–lottery vector,é‡æ–°å°‡1-49æ”¾å…¥
                 }
 
                 for (int j = 0; j < 6; j++)
                 {
-                    int k = (rand() % lottery.size()); //¨DÀH¾÷¼Æ¦r¡A¥Î¥H¨úvector¤¤ªº­È
+                    int k = (rand() % lottery.size()); //æ±‚éš¨æ©Ÿæ•¸å­—ï¼Œç”¨ä»¥å–vectorä¸­çš„å€¼
                     data[j] = lottery[k];
-                    swap(lottery[k], lottery[lottery.size() - 1]); //§â¨ú¹Lªº¼Æ¦r¸òvector¤¤ªº³Ì«á¤@­Ó¼Æ¦r¥æ´«
-                    lottery.pop_back(); //¬å±¼¥Î¹Lªº¼Æ¦r
+                    swap(lottery[k], lottery[lottery.size() - 1]); //æŠŠå–éŽçš„æ•¸å­—è·Ÿvectorä¸­çš„æœ€å¾Œä¸€å€‹æ•¸å­—äº¤æ›
+                    lottery.pop_back(); //ç æŽ‰ç”¨éŽçš„æ•¸å­—
                 }
 
                 sort(data.begin(), data.end());

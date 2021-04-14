@@ -86,7 +86,7 @@ def run(btnid):
         player=2
 
     if btns[btnid]['text']!='':
-        tkinter.messagebox.showwarning('title','此格已被使用')
+        tkinter.messagebox.showwarning('','此格已被使用')
         player -= 1
     else:
         btns[btnid]['text']=mark[player-1]

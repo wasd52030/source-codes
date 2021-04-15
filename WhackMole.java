@@ -1,8 +1,9 @@
 import java.awt.*;
 import javax.swing.*;
 import java.util.*;
+import  java.util.Timer;
 
-public class WhackMole extends TimerTask{
+public class WhackMole{
 
     ArrayList<JButton> btns=new ArrayList<JButton>();
     JFrame main=new JFrame();
@@ -10,7 +11,6 @@ public class WhackMole extends TimerTask{
     int nums=(int)(Math.random()*11)+5;
     JLabel[] labels = new JLabel[3];
     int score=0,level=1,cnt=0;
-    ArrayList<Integer> levelData=new ArrayList<Integer>();
     Timer timer=new Timer();
 
     WhackMole()
@@ -22,11 +22,11 @@ public class WhackMole extends TimerTask{
             public void run() {
                 cnt++;
                 labels[1].setText(String.format("%d秒",cnt));
-                if (cnt==15) 
+                if (cnt==15)
                 {
                     timer.cancel();
                     for (JButton jButton : btns) jButton.setEnabled(false);
-                } 
+                }
                 else if(cnt%5==0)
                 {
                     level++;
@@ -41,10 +41,9 @@ public class WhackMole extends TimerTask{
 
     void set_level_data()
     {
-        levelData.clear();
         for(var btn : btns)
             btn.setText("  ");
-        for (int i = 0; i < nums; i++) 
+        for (int i = 0; i < nums; i++)
         {
             int nums=(int)(Math.random()*100);
             btns.get(nums).setText("X");
@@ -55,7 +54,7 @@ public class WhackMole extends TimerTask{
     {
         main.setLayout(gridBagLayout);
 
-        for (int i = 0; i < labels.length; i++) 
+        for (int i = 0; i < labels.length; i++)
         {
             var c=new GridBagConstraints();
             c.fill=GridBagConstraints.BOTH;
@@ -67,10 +66,10 @@ public class WhackMole extends TimerTask{
             labels[i]=a;
             main.add(labels[i],c);
         }
-        
-        for (int i = 0; i < 10; i++) 
+
+        for (int i = 0; i < 10; i++)
         {
-            for (int j = 0; j < 10; j++) 
+            for (int j = 0; j < 10; j++)
             {
                 JButton btn=new JButton("  ");
                 btn.addActionListener(e->{
@@ -97,7 +96,7 @@ public class WhackMole extends TimerTask{
         main.setVisible(true);
     }
 
-    public static void main(String[] args) 
+    public static void main(String[] args)
     {
         WhackMole a=new WhackMole();
     }

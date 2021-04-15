@@ -6,7 +6,6 @@ import tkinter.font
 
 root=Tk()
 btns=[]
-levelData=[]
 cnt=0
 score=0
 level=1
@@ -23,14 +22,14 @@ def judgment(bid):
         
 
 def bnttext_set():
-    global levelData
+    global num
     for n in btns:
         n['text']=''
-    for a in levelData:
-        btns[int(a)]['text']='X'
+    for i in range(num):
+        btns[random.randint(0,99)]['text']='X'
 
 def set_time_and_rand():
-    global timeText,cnt,num,tmain,levelData,level,score
+    global timeText,cnt,num,tmain,level,score
     cnt+=1
     timeText.set(f'{cnt}秒')
     LevelText.set(f'現在是第{level}關，共{score}分')
@@ -46,12 +45,10 @@ def set_time_and_rand():
     elif cnt%5==0:
         num=random.randint(5,15)
         level+=1
-        levelData=[random.randint(0,99) for i in range(num)]
         bnttext_set()
     
 
 tmain=Timer(1,function=set_time_and_rand)
-levelData=[random.randint(0,99) for i in range(num)]
 
 
 timeText.set(f'{cnt}秒')

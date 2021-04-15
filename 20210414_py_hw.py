@@ -11,17 +11,16 @@ cnt=0
 score=0
 level=1
 num=random.randint(5,15)
-t1=NONE
 timeText=StringVar()
 ScoreText=StringVar()
 LevelText=StringVar()
 
 def judgment(bid):
     global score,level
-    for i in btns:
-        if btns[bid]['text']!='':
+    if btns[bid]['text']!='':
             btns[bid]['text']=''
             score+=1
+        
 
 def bnttext_set():
     global levelData
@@ -31,11 +30,11 @@ def bnttext_set():
         btns[int(a)]['text']='X'
 
 def set_time_and_rand():
-    global timeText,cnt,t1,num,tmain,levelData,level,score
+    global timeText,cnt,num,tmain,levelData,level,score
     cnt+=1
     timeText.set(f'{cnt}秒')
-    LevelText.set(f'現在是第{level}關\n共有{str(num)}隻地鼠')
-    ScoreText.set(f'共{score}分')
+    LevelText.set(f'現在是第{level}關，共{score}分')
+    ScoreText.set(f'共有{str(num)}隻地鼠')
     t1=Timer(1,set_time_and_rand)
     t1.start()
     if cnt==15:
@@ -57,12 +56,12 @@ levelData=[random.randint(0,99) for i in range(num)]
 
 timeText.set(f'{cnt}秒')
 ScoreText.set(f'共有{str(num)}隻地鼠')
-LevelText.set(f'現在是第{level}關\n共{score}分')
+LevelText.set(f'現在是第{level}關，共{score}分')
 
 fontsize=tkinter.font.Font(family="Arial", size=13)
-Label(root,textvariable=LevelText,font=fontsize).grid(row=0,columnspan=11)
-Label(root,textvariable=timeText,font=fontsize).grid(row=1,columnspan=11)
-Label(root,textvariable=ScoreText,font=fontsize).grid(row=2,columnspan=11)
+Label(root,textvariable=LevelText,font=fontsize).grid(row=0,columnspan=10)
+Label(root,textvariable=timeText,font=fontsize).grid(row=1,columnspan=10)
+Label(root,textvariable=ScoreText,font=fontsize).grid(row=2,columnspan=10)
 
 def game_init():
     global btns

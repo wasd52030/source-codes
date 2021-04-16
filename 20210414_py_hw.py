@@ -23,8 +23,7 @@ def judgment(bid):
 
 def bnttext_set():
     global num
-    for n in btns:
-        n['text']=''
+    for n in btns: n['text']=''
     for i in range(num):
         btns[random.randint(0,99)]['text']='X'
 
@@ -46,10 +45,8 @@ def set_time_and_rand():
         num=random.randint(5,15)
         level+=1
         bnttext_set()
-    
 
 tmain=Timer(1,function=set_time_and_rand)
-
 
 timeText.set(f'{cnt}秒')
 ScoreText.set(f'共有{str(num)}隻地鼠')

@@ -1,7 +1,7 @@
 import java.awt.*;
 import javax.swing.*;
 import java.util.*;
-import  java.util.Timer;
+import java.util.Timer;
 
 public class WhackMole
 {
@@ -15,8 +15,8 @@ public class WhackMole
 
     WhackMole()
     {
-        game_init();
-        set_level_data();
+        GameInit();
+        SetLevelData();
         timer.schedule(new TimerTask(){
             @Override
             public void run() {
@@ -32,7 +32,7 @@ public class WhackMole
                 {
                     level++;
                     nums=(int)(Math.random()*11)+5;
-                    set_level_data();
+                    SetLevelData();
                     labels[0].setText(String.format("現在是第%d關，共%d分", level,score));
                     labels[2].setText(String.format("共%d隻地鼠",nums));
                 }
@@ -40,10 +40,9 @@ public class WhackMole
         },0,1000);
     }
 
-    void set_level_data()
+    void SetLevelData()
     {
-        for(var btn : btns)
-            btn.setText("  ");
+        for(var btn : btns) btn.setText("  ");
         for (int i = 0; i < nums; i++)
         {
             int nums=(int)(Math.random()*100);
@@ -51,7 +50,7 @@ public class WhackMole
         }
     }
 
-    void game_init()
+    void GameInit()
     {
         main.setLayout(gridBagLayout);
 
@@ -92,12 +91,12 @@ public class WhackMole
         labels[0].setText(String.format("現在是第%d關，共%d分", level,score));
         labels[1].setText(String.format("%d秒",cnt));
         labels[2].setText(String.format("共%d隻地鼠",nums));
-        main.setSize(650,500);
-        main.setVisible(true);
+        main.setSize(430,360);
     }
 
     public static void main(String[] args)
     {
         WhackMole a=new WhackMole();
+        a.main.setVisible(true);
     }
 }

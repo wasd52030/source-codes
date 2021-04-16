@@ -3,8 +3,8 @@ import javax.swing.*;
 import java.util.*;
 import  java.util.Timer;
 
-public class WhackMole{
-
+public class WhackMole
+{
     ArrayList<JButton> btns=new ArrayList<JButton>();
     JFrame main=new JFrame();
     GridBagLayout gridBagLayout = new GridBagLayout();
@@ -25,6 +25,7 @@ public class WhackMole{
                 if (cnt==15)
                 {
                     timer.cancel();
+                    JOptionPane.showMessageDialog(main, "遊戲結束", "",JOptionPane.WARNING_MESSAGE);
                     for (JButton jButton : btns) jButton.setEnabled(false);
                 }
                 else if(cnt%5==0)
@@ -84,7 +85,6 @@ public class WhackMole{
                 c.fill=GridBagConstraints.BOTH;
                 c.gridx=i;
                 c.gridy=j+4;
-
                 main.add(btn,c);
                 btns.add(btn);
             }

@@ -21,6 +21,7 @@ public class WhackMole
             @Override
             public void run() {
                 cnt++;
+                labels[0].setText(String.format("現在是第%d關，共%d分", level,score));
                 labels[1].setText(String.format("%d秒",cnt));
                 if (cnt==15)
                 {
@@ -43,11 +44,7 @@ public class WhackMole
     void SetLevelData()
     {
         for(var btn : btns) btn.setText("  ");
-        for (int i = 0; i < nums; i++)
-        {
-            int nums=(int)(Math.random()*100);
-            btns.get(nums).setText("X");
-        }
+        for (int i = 0; i < nums; i++) btns.get((int)(Math.random()*100)).setText("X");
     }
 
     void GameInit()
@@ -89,9 +86,8 @@ public class WhackMole
             }
         }
         labels[0].setText(String.format("現在是第%d關，共%d分", level,score));
-        labels[1].setText(String.format("%d秒",cnt));
         labels[2].setText(String.format("共%d隻地鼠",nums));
-        main.setSize(430,360);
+        main.setSize(450,360);
     }
 
     public static void main(String[] args)

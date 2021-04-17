@@ -22,6 +22,7 @@ public class register
 	{
 		return bills;
 	}
+
 	public void calctotalcost(int id,int num,int price) 
 	{
 		//當這一行第一次計算時，由於bills Arraylist中對應的索引並沒有東西，所以會拋出IndexOutOfBoundsException異常
@@ -41,10 +42,12 @@ public class register
 			this.calctotalRevenue(num*price);
 		}
 	}	
+
 	public void calctotalRevenue(int cost) 
 	{
 		totalrevenue+=cost;
 	}
+	
 	public String getinfo() 
 	{
 		String out="My register info:\nBill\n";

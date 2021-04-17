@@ -39,12 +39,12 @@ def bnttext_set():
 
 def run_game():
     global timeText,cnt,num,level,score
-    cnt+=1
     timeText.set(f'{cnt}秒')
     LevelText.set(f'現在是第{level}關，共{score}分')
     ScoreText.set(f'共有{str(num)}隻地鼠')
     t1=Timer(1,run_game)
     t1.start()
+    cnt+=1
     if cnt==15:
         for a in btns: a['state']='disable'
         t1.cancel()
@@ -53,10 +53,6 @@ def run_game():
     elif cnt%5==0:
         level+=1
         bnttext_set()
-
-timeText.set(f'{cnt}秒')
-ScoreText.set(f'共有{str(num)}隻地鼠')
-LevelText.set(f'現在是第{level}關，共{score}分')
 
 fontsize=tkinter.font.Font(family="Arial", size=13)
 Label(root,textvariable=LevelText,font=fontsize).grid(row=0,columnspan=10)

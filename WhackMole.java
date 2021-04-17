@@ -101,7 +101,6 @@ public class WhackMole
                 btns.add(btn);
             }
         }
-        labels[0].setText(String.format("現在是第%d關，共%d分", level,score));
         labels[2].setText(String.format("共%d隻地鼠",nums));
         main.setSize(450,360);
     }

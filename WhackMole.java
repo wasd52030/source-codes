@@ -43,8 +43,24 @@ public class WhackMole
 
     void SetLevelData()
     {
-        for(var btn : btns) btn.setText("  ");
-        for (int i = 0; i < nums; i++) btns.get((int)(Math.random()*100)).setText("X");
+        int[] temp=new int[nums];
+        for(var btn : btns) 
+            btn.setText("  ");
+        for (int i = 0; i < nums; i++)
+        {
+            temp[i]=(int)(Math.random()*100);
+            for (int j = 0; j < i;) 
+            {
+                if (temp[j]==temp[i]) 
+                {
+                    temp[i]=(int)(Math.random()*100);
+                    j=0;
+                }
+                else
+                    j++;
+            }
+        }
+        for (int i : temp) btns.get(i).setText("X");
     }
 
     void GameInit()

@@ -1,4 +1,4 @@
-#矩陣相加
+#矩陣相乘
 
 def matrix_init(k):
     i=0

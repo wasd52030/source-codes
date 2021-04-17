@@ -3,7 +3,6 @@ from tkinter import *
 import tkinter.messagebox
 import random
 import tkinter.font
-import threading
 
 root=Tk()
 btns=[]
@@ -25,6 +24,7 @@ def bnttext_set():
     global num
     num=random.randint(5,15)
     temp=[]
+    for i in btns: i['text']=''
     for i in range(num):
         temp.append(random.randint(0,99))
         j=0
@@ -43,7 +43,7 @@ def run_game():
     timeText.set(f'{cnt}秒')
     LevelText.set(f'現在是第{level}關，共{score}分')
     ScoreText.set(f'共有{str(num)}隻地鼠')
-    t1=Timer(2.5,run_game)
+    t1=Timer(1,run_game)
     t1.start()
     if cnt==15:
         for a in btns: a['state']='disable'

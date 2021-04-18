@@ -98,7 +98,7 @@ def run(btnid):
 
     if status ==1:
         player-=1
-        x['text']='{}獲勝'.format(mark[player-1])
+        x['text']=f'{mark[player-1]}獲勝'
         for i in btns:
             i['state']='disable'
     elif status ==0:

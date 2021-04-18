@@ -6,7 +6,7 @@ import java.util.Timer;
 public class WhackMole
 {
     ArrayList<JButton> btns=new ArrayList<JButton>();
-    JFrame main=new JFrame();
+    JFrame mainWindow=new JFrame();
     GridBagLayout gridBagLayout = new GridBagLayout();
     int nums=(int)(Math.random()*11)+5;
     JLabel[] labels = new JLabel[3];
@@ -26,7 +26,7 @@ public class WhackMole
                 if (cnt==15)
                 {
                     timer.cancel();
-                    JOptionPane.showMessageDialog(main, "遊戲結束", "",JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(mainWindow, "遊戲結束", "",JOptionPane.WARNING_MESSAGE);
                     for (JButton jButton : btns) jButton.setEnabled(false);
                 }
                 else if(cnt%5==0)
@@ -65,7 +65,7 @@ public class WhackMole
 
     void GameInit()
     {
-        main.setLayout(gridBagLayout);
+        mainWindow.setLayout(gridBagLayout);
 
         for (int i = 0; i < labels.length; i++)
         {
@@ -77,7 +77,7 @@ public class WhackMole
             JLabel a=new JLabel("");
             a.setHorizontalAlignment(SwingConstants.CENTER);
             labels[i]=a;
-            main.add(labels[i],c);
+            mainWindow.add(labels[i],c);
         }
 
         for (int i = 0; i < 10; i++)
@@ -97,17 +97,18 @@ public class WhackMole
                 c.fill=GridBagConstraints.BOTH;
                 c.gridx=i;
                 c.gridy=j+4;
-                main.add(btn,c);
+                mainWindow.add(btn,c);
                 btns.add(btn);
             }
         }
         labels[2].setText(String.format("共%d隻地鼠",nums));
-        main.setSize(450,360);
+        mainWindow.setSize(450,360);
     }
 
     public static void main(String[] args)
     {
         WhackMole a=new WhackMole();
-        a.main.setVisible(true);
+        a.mainWindow.setResizable(false);
+        a.mainWindow.setVisible(true);
     }
 }

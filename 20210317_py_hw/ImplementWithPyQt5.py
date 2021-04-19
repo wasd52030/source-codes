@@ -1,22 +1,20 @@
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
-import re
 import sys
 import random
 import time
 
 app = QApplication(sys.argv)
 root = QWidget()
-root.setFixedSize(0,0)
+root.setFixedSize(0, 0)
 grid = QGridLayout(root)
 root.setLayout(grid)
 
-n = x = 0
-a = []
-ans = []
-btns = []
-t1 = t2 = time.time()
+n,x=0,0
+a,ans,btns=[],[],[]
+t1,t2=time.time(),time.time()
+timer = QTimer(root)
 
 def numlist_init():
     k = [k for k in range(10)]
@@ -29,28 +27,38 @@ def numlist_init():
     random.shuffle(g)
     return g
 
-def gamedata_init():
+def clearText():
+    global ans
+    if len(ans) != 0:
+        for i in ans:
+            i.setText('')
     ans.clear()
+    timer.stop()
+
+timer.timeout.connect(clearText)
 
 def run(bid):
-    global n, x, t1, t2, a, ans, btns
+    global n, x, t1, t2, a, ans, btns, timer
 
     if n == 0:
         t1 = time.time()
+
+    btns[bid].setText(str(a[bid]))
     ans.append(btns[bid])
-    btns[bid].setEnabled(False)
 
     if len(ans) == 2:
         if ans[0].text() == ans[1].text():
-            btns[bid].setEnabled(False)
-            n+= 1
+            n += 1
+            for k in ans:
+                k.setEnabled(False)
+            ans.clear()
         else:
-            for k in ans: k.setEnabled(True)
-        gamedata_init()
+            timer.start(1000)
 
     if n == len(btns)/2:
         t2 = time.time()
-        reply = QMessageBox.warning(root,'',f'共用{t2-t1}秒\n要重新開始嗎?\n如選擇NO將直接結束',QMessageBox.Yes | QMessageBox.No)
+        reply = QMessageBox.warning(
+            root, '', f'共用{t2-t1}秒\n要重新開始嗎?\n如選擇NO將直接結束', QMessageBox.Yes | QMessageBox.No)
         n = x = 0
         btns.clear()
         a.clear()
@@ -64,9 +72,10 @@ def game_window_init():
     a = numlist_init()
     for i in range(0, 6):
         for j in range(0, 6):
-            b = QPushButton(str(a[x]), root)
-            b.clicked.connect(lambda state,id=x: run(id))
+            b = QPushButton(root)
+            b.clicked.connect(lambda state, id=x: run(id))
             b.setFont(QFont('Arial', 20))
+            b.setStyleSheet('border: 3px solid;border-radius:5px;width:80px;height:80px;')
             grid.addWidget(b, i, j)
             btns.append(b)
             x += 1

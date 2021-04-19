@@ -7,11 +7,9 @@ import sys
 root = Tk()
 root.resizable(0, 0)
 
-n = x = 0
-a = []
-ans = []
-btns = []
-t1 = t2 = time.time()
+n,x=0,0
+a,ans,btns=[],[],[]
+t1,t2=time.time(),time.time()
 
 def numlist_init():
     k = [k for k in range(10)]

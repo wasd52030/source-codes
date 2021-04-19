@@ -11,9 +11,9 @@ root.setFixedSize(0, 0)
 grid = QGridLayout(root)
 root.setLayout(grid)
 
-n,x=0,0
-a,ans,btns=[],[],[]
-t1,t2=time.time(),time.time()
+n, x = 0, 0
+a, ans, btns = [], [], []
+t1, t2 = time.time(), time.time()
 timer = QTimer(root)
 
 def numlist_init():
@@ -57,8 +57,8 @@ def run(bid):
 
     if n == len(btns)/2:
         t2 = time.time()
-        reply = QMessageBox.warning(root, '', f'共用{t2-t1}秒\n要重新開始嗎?\n如選擇NO將直接結束', QMessageBox.Yes | QMessageBox.No)
-        n = x = 0
+        reply = QMessageBox.warning( root, '', f'共用{t2-t1}秒\n要重新開始嗎?\n如選擇NO將直接結束', QMessageBox.Yes | QMessageBox.No)
+        n, x = 0, 0
         btns.clear()
         a.clear()
         if reply == QMessageBox.Yes:

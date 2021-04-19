@@ -7,9 +7,9 @@ import sys
 root = Tk()
 root.resizable(0, 0)
 
-n,x=0,0
-a,ans,btns=[],[],[]
-t1,t2=time.time(),time.time()
+n, x = 0, 0
+a, ans, btns = [], [], []
+t1, t2 = time.time(), time.time()
 
 def numlist_init():
     k = [k for k in range(10)]
@@ -30,7 +30,7 @@ def game_window_init():
     a = numlist_init()
     for i in range(0, 6):
         for j in range(0, 6):
-            b = Button(root, text=a[x],relief='groove', width=10, height=2,command=lambda id=x: run(id))
+            b = Button(root, text=a[x], relief='groove', width=10, height=2, command=lambda id=x: run(id))
             b.grid(row=i, column=j)
             btns.append(b)
             x += 1
@@ -49,13 +49,14 @@ def run(bid):
             btns[bid]['state'] = 'disable'
             n += 1
         else:
-            for k in ans: k['state'] = 'normal'
+            for k in ans:
+                k['state'] = 'normal'
         gamedata_init()
 
     if n == len(btns)/2:
         t2 = time.time()
-        game_result = tkinter.messagebox.showwarning('title', '共用%d秒\n要重新開始嗎?\n如選擇NO將直接結束' % (t2-t1), type=tkinter.messagebox.YESNO)
-        n = x = 0
+        game_result = tkinter.messagebox.showwarning( 'title', '共用%d秒\n要重新開始嗎?\n如選擇NO將直接結束' % (t2-t1), type=tkinter.messagebox.YESNO)
+        n, x = 0, 0
         btns.clear()
         a.clear()
         if game_result == "yes":

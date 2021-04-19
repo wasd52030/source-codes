@@ -2,13 +2,12 @@ import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
-import PyQt5.QtCore
 import re
 
 app = QApplication(sys.argv)
 root = QWidget()
-root.setFixedSize(root.width(), root.height())
-grid = QGridLayout()
+root.setFixedSize(0,0)
+grid = QGridLayout(root)
 root.setLayout(grid)
 
 s = '0'
@@ -29,17 +28,12 @@ def clear():
 
 def calc():
     global s
-    if re.match('^\d.*$', s) or re.match('^-\d.*$', s):
-        s = str(eval(s))
-    else:
-        QMessageBox.warning(root, '', '輸入錯誤，將重設為0')
-        s = '0'
+    s = str(eval(s))
     x.setText(s)
 
 x = QLabel(s, root)
 x.setAlignment(Qt.AlignRight)
 x.setFont(QFont('Arial', 20))
-x.setFixedSize(QSize(610,35))
 grid.addWidget(x, 0, 0, 1, 4)
 
 C = QPushButton('C', root)

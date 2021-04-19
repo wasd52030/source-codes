@@ -14,7 +14,7 @@ btns = []
 t1 = t2 = time.time()
 
 def numlist_init():
-    k = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    k = [k for k in range(10)]
     g = []
     random.shuffle(k)
     for i in range(1, 19):
@@ -32,31 +32,31 @@ def game_window_init():
     a = numlist_init()
     for i in range(0, 6):
         for j in range(0, 6):
-            b = Button(root, text=a[x], width=10, height=2,command=lambda c=a[x], id=x: run(c, id))
+            b = Button(root, text=a[x],relief='groove', width=10, height=2,command=lambda id=x: run(id))
             b.grid(row=i, column=j)
             btns.append(b)
             x += 1
 
-def run(Xans, Xid):
+def run(bid):
     global n, x, t1, t2, a, ans, btns
 
     if n == 0:
         t1 = time.time()
 
-    ans.append(Xans)
-    btns[Xid]['state'] = 'disable'
+    ans.append(btns[bid])
+    btns[bid]['state'] = 'disable'
 
     if len(ans) == 2:
-        if ans[0] == ans[1]:
-            btns[Xid]['state'] = 'disable'
+        if ans[0]['text'] == ans[1]['text']:
+            btns[bid]['state'] = 'disable'
             n += 1
         else:
-            btns[Xid]['state'] = 'normal'
+            for k in ans: k['state'] = 'normal'
         gamedata_init()
 
     if n == len(btns)/2:
         t2 = time.time()
-        game_result = tkinter.messagebox.showwarning('title', '共用%d秒\n要重新開始嗎' % (t2-t1), type=tkinter.messagebox.YESNO)
+        game_result = tkinter.messagebox.showwarning('title', '共用%d秒\n要重新開始嗎?\n如選擇NO將直接結束' % (t2-t1), type=tkinter.messagebox.YESNO)
         n = x = 0
         btns.clear()
         a.clear()

@@ -32,6 +32,7 @@ def clearText():
     if len(ans) != 0:
         for i in ans:
             i.setText('')
+            i.setEnabled(True)
     ans.clear()
     timer.stop()
 
@@ -40,20 +41,17 @@ timer.timeout.connect(clearText)
 def run(bid):
     global n, x, t1, t2, a, ans, btns, timer
 
-    if n == 0:
-        t1 = time.time()
-
+    if n == 0: t1 = time.time()
+    btns[bid].setEnabled(False) 
     btns[bid].setText(str(a[bid]))
     ans.append(btns[bid])
-
     if len(ans) == 2:
         if ans[0].text() == ans[1].text():
             n += 1
-            for k in ans:
-                k.setEnabled(False)
             ans.clear()
         else:
-            timer.start(1000)
+            timer.start(150)
+        
 
     if n == len(btns)/2:
         t2 = time.time()

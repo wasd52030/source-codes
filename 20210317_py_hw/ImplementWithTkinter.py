@@ -46,7 +46,6 @@ def run(bid):
 
     if len(ans) == 2:
         if ans[0]['text'] == ans[1]['text']:
-            btns[bid]['state'] = 'disable'
             n += 1
         else:
             for k in ans:

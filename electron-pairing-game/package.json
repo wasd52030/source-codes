@@ -1,0 +1,25 @@
+{
+  "name": "electron-quick-start",
+  "version": "1.0.0",
+  "description": "use Electron to implement a sample pairing game",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/electron/electron-quick-start",
+  "keywords": [
+    "Electron",
+    "pairing",
+    "game"
+  ],
+  "author": "sobol",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "^12.0.4"
+  },
+  "dependencies": {
+    "bootstrap": "^4.1.3",
+    "jquery": "^3.3.1",
+    "popper.js": "^1.14.4"
+  }
+}

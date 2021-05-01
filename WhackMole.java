@@ -44,8 +44,12 @@ public class WhackMole
     void SetLevelData()
     {
         int[] temp=new int[nums];
+
         for(var btn : btns) 
+        {
             btn.setText("  ");
+        }
+
         for (int i = 0; i < nums; i++)
         {
             temp[i]=(int)(Math.random()*100);
@@ -57,9 +61,12 @@ public class WhackMole
                     j=0;
                 }
                 else
+                {
                     j++;
+                }
             }
         }
+
         for (int i : temp) btns.get(i).setText("X");
     }
 
@@ -69,7 +76,7 @@ public class WhackMole
 
         for (int i = 0; i < labels.length; i++)
         {
-            var c=new GridBagConstraints();
+            GridBagConstraints c=new GridBagConstraints();
             c.fill=GridBagConstraints.BOTH;
             c.gridx=0;
             c.gridwidth=10;
@@ -93,7 +100,7 @@ public class WhackMole
                     }
                     labels[0].setText(String.format("現在是第%d關，共%d分", level,score));
                 });
-                var c=new GridBagConstraints();
+                GridBagConstraints c=new GridBagConstraints();
                 c.fill=GridBagConstraints.BOTH;
                 c.gridx=i;
                 c.gridy=j+4;

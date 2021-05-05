@@ -20,7 +20,7 @@ def data_init():
     global ans, speedCtl, lvlCtl, speed, stopflag, ItemWithIndex
     stopflag = False
     speed = 0.01
-    ans = random.randint(0, 24)
+    ans = random.randint(0, 23)
     speedCtl, lvlCtl = 0, 0
 
 
@@ -92,7 +92,6 @@ def initial():
                 lbls.append(a)
                 ItemWithIndex[x] = ImageFileNames[w]
                 x += 1
-
             elif j == 0 or j == 6:
                 a = Label(root, image=ImageLst[w], bg='#ffffff')
                 a.grid(row=i, column=j)

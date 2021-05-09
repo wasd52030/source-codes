@@ -9,7 +9,7 @@ ItemWithIndex = {}
 lbls = []
 n = 0
 speedCtl, lvlCtl = 0, 0
-speed = 0.01
+speed = 0
 ans = 0
 stopflag = False
 lbla = None
@@ -41,31 +41,32 @@ def main_anime():
             t1.cancel()
             lbla['text'] = ItemWithIndex[ans]
 
+    #label預設背景顏色->SystemButtonFace
     if stopflag == False:
         if 6 <= n < 16 and n % 2 == 0:
             n += 2
             lbls[n]['bg'] = '#ff0000'
-            lbls[n-2]['bg'] = '#ffffff'
+            lbls[n-2]['bg'] = 'SystemButtonFace'
         elif n == 16:
             n = 23
             lbls[n]['bg'] = '#ff0000'
-            lbls[16]['bg'] = '#ffffff'
+            lbls[16]['bg'] = 'SystemButtonFace'
         elif 17 < n <= 23:
             n -= 1
             lbls[n]['bg'] = '#ff0000'
-            lbls[n+1]['bg'] = '#ffffff'
+            lbls[n+1]['bg'] = 'SystemButtonFace'
         elif 0 < n <= 17 and n > 8 and n % 2 == 1:
             n -= 2
             lbls[n]['bg'] = '#ff0000'
-            lbls[n+2]['bg'] = '#ffffff'
+            lbls[n+2]['bg'] = 'SystemButtonFace'
         elif n == 7:
             n = 0
             lbls[n]['bg'] = '#ff0000'
-            lbls[7]['bg'] = '#ffffff'
+            lbls[7]['bg'] = 'SystemButtonFace'
         else:
             n += 1
             lbls[n]['bg'] = '#ff0000'
-            lbls[n-1]['bg'] = '#ffffff'
+            lbls[n-1]['bg'] = 'SystemButtonFace'
 
 
 def run():
@@ -87,13 +88,13 @@ def initial():
         for j in range(7):
             w = random.randint(0, 7)
             if i == 0 or i == 6:
-                a = Label(root, image=ImageLst[w], bg='#ffffff')
+                a = Label(root, image=ImageLst[w])
                 a.grid(row=i, column=j)
                 lbls.append(a)
                 ItemWithIndex[x] = ImageFileNames[w]
                 x += 1
             elif j == 0 or j == 6:
-                a = Label(root, image=ImageLst[w], bg='#ffffff')
+                a = Label(root, image=ImageLst[w])
                 a.grid(row=i, column=j)
                 lbls.append(a)
                 ItemWithIndex[x] = ImageFileNames[w]

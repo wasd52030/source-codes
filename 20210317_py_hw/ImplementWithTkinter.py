@@ -12,13 +12,11 @@ a, ans, btns = [], [], []
 t1, t2 = time.time(), time.time()
 
 def numlist_init():
-    k = [k for k in range(10)]
     g = []
-    random.shuffle(k)
     for i in range(1, 19):
-        w = random.sample(k, 1)
-        g.append(w[0])
-        g.append(w[0])
+        w = random.randint(1,10)
+        g.append(w)
+        g.append(w)
     random.shuffle(g)
     return g
 

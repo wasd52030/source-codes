@@ -32,7 +32,7 @@ def main_anime():
     speedCtl += 1
 
     if speedCtl % 50 == 0:
-        speed *= 5
+        speed *= 8
         lvlCtl += 1
 
     if lvlCtl == 2:
@@ -80,8 +80,7 @@ def initial():
     x = 0
     for fname in os.listdir('images/'):
         file_dicrectory = os.path.join('images/', fname)
-        n = fname.split('.')
-        ImageFileNames.append(n[0])
+        ImageFileNames.append(fname.split('.')[0])
         ImageLst.append(PhotoImage(file=f'{file_dicrectory}'))
 
     for i in range(7):

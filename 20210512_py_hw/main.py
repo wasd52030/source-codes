@@ -1,9 +1,6 @@
 import random
-import time
 from tkinter import *
 import tkinter.font
-import tkinter.messagebox
-import sys
 
 with open('eng.txt', 'r', encoding='utf-8') as f1:
     data = [i.split() for i in f1]
@@ -14,13 +11,12 @@ score = 0
 ans = StringVar()
 
 
-def eng(a):
+def eng(engTxt):
     global data
     k = 0.8*len(data[x][0])
-    engTxt = a
     for i in range(int(k)):
-        a = random.randint(0, len(engTxt)-1)
-        engTxt = f'{engTxt[:a]}*{engTxt[a+1:]}'
+        p = random.randint(0, len(engTxt)-1)
+        engTxt = f'{engTxt[:p]}*{engTxt[p+1:]}'
     return engTxt
 
 

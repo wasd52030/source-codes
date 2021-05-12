@@ -32,7 +32,7 @@ def main_anime():
     speedCtl += 1
 
     if speedCtl % 50 == 0:
-        speed *= 8
+        speed *= 10
         lvlCtl += 1
 
     if lvlCtl == 2:

@@ -15,9 +15,9 @@ n=0
 x=Label(root,text='由O開始',font=tkinter.font.Font(family="Arial", size=13))
 x.grid(row=0)
 
-#返回1 => 有人勝出
-#返回0 => 平手
-#返回-1 => 遊戲仍在進行
+#回傳1 => 有人勝出
+#回傳0 => 平手
+#回傳-1 => 遊戲仍在進行
 def judgment():
     global grid_btn,level
     row,column,lfcross,ricross,total=[],[],[],[],[]

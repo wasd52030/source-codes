@@ -20,8 +20,8 @@ cnt = 0
 def setdata():
     sid.set(d[cnt][0])
     name.set(d[cnt][1])
-    department.set(d[cnt][3])
     sex.set(1) if d[cnt][2] == "男" else sex.set(2)
+    department.set(d[cnt][3])
     address.set(d[cnt][4])
     phone.set(d[cnt][5])
 

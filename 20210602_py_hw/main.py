@@ -24,7 +24,6 @@ sexs = ['男', '女']
 cnt = 0
 DataModels = []
 
-
 class data:
     def __init__(self, id, name, sex, depart, address, phone):
         self.id = id
@@ -33,7 +32,6 @@ class data:
         self.depart = depart
         self.address = address
         self.phone = phone
-
 
 def readall():
     global d, DataModels
@@ -44,7 +42,6 @@ def readall():
     for i in d:
         a = data(i[0], i[1], i[2], i[3], i[4], i[5])
         DataModels.append(a)
-
 
 def SetFormData():
     sid.set(d[cnt][0])
@@ -101,15 +98,12 @@ def upe():
     a = data(sid.get(), name.get(), s, department.get(), address.get(), phone.get())
     if id in [i.id for i in DataModels]:
         DataModels[cnt]=a
-        write()
-        readall()
-        SetFormData()
     else:
         DataModels.append(a)
-        write()
-        readall()
         cnt = len(DataModels)-1
-        SetFormData()
+    write()
+    readall()
+    SetFormData()
 
 Label(DataForm, text='學號：', font=f).grid(row=0, column=0)
 Entry(DataForm, textvariable=sid).grid(row=0, column=1)

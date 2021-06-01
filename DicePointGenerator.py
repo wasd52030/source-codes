@@ -1,15 +1,21 @@
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
-from PyQt5.QtCore import *
+from PySide2.QtCore import *
+from PySide2.QtGui import *
+from PySide2.QtWidgets import *
 import sys
 import random
 
 app = QApplication(sys.argv)
 root = QWidget()
-root.setGeometry(500, 600, 300, 200)
-root.setWindowTitle("DICE")
-grid = QGridLayout(root)
-root.setLayout(grid)
+root.resize(270,365)
+root.setFixedSize(270, 365)
+
+dice = QWidget(root)
+dice.setGeometry(QRect(10, 20, 250, 250))
+dice.setObjectName("dice")
+dice.setStyleSheet("QWidget#dice{border: 1px solid #000000; border-radius: 10px;};")
+
+dicegrid = QGridLayout(root)
+dice.setLayout(dicegrid)
 
 lbls = []
 points = {
@@ -28,7 +34,10 @@ def rundice(x):
         if item == 0:
             lbls[index].setStyleSheet("color:transparent;")
         elif item == 1:
-            lbls[index].setStyleSheet("color:red;")
+            if x==1:
+                lbls[index].setStyleSheet("color:red;")
+            else:
+                lbls[index].setStyleSheet("color:black;")
 
 def rangen():
     a=random.randint(1,6)
@@ -38,17 +47,17 @@ for i in range(3):
     for j in range(3):
         c = QLabel('●', root)
         c.setFixedSize(60, 50)
-        c.setFont(QFont('Arial', 20))
-        grid.addWidget(c, i, j)
+        c.setFont(QFont('Arial', 30))
+        c.setAlignment(Qt.AlignCenter)
+        dicegrid.addWidget(c,i,j)
         lbls.append(c)
 
 b = QPushButton('run dice', root)
 b.clicked.connect(rangen)
 b.setFont(QFont('Arial', 20))
-grid.addWidget(b, 4, 0, 3, 0)
-b.setFixedSize(200, 80)
+b.setGeometry(QRect(10, 280, 250, 71))
 
 
-rundice(0)
+rundice(5)
 root.show()
 sys.exit(app.exec_())

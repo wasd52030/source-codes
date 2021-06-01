@@ -1,8 +1,10 @@
 import sys
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
-from PyQt5.QtCore import *
+from functools import partial
 import re
+from PySide2.QtWidgets import *
+from PySide2.QtGui import *
+from PySide2.QtCore import *
+
 
 app = QApplication(sys.argv)
 root = QWidget()
@@ -42,17 +44,17 @@ C.setFont(QFont('Arial', 20))
 grid.addWidget(C, 1, 0, 1, 3)
 
 dev = QPushButton('/', root)
-dev.clicked.connect(lambda state, g='/': run(g))
+dev.clicked.connect(partial(run,'/'))
 dev.setFont(QFont('Arial', 20))
 grid.addWidget(dev, 1, 3)
 
 zero = QPushButton('0', root)
-zero.clicked.connect(lambda state, g='0': run(g))
+zero.clicked.connect(partial(run,'0'))
 zero.setFont(QFont('Arial', 20))
 grid.addWidget(zero, 5, 0, 1, 2)
 
 dot = QPushButton('.', root)
-dot.clicked.connect(lambda state, g='.': run(g))
+dot.clicked.connect(partial(run,'.'))
 dot.setFont(QFont('Arial', 20))
 grid.addWidget(dot, 5, 2)
 
@@ -68,7 +70,7 @@ r = 0
 for i in range(2, 5):
     for j in range(0, 4):
         b = QPushButton(btn_txt[r], root)
-        b.clicked.connect(lambda state, g=btn_txt[r]: run(g))
+        b.clicked.connect(partial(run,btn_txt[r]))
         b.setFont(QFont('Arial', 20))
         grid.addWidget(b, i, j)
         r += 1

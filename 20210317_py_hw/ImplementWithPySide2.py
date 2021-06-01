@@ -1,9 +1,10 @@
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
-from PyQt5.QtCore import *
 import sys
 import random
 import time
+from functools import partial
+from PySide2.QtWidgets import *
+from PySide2.QtGui import *
+from PySide2.QtCore import *
 
 app = QApplication(sys.argv)
 root = QWidget()
@@ -68,7 +69,7 @@ def game_window_init():
     for i in range(0, 6):
         for j in range(0, 6):
             b = QPushButton(root)
-            b.clicked.connect(lambda state, id=x: run(id))
+            b.clicked.connect(partial(run,x))
             b.setFont(QFont('Arial', 20))
             b.setStyleSheet('border: 3px solid;border-radius:5px;width:80px;height:80px;')
             grid.addWidget(b, i, j)

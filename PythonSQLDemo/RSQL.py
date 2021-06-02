@@ -15,7 +15,7 @@ try:
         rval = [list(i) for i in cur.fetchall()]
 
         #組成dict list並轉成json
-        # zip(a,b) => 分別將所傳入的兩個可迭代元素中取位置對應的元素，組成一truple併回傳，回傳值可轉成list、dict...等
+        # zip(a,b) => 分別將所傳入的兩個可迭代元素中取位置對應的元素，組成一truple並回傳，回傳值可轉成list、dict...等
         dJson = json.dumps([dict(zip(rkey, i)) for i in rval], indent=4, ensure_ascii=False)
         
         print(dJson)

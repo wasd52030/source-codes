@@ -178,8 +178,7 @@ def payframe_initial():
 
     for i in range(len(d)):
         a = Label(payframe, image=ImageLst[i]).grid(row=1, column=i+1)
-        Label(payframe, text=BetPercentDict[d[i][1]], font=(
-            '標楷體', 15)).grid(row=2, column=i+1)
+        Label(payframe, text=BetPercentDict[d[i][1]], font=('標楷體', 15)).grid(row=2, column=i+1)
         q = Label(payframe, text=0, font=('標楷體', 15))
         q.grid(row=3, column=i+1)
         BetForItem.append(q)

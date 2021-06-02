@@ -79,6 +79,6 @@ b.setFont(QFont('Arial', 20))
 b.setGeometry(QRect(10, 280, 250, 71))
 
 
-rundice(5)
+rundice(6)
 root.show()
 sys.exit(app.exec_())

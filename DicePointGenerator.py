@@ -8,9 +8,6 @@ app = QApplication(sys.argv)
 root = QWidget()
 root.resize(270, 365)
 root.setFixedSize(270, 365)
-timer1 = QTimer(root)
-timer1Cnt = 0
-timer1speed = 10
 
 dice = QWidget(root)
 dice.setGeometry(QRect(10, 20, 250, 250))
@@ -31,9 +28,8 @@ points = {
     6: [1 if i in [0, 2, 3, 5, 6, 8] else 0 for i in range(9)],
 }
 
+
 # 當同時需要list的元素和索引時，可用enumerate(list)做迭代
-
-
 def rundice(x):
     for index, item in enumerate(points[x]):
         if item == 0:
@@ -57,7 +53,6 @@ def rangen():
         timer1Cnt += 1
 
 
-timer1.timeout.connect(rangen)
 def GetPoint():
     global timer1Cnt, timer1speed
     timer1Cnt, timer1speed = 0, 10
@@ -77,7 +72,10 @@ b = QPushButton('run dice', root)
 b.clicked.connect(GetPoint)
 b.setFont(QFont('Arial', 20))
 b.setGeometry(QRect(10, 280, 250, 71))
-
+timer1 = QTimer(root)
+timer1.timeout.connect(rangen)
+timer1Cnt = 0
+timer1speed = 10
 
 rundice(6)
 root.show()

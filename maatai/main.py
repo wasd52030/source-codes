@@ -122,14 +122,12 @@ def gameframe_initial():
         file_dicrectory = os.path.join('images/', fname)
         ImageFileNames.append(fname.split('.')[0])
         WinBonusTemp[fname.split('.')[0]] = 0
-        ImageLst.append(PhotoImage(
-            file=f'{file_dicrectory}', name=fname.split('.')[0]))
+        ImageLst.append(PhotoImage(file=f'{file_dicrectory}', name=fname.split('.')[0]))
 
     WinBonus = [[k, v] for k, v in WinBonusTemp.items()]
 
     for i in range(7):
         for j in range(7):
-            print(len(k))
             w = random.sample(k, 1)[0]
             k.remove(w)
             if k == []:

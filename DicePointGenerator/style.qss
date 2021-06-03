@@ -1,0 +1,16 @@
+#dice{
+    border: 1px solid #000000; 
+    border-radius: 15px; background-color: #ffffff;
+}
+
+#b{
+    border: 1px outset #7D7D7D; 
+    border-radius: 15px; 
+    background-color: #0A96ff; 
+    color: #ffffff;
+}
+
+#b:pressed{
+ background-color: #0A96ff;  
+ border:1px outset #007D7D7D;
+}

@@ -26,6 +26,7 @@ class MainWindow(QMainWindow):
         self.ui.btn2.clicked.connect(self.LowerToUpper)
         self.ui.spinBox1.setMaximum(100000000)
         self.ui.spinBox2.setMaximum(100000000)
+        self.setcombo()
 
     def setcombo(self):
         self.ui.comboBox1.addItems(CurrencyNameLst)
@@ -64,6 +65,5 @@ class MainWindow(QMainWindow):
 
 app = QApplication(sys.argv)
 w = MainWindow()
-w.setcombo()
 w.show()
 sys.exit(app.exec_())

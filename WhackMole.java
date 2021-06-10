@@ -91,11 +91,11 @@ public class WhackMole
         {
             for (int j = 0; j < 10; j++)
             {
-                JButton btn=new JButton("  ");
+                JButton btn=new JButton("");
                 btn.addActionListener(e->{
                     if(btn.getText()=="X")
                     {
-                        btn.setText("  ");
+                        btn.setText("");
                         score++;
                     }
                     labels[0].setText(String.format("現在是第%d關，共%d分", level,score));

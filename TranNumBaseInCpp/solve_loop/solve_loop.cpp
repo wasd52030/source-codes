@@ -25,7 +25,6 @@ string tran_base(int x, int y)
 		}
 	}
 
-
 	for (int i = 0; i < data.size(); i++)
 	{
 		if (data.at(i) == "10")

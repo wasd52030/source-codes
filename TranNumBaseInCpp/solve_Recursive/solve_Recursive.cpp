@@ -4,10 +4,9 @@
 #include <string>
 #include <algorithm>
 using namespace std;
+
 string out = "";
 vector<string> calc;
-
-
 string tran_base(int x, int y)
 {
 	out = "";
@@ -47,7 +46,7 @@ string tran_base(int x, int y)
 		{
 			out += k;
 		}
-		calc.clear(); //清空vector中的資料
+		calc.clear();		  //清空vector中的資料
 		calc.shrink_to_fit(); //清空vector所佔的記憶體
 		return out;
 	}
@@ -72,7 +71,7 @@ int main()
 		else
 		{
 			//printf的%s只接受C式字串，如要用printf印C++ string，請用std::string().cstr()去取得C式字串
-			printf("(%d)_10=(%s)_%d\n",a,tran_base(a,b).c_str(),b);
+			printf("(%d)_10=(%s)_%d\n", a, tran_base(a, b).c_str(), b);
 		}
 	}
 	system("pause");

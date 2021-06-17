@@ -25,7 +25,7 @@ BetDownBtns = []
 WinBonusTemp = {}
 WinBonus = []
 n = 0
-b=None
+b = None
 speedCtl, lvlCtl = 0, 0
 speed = 0
 ans = 0
@@ -118,7 +118,7 @@ def run():
 
 
 def gameframe_initial():
-    global ItemWithIndex, ImageFileNames, lbla, Imagewithindex, WinBonusTemp, WinBonus,b
+    global ItemWithIndex, ImageFileNames, lbla, Imagewithindex, WinBonusTemp, WinBonus, b
     # 取images資料夾下的所有圖片，匯集成tkinter.PhotoImage之list
     x = 0
     k = [i for i in range(8)]
@@ -132,7 +132,6 @@ def gameframe_initial():
 
     for i in range(7):
         for j in range(7):
-            print(len(k))
             w = random.sample(k, 1)[0]
             k.remove(w)
             if k == []:
@@ -161,11 +160,11 @@ def gameframe_initial():
 
 def BetNumCalc(x, f):
     global BetForItem, money, WinBonus
-    if money>0:
+    if money > 0:
         money -= 1
     lblmoney['text'] = f'你還有{money}塊'
     k = int(BetForItem[x]['text'])
-    if money>0:
+    if money > 0:
         if f == '+':
             k += 1
         elif f == '-':
@@ -176,7 +175,7 @@ def BetNumCalc(x, f):
 
 
 def payframe_initial():
-    global ImageLst, money, lblmoney, BetForItem, BetPercentDict, itemcnt, ImageFileNames, BetUpBtns, BetDownBtns,b
+    global ImageLst, money, lblmoney, BetForItem, BetPercentDict, itemcnt, ImageFileNames, BetUpBtns, BetDownBtns, b
     lblmoney = Label(payframe, text=f'你還有{money}塊', font=('標楷體', 15))
     lblmoney.grid(row=0, column=(len(ImageFileNames)//2)-1, columnspan=3)
     Label(payframe, text='倍率：', font=('標楷體', 15)).grid(row=2, column=0)

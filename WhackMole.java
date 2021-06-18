@@ -5,7 +5,7 @@ import java.util.Timer;
 
 public class WhackMole
 {
-    ArrayList<JButton> btns=new ArrayList<JButton>();
+    JButton[] btns=new JButton[100];
     JFrame mainWindow=new JFrame();
     GridBagLayout gridBagLayout = new GridBagLayout();
     int nums=(int)(Math.random()*11)+5;
@@ -45,10 +45,7 @@ public class WhackMole
     {
         int[] temp=new int[nums];
 
-        for(var btn : btns) 
-        {
-            btn.setText("  ");
-        }
+        for(var btn : btns) btn.setText("  ");
 
         for (int i = 0; i < nums; i++)
         {
@@ -66,13 +63,13 @@ public class WhackMole
                 }
             }
         }
-
-        for (int i : temp) btns.get(i).setText("X");
+        for (int i : temp) btns[i].setText("X");
     }
 
     void GameInit()
     {
         mainWindow.setLayout(gridBagLayout);
+        int btncnt=0;
 
         for (int i = 0; i < labels.length; i++)
         {
@@ -105,7 +102,8 @@ public class WhackMole
                 c.gridx=i;
                 c.gridy=j+4;
                 mainWindow.add(btn,c);
-                btns.add(btn);
+                btns[btncnt]=btn;
+                btncnt++;
             }
         }
         labels[2].setText(String.format("共%d隻地鼠",nums));

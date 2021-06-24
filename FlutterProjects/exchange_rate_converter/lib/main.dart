@@ -8,7 +8,6 @@ void main() {
 }
 
 class App extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -32,27 +31,30 @@ class ExchangeRateConverter extends StatefulWidget {
 }
 
 class _ExchangeRateConverterState extends State<ExchangeRateConverter> {
-  List<DropdownMenuItem<String>> ratelist;
-  String comb1Value, comb2Value, changeResult = "";
-  TextEditingController textbox1 = TextEditingController();
+  List<DropdownMenuItem<String>> _ratelist;
+  String _comb1Value, _comb2Value, _originRate = "", _changeResult = "";
+  TextEditingController _textbox1 = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     setcombolst();
-    textbox1.text = "0";
+    _textbox1.text = "0";
   }
 
   List<DropdownMenuItem<String>> setcomboItems(List<String> data) {
     List<DropdownMenuItem<String>> items = [];
     for (String rate in data) {
-      items.add(new DropdownMenuItem(
-          value: rate, child: new Text(rate, style: TextStyle(fontSize: 20))));
+      final drop = DropdownMenuItem(
+          value: rate, 
+          child: Text(rate, style: TextStyle(fontSize: 20))
+      );
+      items.add(drop);
     }
     return items;
   }
 
-  Future<Map> _getdata() async {
+  Future<Map> getdata() async {
     final res = await Dio().get("https://tw.rter.info/capi.php");
     Map datajson = json.decode(res.data);
     return datajson;
@@ -60,7 +62,7 @@ class _ExchangeRateConverterState extends State<ExchangeRateConverter> {
 
   void setcombolst() async {
     List<String> combolst = [];
-    final d = await _getdata();
+    final d = await getdata();
     d.forEach((k, v) {
       String x = k;
       RegExp reg = RegExp("USD.*");
@@ -72,27 +74,29 @@ class _ExchangeRateConverterState extends State<ExchangeRateConverter> {
       }
     });
     combolst.sort();
-    ratelist = setcomboItems(combolst);
-    comb1Value = ratelist[0].value;
-    comb2Value = ratelist[1].value;
-    setState(() {});
+    _ratelist = setcomboItems(combolst);
+    setState(() {
+      _comb1Value = _ratelist[0].value;
+      _comb2Value = _ratelist[1].value;
+      _originRate = sprintf("%.4f %s", [0.0, _comb1Value]);
+      _changeResult = sprintf("%.4f %s", [0.0, _comb2Value]);
+    });
   }
 
   void exchange(String text) async {
-    double a = double.parse(textbox1.text);
-    final d = await _getdata();
+    double a = double.parse(_textbox1.text);
+    final d = await getdata();
 
-    if (comb2Value == "USD") {
-      a /= d["USD$comb1Value"]["Exrate"];
+    if (_comb2Value == "USD") {
+      a /= d["USD$_comb1Value"]["Exrate"];
     } else {
-      a /= d["USD$comb1Value"]["Exrate"];
-      a *= d["USD$comb2Value"]["Exrate"];
+      a /= d["USD$_comb1Value"]["Exrate"];
+      a *= d["USD$_comb2Value"]["Exrate"];
     }
 
     setState(() {
-      changeResult = textbox1.text != ""
-          ? sprintf("${textbox1.text} $comb1Value = %0.4f $comb2Value", [a])
-          : sprintf("1 $comb1Value = %0.4f $comb2Value", [a]);
+      _originRate = sprintf("%.4f %s", [double.parse(_textbox1.text), _comb1Value]);
+      _changeResult = sprintf("%.4f %s", [a, _comb2Value]);
     });
   }
 
@@ -117,11 +121,12 @@ class _ExchangeRateConverterState extends State<ExchangeRateConverter> {
                           actions: [
                             ElevatedButton(
                                 child: Text('ok'),
-                                onPressed: () {
-                                  Navigator.of(context, rootNavigator: true)
-                                      .pop();
-                                })
-                          ])))
+                                onPressed: ()=>Navigator.of(context, rootNavigator: true).pop()
+                              )
+                            ]
+                          )
+                        )
+                     )
         ],
       ),
       body: Center(
@@ -130,7 +135,7 @@ class _ExchangeRateConverterState extends State<ExchangeRateConverter> {
             TextField(
               decoration: InputDecoration(labelText: "將"),
               keyboardType: TextInputType.number,
-              controller: textbox1,
+              controller: _textbox1,
               onChanged: exchange,
             ),
             Row(
@@ -138,13 +143,13 @@ class _ExchangeRateConverterState extends State<ExchangeRateConverter> {
               children: [
                 Text("自", style: TextStyle(fontSize: 20)),
                 Padding(
-                  padding: const EdgeInsets.all(25.0),
+                  padding: const EdgeInsets.fromLTRB(25, 10, 0, 10),
                   child: DropdownButton(
-                    items: ratelist,
-                    value: comb1Value,
+                    items: _ratelist,
+                    value: _comb1Value,
                     onChanged: (String selected) {
                       setState(() {
-                        comb1Value = selected;
+                        _comb1Value = selected;
                       });
                       exchange("");
                     },
@@ -155,9 +160,9 @@ class _ExchangeRateConverterState extends State<ExchangeRateConverter> {
             ElevatedButton(
                 onPressed: () {
                   setState(() {
-                    String temp = comb1Value;
-                    comb1Value = comb2Value;
-                    comb2Value = temp;
+                    String temp = _comb1Value;
+                    _comb1Value = _comb2Value;
+                    _comb2Value = temp;
                   });
                   exchange("");
                 },
@@ -167,13 +172,13 @@ class _ExchangeRateConverterState extends State<ExchangeRateConverter> {
               children: [
                 Text("轉換成", style: TextStyle(fontSize: 20)),
                 Padding(
-                  padding: const EdgeInsets.all(25.0),
+                  padding: const EdgeInsets.fromLTRB(25, 10, 0, 10),
                   child: DropdownButton(
-                    items: ratelist,
-                    value: comb2Value,
+                    items: _ratelist,
+                    value: _comb2Value,
                     onChanged: (String selected) {
                       setState(() {
-                        comb2Value = selected;
+                        _comb2Value = selected;
                       });
                       exchange("");
                     },
@@ -181,7 +186,12 @@ class _ExchangeRateConverterState extends State<ExchangeRateConverter> {
                 )
               ],
             ),
-            Text(changeResult, style: TextStyle(fontSize: 20))
+            Text(_originRate, style: TextStyle(fontSize: 20)),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+              child: Text("↓", style: TextStyle(fontSize: 20)),
+            ),
+            Text(_changeResult, style: TextStyle(fontSize: 20))
           ],
         ),
       ),

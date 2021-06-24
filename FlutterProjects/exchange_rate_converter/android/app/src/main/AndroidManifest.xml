@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.exchange_rate_converter">
    <application
-        android:label="exchange_rate_converter"
+        android:label="簡易匯率換算器"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

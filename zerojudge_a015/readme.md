@@ -3,7 +3,7 @@
 ## 1、題目
 請寫一程式來實現轉置矩陣。
 
-定義如下：[轉置矩陣 - 維基百科，自由的百科全書 (wikipedia.org)](https://zh.wikipedia.org/wiki/转置矩阵)](https://zh.wikipedia.org/wiki/%E8%BD%AC%E7%BD%AE%E7%9F%A9%E9%98%B5)
+定義如下：[轉置矩陣 - 維基百科，自由的百科全書](https://zh.wikipedia.org/wiki/%E8%BD%AC%E7%BD%AE%E7%9F%A9%E9%98%B5)
 
 
 

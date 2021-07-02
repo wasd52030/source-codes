@@ -31,7 +31,7 @@
 
 題目的提示「測資檔會包含多組矩陣資料」隱晦的要求「輸入有若干矩陣並轉置直到 EOF 結束」！
 
-這裡用Scanner中的 hasNext 函式來做到類似C的 while(scanf("%d %d",&a, &b)!=EOF)。
+這裡用Scanner中的 hasNext 函式來做到類似 C 的 while(scanf("%d %d",&a, &b)!=EOF)。
 
 這裡就不講廢話了，上code。
 

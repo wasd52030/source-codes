@@ -42,31 +42,22 @@
 ```c++
 //遞迴解
 
-#include <iostream>
-using namespace std;
+#include <stdio.h>
 
 int solution(int in, int r = 0)
 {
-    if (in < 10)
-    {
-        r = (r * 10) + (in % 10);
-        return r;
-    }
-    else
-    {
-        r = (r * 10) + (in % 10);
-        solution(in / 10, r);
-    }
+    if (in == 0) return r;
+    r = (r * 10) + (in % 10);
+    solution(in / 10, r);
 }
 
 int main(int argc, char const *argv[])
 {
     int x;
-    while (cin >> x)
+    while (scanf("%d", &x) != EOF)
     {
-        cout << solution(x) << "\n";
+        printf("%d\n", solution(x));
     }
-
     return 0;
 }
 ```

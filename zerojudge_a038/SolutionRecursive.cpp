@@ -9,7 +9,7 @@ int solution(int in, int r = 0)
 
 int main(int argc, char const *argv[])
 {
-    int x;
+    int x = 0;
     while (scanf("%d", &x) != EOF)
     {
         printf("%d\n", solution(x));

@@ -2,7 +2,7 @@
 
 int main(int argc, char const *argv[])
 {
-    int a, cnt = 0;
+    int a=0;
     while (scanf("%d", &a) != EOF)
     {
         int r = 0;
@@ -11,7 +11,7 @@ int main(int argc, char const *argv[])
             r = (r * 10) + (a % 10);
             a /= 10;
         }
-        printf("%d", r);
+        printf("%d\n", r);
     }
     return 0;
 }

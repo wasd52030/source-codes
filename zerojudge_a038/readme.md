@@ -41,7 +41,6 @@
 
 ```c++
 //遞迴解
-
 #include <stdio.h>
 
 int solution(int in, int r = 0)
@@ -66,13 +65,12 @@ int main(int argc, char const *argv[])
 
 ```c++
 //迴圈解
-#include <iostream>
-using namespace std;
+#include <stdio.h>
 
 int main(int argc, char const *argv[])
 {
     int a, cnt = 0;
-    while (cin>>a)
+    while ((scanf("%d", &a) != EOF))
     {
         int r = 0;
         while (a > 0)
@@ -80,9 +78,10 @@ int main(int argc, char const *argv[])
             r = (r * 10) + (a % 10);
             a /= 10;
         }
-        cout<<r<<"\n";
+        printf("%d", r);
     }
     return 0;
 }
+
 ```
 

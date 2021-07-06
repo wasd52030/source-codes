@@ -3,7 +3,7 @@
 int main(int argc, char const *argv[])
 {
     int a, cnt = 0;
-    while ((scanf("%d", &a) != EOF))
+    while (scanf("%d", &a) != EOF)
     {
         int r = 0;
         while (a > 0)

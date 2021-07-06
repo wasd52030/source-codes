@@ -37,7 +37,7 @@
 
 這裡就不講廢話了，上code。
 
-
+因著可以用預設參數，就用c++了XD ~
 
 ```c++
 //遞迴解
@@ -70,7 +70,7 @@ int main(int argc, char const *argv[])
 int main(int argc, char const *argv[])
 {
     int a, cnt = 0;
-    while ((scanf("%d", &a) != EOF))
+    while (scanf("%d", &a) != EOF)
     {
         int r = 0;
         while (a > 0)
@@ -82,6 +82,5 @@ int main(int argc, char const *argv[])
     }
     return 0;
 }
-
 ```
 

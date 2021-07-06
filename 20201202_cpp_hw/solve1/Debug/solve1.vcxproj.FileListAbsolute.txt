@@ -1,2 +1,0 @@
-C:\Users\user\Desktop\20201202_cpp_hw\solve1\Debug\solve1.vcxprojAssemblyReference.cache
-C:\Users\user\Desktop\source code\20201202_cpp_hw\solve1\Debug\solve1.vcxprojAssemblyReference.cache

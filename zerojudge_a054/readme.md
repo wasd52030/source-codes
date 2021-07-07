@@ -218,7 +218,7 @@
 
 &nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;5&nbsp;&nbsp;1&nbsp;&nbsp;3&nbsp;&nbsp;0&nbsp;&nbsp;2&nbsp;&nbsp;4&nbsp;&nbsp;5&nbsp;&nbsp;6&nbsp;&nbsp;7 <br>
 ×)1&nbsp;&nbsp;9&nbsp;&nbsp;8&nbsp;&nbsp;7&nbsp;&nbsp;6&nbsp;&nbsp;5&nbsp;&nbsp;4&nbsp;&nbsp;3&nbsp;&nbsp;2&nbsp;&nbsp;1 <br>
-&nbsp;-------------------------------------------<br>
+&nbsp;-----------------------------------<br>
   1 + 45 +  8 + 21 +  0 + 10 + 16 + 15 + 12 +  7 = 135
 
 根據上面的規則，A12345678、M12345678 和 W12345678 這三個號碼的檢查碼都是 9。因此，如果在電話上所輸入的後 9 碼是 123456789 時，它的第一位英文字母可能是 A，也可能是 M 或 W。

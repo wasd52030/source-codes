@@ -217,7 +217,7 @@
 &nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;5&nbsp;&nbsp;1&nbsp;&nbsp;3&nbsp;&nbsp;0&nbsp;&nbsp;2&nbsp;&nbsp;4&nbsp;&nbsp;5&nbsp;&nbsp;6&nbsp;&nbsp;7 <br>
 
 &nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;5&nbsp;&nbsp;1&nbsp;&nbsp;3&nbsp;&nbsp;0&nbsp;&nbsp;2&nbsp;&nbsp;4&nbsp;&nbsp;5&nbsp;&nbsp;6&nbsp;&nbsp;7 <br>
-×)1&nbsp;&nbsp;9&nbsp;&nbsp;8&nbsp;&nbsp;7&nbsp;&nbsp;6&nbsp;&nbsp;5&nbsp;&nbsp;4&nbsp;&nbsp;3&nbsp;&nbsp;×2&nbsp;&nbsp;1 <br>
+×)1&nbsp;&nbsp;9&nbsp;&nbsp;8&nbsp;&nbsp;7&nbsp;&nbsp;6&nbsp;&nbsp;5&nbsp;&nbsp;4&nbsp;&nbsp;3&nbsp;&nbsp;2&nbsp;&nbsp;1 <br>
 &nbsp;-------------------------------------------<br>
   1 + 45 +  8 + 21 +  0 + 10 + 16 + 15 + 12 +  7 = 135
 

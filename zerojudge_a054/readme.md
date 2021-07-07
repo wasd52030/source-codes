@@ -213,14 +213,41 @@
 
 假設某人的身份證號碼前 9 碼為 F13024567，那麼他的最後一位檢查碼的計算過程如下：
 
-&nbsp;&nbsp;   F      1  3  0  2  4  5  6  7 <br>
-  1   5   1  3  0  2  4  5  6  7
-
-*1   9   8  7  6  5  4  3  2  1  <- 加權值
-
-  1 + 45 +  8 + 21 +  0 + 10 + 16 + 15 + 12 +  7 = 135
-
-檢查碼 = 10 - (135 % 10) = 5
+<table align="center" cellpadding="0" cellspacing="0">
+  <tbody>
+  <tr>
+    <td height="30" colspan="11" valign="top"><p align="center">每個相對應數字乘上權數 </p></td>
+  </tr>
+  <tr>
+    <td colspan="2" valign="top"><p align="center" class="style17 style21">A </p></td>
+    <td width="50" valign="top"><p align="center" class="style22">1 </p></td>
+    <td width="50" valign="top"><p align="center" class="style22">2 </p></td>
+    <td width="50" valign="top"><p align="center" class="style22">3 </p></td>
+    <td width="50" valign="top"><p align="center" class="style22">4 </p></td>
+    <td width="50" valign="top"><p align="center" class="style22">5 </p></td>
+    <td width="51" valign="top"><p align="center" class="style22">6 </p></td>
+    <td width="50" valign="top"><p align="center" class="style22">7 </p></td>
+    <td width="50" valign="top"><p align="center" class="style22">8 </p></td>
+  </tr>
+  <tr>
+    <td width="28" valign="top"><p align="center" class="style20">1 </p></td>
+    <td width="33" valign="top"><p align="center" class="style20">0 </p></td>
+    <td width="50" valign="top"><p align="center" class="style20">x8 </p></td>
+    <td width="50" valign="top"><p align="center" class="style20">x7 </p></td>
+    <td width="50" valign="top"><p align="center" class="style20">x6 </p></td>
+    <td width="50" valign="top"><p align="center" class="style20">x5 </p></td>
+    <td width="50" valign="top"><p align="center" class="style20">x4 </p></td>
+    <td width="51" valign="top"><p align="center" class="style20">x3 </p></td>
+    <td width="50" valign="top"><p align="center" class="style20">x2 </p></td>
+    <td width="50" valign="top"><p align="center" class="style20">x1 </p></td>
+  </tr>
+  <tr>
+    <td width="28" valign="top"><p align="center" class="style12"><strong>x1 </strong></p></td>
+    <td width="33" valign="top"><p align="center" class="style12"><strong>X9 </strong></p></td>
+    <td colspan="8" valign="top"><p align="center"><span class="style12"></span></p></td>
+  </tr>
+ </tbody>
+</table>
 
 根據上面的規則，A12345678、M12345678 和 W12345678 這三個號碼的檢查碼都是 9。因此，如果在電話上所輸入的後 9 碼是 123456789 時，它的第一位英文字母可能是 A，也可能是 M 或 W。
 

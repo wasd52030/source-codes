@@ -213,9 +213,8 @@
 
 假設某人的身份證號碼前 9 碼為 F13024567，那麼他的最後一位檢查碼的計算過程如下：
 
-&nbsp;&nbsp;F&nbsp;&nbsp;1&nbsp;&nbsp;3&nbsp;&nbsp;0&nbsp;&nbsp;2&nbsp;&nbsp; 4&nbsp;&nbsp;5&nbsp;&nbsp;6&nbsp;&nbsp;7 <br>
-
-  1    5    1    3    0    2    4    5    6    7 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;F&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;3&nbsp;&nbsp;0&nbsp;&nbsp;2&nbsp;&nbsp; 4&nbsp;&nbsp;5&nbsp;&nbsp;6&nbsp;&nbsp;7 <br>
+&nbsp;&nbsp;1&nbsp;&nbsp;5&nbsp;&nbsp;1&nbsp;&nbsp;3&nbsp;&nbsp;0&nbsp;&nbsp;2&nbsp;&nbsp;4&nbsp;&nbsp;5&nbsp;&nbsp;6&nbsp;&nbsp;7 <br>
 ×)1   ×9   ×8   ×7   ×6   ×5   ×4   ×3   ×2   ×1 <br>
 &nbsp;-------------------------------------------<br>
   1 + 45 +  8 + 21 +  0 + 10 + 16 + 15 + 12 +  7 = 135

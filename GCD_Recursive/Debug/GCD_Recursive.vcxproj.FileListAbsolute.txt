@@ -1,2 +1,0 @@
-C:\Users\user\Desktop\GCD_Recursive\Debug\GCD_Recursive.exe
-C:\Users\user\Desktop\GCD_Recursive\Debug\GCD_Recursive.pdb

@@ -16,7 +16,7 @@ dice.setObjectName("dice")
 dicegrid = QGridLayout(root)
 dice.setLayout(dicegrid)
 
-#載入qss樣式檔(qt系特有的樣式檔，講人話就是qt專有的css)
+#載入qss樣式檔(qt系特有的樣式檔，講人話就是qt專用的css)
 with open('./style.qss') as mainqss:
     qss = mainqss.read()
     app.setStyleSheet(qss)

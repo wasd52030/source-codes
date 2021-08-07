@@ -1,3 +1,0 @@
-﻿  Source.cpp
-C:\Users\user\Desktop\guess_num\Source.cpp(38,12): warning C4244: '引數': 將 'time_t' 轉換為 'unsigned int'，由於類型不同，可能導致資料遺失
-  guess_num.vcxproj -> C:\Users\user\Desktop\guess_num\Debug\guess_num.exe

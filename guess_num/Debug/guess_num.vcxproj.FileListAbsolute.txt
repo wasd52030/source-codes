@@ -1,2 +1,0 @@
-C:\Users\user\Desktop\guess_num\Debug\guess_num.exe
-C:\Users\user\Desktop\guess_num\Debug\guess_num.pdb

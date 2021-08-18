@@ -56,7 +56,7 @@ int main()
 			ps[i] = a;
 		}
 
-		//排x軸
+		//先排x軸，如果x軸相同再排y軸
 		for (int i = 0; i < d; i++)
 		{
 			for (int j = 0; j < d - 1 - i; j++)
@@ -65,14 +65,7 @@ int main()
 				{
 					std::swap(ps[j], ps[j + 1]);
 				}
-			}
-		}
 
-		//排y軸
-		for (int i = 0; i < d; i++)
-		{
-			for (int j = 0; j < d - 1 - i; j++)
-			{
 				if (ps[j].x == ps[j + 1].x)
 				{
 					if (ps[j].y > ps[j + 1].y)
@@ -91,6 +84,5 @@ int main()
 
 	return 0;
 }
-
 ```
 

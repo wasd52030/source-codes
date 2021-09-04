@@ -16,7 +16,7 @@ dice.setObjectName("dice")
 dicegrid = QGridLayout(root)
 dice.setLayout(dicegrid)
 
-#載入qss樣式檔(qt系特有的樣式檔，講人話就是qt專用的css)
+# 載入qss樣式檔(qt系特有的樣式檔，講人話就是qt專用的css)
 with open('./style.qss') as mainqss:
     qss = mainqss.read()
     app.setStyleSheet(qss)
@@ -83,6 +83,6 @@ timer1.timeout.connect(rangen)
 timer1Cnt = 0
 timer1speed = 10
 
-rundice(random.randint(1,6))
+rundice(random.randint(1, 6))
 root.show()
 sys.exit(app.exec_())

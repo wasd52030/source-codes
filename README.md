@@ -5,3 +5,6 @@
 嗯，這個Repository就當雲端硬碟用好了
 
 先講一下，Visual Studio的版本為Visual Studio 2019 community
+
+
+特別聲明，關於紀錄解題的部分，上面附的code絕非唯一解，如有更好的解法，歡迎討論！

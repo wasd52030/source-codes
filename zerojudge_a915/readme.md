@@ -23,7 +23,7 @@
 
 
 
-## 2、解(C++)
+## 2、解題過程
 
 一開始在解這一題時嘗試用二維陣列去解，不過越解越煩，直到想起了還有struct這東西後就簡單許多了。
 
@@ -33,56 +33,4 @@
 
 應該還有更好更騷的解法，就留待研究了。
 
-接者，上code ~
-
-```c++
-#include <iostream>
-
-struct point
-{
-	int x, y;
-};
-
-int main()
-{
-	int d = 0;
-	point ps[1000];
-	while (scanf("%d", &d) != EOF)
-	{
-		for (int i = 0; i < d; i++)
-		{
-			point a;
-			scanf("%d %d", &a.x, &a.y);
-			ps[i] = a;
-		}
-
-		//先排x軸，如果x軸相同再排y軸
-		for (int i = 0; i < d; i++)
-		{
-			for (int j = 0; j < d - 1 - i; j++)
-			{
-				if (ps[j].x > ps[j + 1].x)
-				{
-					std::swap(ps[j], ps[j + 1]);
-				}
-
-				if (ps[j].x == ps[j + 1].x)
-				{
-					if (ps[j].y > ps[j + 1].y)
-					{
-						std::swap(ps[j], ps[j + 1]);
-					}
-				}
-			}
-		}
-
-		for (int i = 0; i < d; i++)
-		{
-			printf("%d %d\n", ps[i].x, ps[i].y);
-		}
-	}
-
-	return 0;
-}
-```
-
+這題的code我寫了兩種語言的版本，且兩種語言使用的排序演算法不一樣，分別是C++(使用氣泡排序法)、golang(使用選擇排序法)，詳細的code會在該語言的資料夾裡面。

@@ -13,7 +13,6 @@ def matrix_init(k):
             A.append(c)
         else:
             return A
-            break
 
 def matrix_mult(a,b):
     mlen=[len(a),len(a[0]),len(b),len(b[0])]
@@ -41,6 +40,4 @@ B=matrix_init(b)
 final=matrix_mult(A,B)
 
 for i in range(len(final)):
-    for j in range(len(final[0])):
-        print(f'{final[i][j]} ',end='')
-    print()
+    print(*final[i])

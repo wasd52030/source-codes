@@ -18,7 +18,7 @@ else:
 for index, item in enumerate(p.videos):
     item.streams.filter(only_audio=True).first().download()
     mp4name = item.streams.filter(only_audio=True).first().default_filename
-    mp3name = f"{item.streams.filter(only_audio=True).first().default_filename[:-4]}.mp3"
+    mp3name = f"{mp4name[:-4]}.mp3"
 
     #調ffmpeg來把下載下來的mp4轉成mp3
     subprocess.run([

@@ -1,3 +1,5 @@
+#請把ffmpeg.exe放進跟程式檔同一目錄下
+
 from pytube import Playlist
 import os
 import subprocess

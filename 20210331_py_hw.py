@@ -1,6 +1,7 @@
 from tkinter import *
 import tkinter.font
 import tkinter.messagebox
+import sys
 
 root=Tk()
 #root.resizable(0,0)

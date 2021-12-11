@@ -117,7 +117,7 @@ public class WhackMole
             }
         }
         labels[2].setText(String.format("共%d隻地鼠", nums));
-        mainWindow.setSize(450, 360);
+        mainWindow.setSize(450, 400);
     }
 
     public static void main(String[] args) 

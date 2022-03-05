@@ -4,15 +4,15 @@ from pytube import Playlist
 import os
 import subprocess
 from concurrent.futures import ThreadPoolExecutor
-
+import traceback
 
 def download(item):
     global cnt, length
 
     try:
         item.streams.filter(only_audio=True).first().download()
-        mp4name = item.streams.filter(only_audio=True).first().default_filename
-        mp3name = f"{mp4name[:-4]}.mp3"
+        video = item.streams.filter(only_audio=True).first().default_filename
+        #mp3name = f"{video[:-4]}.mp3"
 
         # 調ffmpeg來把下載下來的mp4轉成mp3
         subprocess.run([
@@ -21,17 +21,17 @@ def download(item):
                 "ffmpeg.exe"
             ),
             "-i",
-            os.path.join(os.getcwd(), mp4name),
-            os.path.join(os.getcwd(), mp3name)
+            os.path.join(os.getcwd(), video),
+            os.path.join(os.getcwd(), str(video).replace("mp4","mp3"))
         ], capture_output=True)
 
-        os.remove(os.path.join(os.getcwd(), mp4name))  # 刪掉原本的mp4
-        print(f"{mp3name}\ndownload success！")
+        os.remove(os.path.join(os.getcwd(), video))  # 刪掉原本的mp4
+        print(f"{str(video).replace('mp4','mp3')}\ndownload success！")
 
         cnt+=1
         print(f"{cnt}/{length}\n")
     except:
-        print("ERROR！")
+        print(traceback.format_exc())
 
 
 if __name__ == "__main__":

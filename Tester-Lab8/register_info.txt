@@ -1,14 +1,14 @@
 My register info:
 Bill
 192
-172
+148
 152
 188
 251
-132
+230
 117
 283
 241
 296
-247
-Total Revenue:2271
+333
+Total Revenue:2431

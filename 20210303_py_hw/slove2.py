@@ -16,7 +16,7 @@ for i in range(1, int(in_data[0])+2):
         n=j
     for k in range(1, 2*i+1):
         f = not f
-        if f == True:
+        if f:
             Label(root, text=d[cnt]).grid(row=i, column=k+n)
             cnt += 1
 

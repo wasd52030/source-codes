@@ -39,14 +39,14 @@ if __name__ == "__main__":
     cnt = 0
     length = p.length
 
-    if not os.path.exists(f"./{p.title}"):
-        os.mkdir(f"./{p.title}")
-        os.chdir(f"./{p.title}")
+    if not os.path.exists(f"./YT-{p.title}"):
+        os.mkdir(f"./YT-{p.title}")
+        os.chdir(f"./YT-{p.title}")
         print("floder created！")
     else:
         print("floder created！")
-        os.chdir(f"./{p.title}")
+        os.chdir(f"./YT-{p.title}")
 
     # max_workers請斟酌設定
-    with ThreadPoolExecutor(max_workers=8) as executer:
+    with ThreadPoolExecutor(max_workers=10) as executer:
         executer.map(download, p.videos)

@@ -20,8 +20,8 @@ class Downloader:
         """
         :param videos_dir: 下载到哪个目录，默认当前目录下的为videos中，如果路径不存在将自动创建
         :param sess_data: 有条件的用户填写大会员凭证，填写后可下载大会员资源
-        :param video_concurrency: 限制最大同时下载的视频数量
-        :param part_concurrency: 每个媒体的分段并发数
+        :param video_concurrency: 限制最大同时下载的影片数量
+        :param part_concurrency: 每个媒体的分段並發数
         """
         self.videos_dir = videos_dir
         if not os.path.exists(self.videos_dir):
@@ -63,12 +63,12 @@ class Downloader:
 
     async def get_favour(self, fid, num=20, keyword='', quality=0, series=True):
         """
-        下载收藏夹内的视频
+        下载收藏夹内的影片
         :param fid: 收藏夹id
         :param num: 下载数量
         :param keyword: 搜索关键词
         :param quality:
-        :param series: 每个视频是否下载所有p，False时仅下载系列中的第一个视频
+        :param series: 每个影片是否下载所有p，False时仅下载系列中的第一个影片
         :return:
         """
         ps = 20
@@ -91,13 +91,13 @@ class Downloader:
 
     async def get_favor_by_page(self, fid, pn=1, num=20, keyword='', quality=0, series=True):
         """
-        下载收藏夹某一页的视频
+        下载收藏夹某一页的影片
         :param fid: 收藏夹id
         :param pn: 页号
         :param num: 下载数量
         :param keyword: 搜索关键词
         :param quality:
-        :param series: 每个视频是否下载所有p，False时仅下载系列中的第一个视频
+        :param series: 每个影片是否下载所有p，False时仅下载系列中的第一个影片
         :return:
         """
         ps = 20
@@ -110,8 +110,8 @@ class Downloader:
         cors = []
         for i in info['data']['medias'][:num]:
             bvid = i['bvid']
-            if i['title'] == '已失效视频':
-                rprint(f'[red]已失效视频 https://www.bilibili.com/video/{bvid}')
+            if i['title'] == '影片已失效':
+                rprint(f'[red]影片已失效 https://www.bilibili.com/video/{bvid}')
             else:
                 cors.append(self.get_series(f'https://www.bilibili.com/video/{bvid}', quality) if series else
                             self.get_video(f'https://www.bilibili.com/video/{bvid}', quality))
@@ -119,23 +119,23 @@ class Downloader:
 
     async def get_cate_videos(self, cate_name: str, num=10, order='click', keyword='', days=7, quality=0, series=True):
         """
-        下载分区视频
-        :param cate_name: 分区名称
+        下载分區影片
+        :param cate_name: 分區名称
         :param num: 下载数量
         :param order: 何种排序，click播放数，scores评论数，stow收藏数，coin硬币数，dm弹幕数
         :param keyword: 搜索关键词
         :param days: 过去days天中的结果
         :param quality: 画面质量
-        :param series: 每个视频是否下载所有p，False时仅下载系列中的第一个视频
+        :param series: 每个影片是否下载所有p，False时仅下载系列中的第一个影片
         :return:
         """
         await self._load_cate_info()
         if cate_name not in self.cate_info:
-            print(f'未找到分区 {cate_name}')
+            print(f'未找到分區 {cate_name}')
             return
         if 'subChannelId' not in self.cate_info[cate_name]:
             sub_names = [i['name'] for i in self.cate_info[cate_name]['sub']]
-            print(f'{cate_name} 是主分区，仅支持子分区，试试 {sub_names}')
+            print(f'{cate_name} 是主分區，仅支持子分區，試試 {sub_names}')
             return
         cate_id = self.cate_info[cate_name]['tid']
         time_to = datetime.now()
@@ -170,8 +170,8 @@ class Downloader:
         :param total: 下载总数
         :param order: 何种排序，b站支持：最新发布pubdate，最多播放click，最多收藏stow
         :param keyword: 过滤关键词
-        :param quality: 下载视频画面的质量，默认0为可下载的最高画质，数字越大质量越低，数值超过范围时默认选取最低画质
-        :param series: 每个视频是否下载所有p，False时仅下载系列中的第一个视频
+        :param quality: 下载影片画面的质量，默认0为可下载的最高画质，数字越大质量越低，数值超过范围时默认选取最低画质
+        :param series: 每个影片是否下载所有p，False时仅下载系列中的第一个影片
         :return:
         """
         ps = 30
@@ -199,8 +199,8 @@ class Downloader:
         :param num: 下载数量
         :param order: 何种排序，b站支持：最新发布pubdate，最多播放click，最多收藏stow
         :param keyword: 过滤关键词
-        :param quality: 下载视频画面的质量，默认0为可下载的最高画质，数字越大质量越低，数值超过范围时默认选取最低画质
-        :param series: 每个视频是否下载所有p，False时仅下载系列中的第一个视频
+        :param quality: 下载影片画面的质量，默认0为可下载的最高画质，数字越大质量越低，数值超过范围时默认选取最低画质
+        :param series: 每个影片是否下载所有p，False时仅下载系列中的第一个影片
         :return:
         """
         ps = 30
@@ -219,9 +219,9 @@ class Downloader:
 
     async def get_series(self, url: str, quality: int = 0):
         """
-        下载某个系列（包括up发布的多p投稿，动画，电视剧，电影等）的所有视频。只有一个视频的情况下仍然可用该方法
-        :param url: 系列中任意一个视频的url
-        :param quality: 下载视频画面的质量，默认0为可下载的最高画质，数字越大质量越低，数值超过范围时默认选取最低画质
+        下载某个系列（包括up发布的多p投稿，动画，电视剧，电影等）的所有影片。只有一个影片的情况下仍然可用该方法
+        :param url: 系列中任意一个影片的url
+        :param quality: 下载影片画面的质量，默认0为可下载的最高画质，数字越大质量越低，数值超过范围时默认选取最低画质
         :return:
         """
         url = url.split('?')[0]
@@ -231,7 +231,7 @@ class Downloader:
         initial_state = json.loads(initial_state)
         video_urls = []
         add_names = []
-        if 'videoData' in initial_state:  # bv视频
+        if 'videoData' in initial_state:  # bv影片
             for idx, i in enumerate(initial_state['videoData']['pages']):
                 video_urls.append(f"{url}?p={idx + 1}")
                 add_names.append(i['part'] if len(
@@ -241,7 +241,7 @@ class Downloader:
                 video_urls.append(i['link'])
                 add_names.append(i['title'])
         else:
-            rprint(f'[red]未知类型 {url}')
+            rprint(f'[red]未知類型 {url}')
             return
         await asyncio.gather(
             *[self.get_video(url, quality, add_name) for url, add_name in zip(video_urls, add_names)]
@@ -249,9 +249,9 @@ class Downloader:
 
     async def get_video(self, url, quality: int = 0, add_name='', ):
         """
-        下载单个视频
-        :param url: 视频的url
-        :param quality: 下载视频画面的质量，默认0为可下载的最高画质，数字越大质量越低，数值超过范围时默认选取最低画质
+        下载单个影片
+        :param url: 影片的url
+        :param quality: 下载影片画面的质量，默认0为可下载的最高画质，数字越大质量越低，数值超过范围时默认选取最低画质
         :param add_name: 给文件的额外添加名，用户请直接保持默认
         :return:
         """
@@ -264,7 +264,7 @@ class Downloader:
             else:
                 break
         else:
-            rprint(f'[red]超过重复次数 {url}')
+            rprint(f'[red]超過重複次數 {url}')
             return
         title = r'{}'.format(
                 html.unescape(
@@ -279,7 +279,7 @@ class Downloader:
         # replace windows illegal character in title
         title = re.sub(r"[/\\:*?\"<>|]", '', title)
         if os.path.exists(f'{self.videos_dir}/{title}.mp4'):
-            rprint(f'[green]{title}.mp4 已经存在')
+            rprint(f'[green]{title}.mp4 已經存在')
             self.sema.release()
             return
         # find video and audio url
@@ -298,8 +298,8 @@ class Downloader:
             audio_urls = (
                 audio_info['base_url'], *(audio_info['backup_url'] if audio_info['backup_url'] else ()))
         except (KeyError, AttributeError):  # KeyError-电影，AttributeError-动画
-            # todo https://www.bilibili.com/video/BV1Jx411r776?p=3 未处理，老视频mp4
-            rprint(f'[rgb(234,122,153)]{title} 需要大会员，或该地区不支持')
+            # todo https://www.bilibili.com/video/BV1Jx411r776?p=3 未处理，老影片mp4
+            rprint(f'[rgb(234,122,153)]{title} 需要大會員，或該地區不支持')
             self.sema.release()
             return
         task_id = self.progress.add_task(total=1,
@@ -364,7 +364,7 @@ class Downloader:
         except httpx.RemoteProtocolError:
             await self._get_media_part(media_urls, (start, end), part_name, task_id, exception=True)
         except httpx.ReadTimeout as e:
-            rprint(f'[red]异常：{e.__class__}，该异常可能由于并发数过大导致，如果异常重复出现请考虑降低并发数')
+            rprint(f'[red]異常：{e.__class__}，该異常可能由於並發數過大導致，如果異常重复出現請考慮降低並發數')
             await self._get_media_part(media_urls, (start, end), part_name, task_id, exception=True)
 
 

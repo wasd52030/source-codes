@@ -6,6 +6,7 @@ import subprocess
 from concurrent.futures import ThreadPoolExecutor
 import traceback
 
+
 def download(item):
     global cnt, length
 
@@ -22,19 +23,20 @@ def download(item):
             ),
             "-i",
             os.path.join(os.getcwd(), video),
-            os.path.join(os.getcwd(), str(video).replace("mp4","mp3"))
+            os.path.join(os.getcwd(), str(video).replace("mp4", "mp3"))
         ], capture_output=True)
 
         os.remove(os.path.join(os.getcwd(), video))  # 刪掉原本的mp4
         print(f"{str(video).replace('mp4','mp3')}\ndownload success！")
 
-        cnt+=1
+        cnt += 1
         print(f"{cnt}/{length}\n")
     except:
         print(traceback.format_exc())
 
 
 if __name__ == "__main__":
+    # https://www.youtube.com/playlist?list=PLdx_s59BrvfXJXyoU5BHpUkZGmZL0g3Ip
     p = Playlist(url=input("pls enter youtube playlist link："))
     cnt = 0
     length = p.length

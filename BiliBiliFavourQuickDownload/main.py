@@ -1,6 +1,5 @@
 # 請把ffmpeg.exe放進跟程式檔同一目錄下
 
-from glob import glob
 from urllib.parse import parse_qs, urlparse
 import traceback
 import html

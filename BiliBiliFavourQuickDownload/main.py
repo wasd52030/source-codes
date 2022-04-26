@@ -1,5 +1,6 @@
 # 請把ffmpeg.exe放進跟程式檔同一目錄下
 
+from glob import glob
 from urllib.parse import parse_qs, urlparse
 import traceback
 import html
@@ -9,6 +10,7 @@ import os
 import subprocess
 from concurrent.futures import ThreadPoolExecutor
 from Downloader import Downloader
+from funcTimer import FuncTimer
 
 
 async def download(id, num):
@@ -18,7 +20,7 @@ async def download(id, num):
 
 
 def ToMp3(video):
-    global len, cnt
+    global length, cnt
 
     try:
         subprocess.run([
@@ -37,12 +39,15 @@ def ToMp3(video):
         os.remove(os.path.join(os.getcwd(), video))  # 刪掉原本的mp4
 
         cnt += 1
-        print(f"{html.unescape(video)} 轉換完成，目前進度: {cnt}/{len}")
+        print(f"{html.unescape(video)} 轉換完成，目前進度: {cnt}/{length}")
     except:
         print(traceback.format_exc())
 
 
-if __name__ == "__main__":
+@FuncTimer
+def main():
+    global cnt, length
+
     url = urlparse(
         'https://space.bilibili.com/15007690/favlist?fid=171091690&ftype=create'
     )
@@ -64,7 +69,12 @@ if __name__ == "__main__":
     print("mp4下載完成，將轉成mp3")
 
     mp4s = os.listdir('./')
-    cnt, len = 0, len(mp4s)
+    cnt, length = 0, len(mp4s)
     with ThreadPoolExecutor(max_workers=20) as executer:
         executer.map(ToMp3, mp4s)
     print("全部mp3轉換完成")
+
+
+if __name__ == "__main__":
+    cnt, length = 0, 0
+    main()

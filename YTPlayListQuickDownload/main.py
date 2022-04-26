@@ -5,6 +5,7 @@ import os
 import subprocess
 from concurrent.futures import ThreadPoolExecutor
 import traceback
+from funcTimer import FuncTimer
 
 
 def download(item):
@@ -13,6 +14,7 @@ def download(item):
     try:
         item.streams.filter(only_audio=True).first().download()
         video = item.streams.filter(only_audio=True).first().default_filename
+        print(f'{video}下載完成，即將轉換成Mp3')
         #mp3name = f"{video[:-4]}.mp3"
 
         # 調ffmpeg來把下載下來的mp4轉成mp3
@@ -35,10 +37,12 @@ def download(item):
         print(traceback.format_exc())
 
 
-if __name__ == "__main__":
+@FuncTimer
+def main():
+    global length
+
     # https://www.youtube.com/playlist?list=PLdx_s59BrvfXJXyoU5BHpUkZGmZL0g3Ip
     p = Playlist(url=input("pls enter youtube playlist link："))
-    cnt = 0
     length = p.length
 
     if not os.path.exists(f"./YT-{p.title}"):
@@ -52,3 +56,8 @@ if __name__ == "__main__":
     # max_workers請斟酌設定
     with ThreadPoolExecutor(max_workers=10) as executer:
         executer.map(download, p.videos)
+
+
+if __name__ == "__main__":
+    cnt, length = 0, 0
+    main()

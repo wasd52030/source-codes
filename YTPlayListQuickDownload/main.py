@@ -29,7 +29,7 @@ def download(item):
         ], capture_output=True)
 
         os.remove(os.path.join(os.getcwd(), video))  # 刪掉原本的mp4
-        print(f"{str(video).replace('mp4','mp3')}\ndownload success！")
+        print(f"{str(video).replace('mp4','mp3')}\n轉換完成！")
 
         cnt += 1
         print(f"{cnt}/{length}\n")

@@ -37,16 +37,26 @@ func main() {
 	rand.Seed(time.Now().Unix())
 	var u []int
 	var v []float32
+	var k []float64
 	for i := 0; i < 10; i++ {
-		u = append(u, rand.Intn(100))
+		u = append(u, rand.Intn(100)+1)
 	}
 	for i := 0; i < 10; i++ {
-		v = append(v, rand.Float32()*100)
+		v = append(v, rand.Float32()*100+1)
+	}
+	for i := 0; i < 10; i++ {
+		k = append(k, rand.Float64()*100+1)
 	}
 
+	fmt.Println("array u")
 	fmt.Printf("before sort: %+v\n", u)
-	fmt.Printf("after sort: %+v\n", quickSort(u))
+	fmt.Printf("after sort: %+v\n\n", quickSort(u))
 
-	fmt.Printf("before sort: %+v\n", v)
-	fmt.Printf("after sort: %+v\n", quickSort(v))
+	fmt.Println("array v")
+	fmt.Printf("before sort: %.3f\n", v)
+	fmt.Printf("after sort: %.3f\n\n", quickSort(v))
+
+	fmt.Println("array k")
+	fmt.Printf("before sort: %.3f\n", k)
+	fmt.Printf("after sort: %.3f\n\n", quickSort(k))
 }

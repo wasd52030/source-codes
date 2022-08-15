@@ -137,7 +137,7 @@ class Downloader:
         :param subtitle: 是否下载字幕
         :param dm: 是否下载弹幕
         :param only_audio: 是否仅下载音频
-        
+        :param hierarchy:是否放入與下載資源同名資料夾內
         :return:
         """
         fav_name, up_name, total_size, bvids = await api.get_favour_page_info(fid, keyword=keyword, client=self.client)

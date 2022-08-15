@@ -2,7 +2,7 @@ import time
 from datetime import timedelta
 
 
-def FuncTimer(func):
+def FuncTimer(func: callable) -> callable:
     def wrap():
         t1 = time.time()
         func()

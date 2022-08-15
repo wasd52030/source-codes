@@ -1,6 +1,6 @@
 # 請把ffmpeg.exe放進跟程式檔同一目錄下
 
-from pytube import Playlist
+from pytube import Playlist, YouTube
 import os
 import subprocess
 from concurrent.futures import ThreadPoolExecutor
@@ -8,7 +8,7 @@ import traceback
 from funcTimer import FuncTimer
 
 
-def download(item):
+def download(item: YouTube) -> None:
     global cnt, length
 
     try:
@@ -38,7 +38,7 @@ def download(item):
 
 
 @FuncTimer
-def main():
+def main() -> None:
     global length
 
     # https://www.youtube.com/playlist?list=PLdx_s59BrvfXJXyoU5BHpUkZGmZL0g3Ip

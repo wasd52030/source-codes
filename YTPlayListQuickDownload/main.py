@@ -1,4 +1,4 @@
-# 請把ffmpeg.exe放進跟程式檔同一目錄下
+#請確認已將ffmpeg下載到電腦中並設定環境變數！
 
 from pytube import Playlist, YouTube
 import os
@@ -19,10 +19,7 @@ def download(item: YouTube) -> None:
 
         # 調ffmpeg來把下載下來的mp4轉成mp3
         subprocess.run([
-            os.path.join(
-                os.path.abspath(os.path.join(os.getcwd(), os.path.pardir)),
-                "ffmpeg.exe"
-            ),
+            "ffmpeg.exe",
             "-i",
             os.path.join(os.getcwd(), video),
             os.path.join(os.getcwd(), str(video).replace("mp4", "mp3"))

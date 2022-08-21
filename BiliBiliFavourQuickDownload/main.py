@@ -1,4 +1,4 @@
-# 請把ffmpeg.exe放進跟程式檔同一目錄下
+#請確認已將ffmpeg下載到電腦中並設定環境變數！
 
 from urllib.parse import parse_qs, urlparse
 import asyncio

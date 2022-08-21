@@ -13,7 +13,7 @@ function QuickSort {
     }
 
     $key = $arr[0]
-    $left = @()
+    $left = @()  # powershell空陣列 -> @()
     $right = @()
     $res = @()
 

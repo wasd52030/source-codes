@@ -5,7 +5,7 @@
 
 function QuickSort {
     param (
-        [Int64[]]$arr
+        [array]$arr
     )
 
     if ($arr.Length -lt 2) {
@@ -13,32 +13,39 @@ function QuickSort {
     }
 
     $key = $arr[0]
-    $left = @()  # powershell空陣列 -> @()
-    $right = @()
-    $res = @()
+    $arr = $arr[1..$arr.Length]
+    $left = $arr | Where-Object { $_ -lt $key } # Where-Object -> 類似其他語言的filter
+    $right = $arr | Where-Object { $_ -gt $key } 
 
-    for ($i = 1; $i -lt $arr.Length; $i++) {
-        if ($arr[$i] -le $key) {
-            $left += $arr[$i]
-        }
-        else {
-            $right += $arr[$i]
-        }
-    }
-
-    $res += QuickSort($left)
-    $res += $key
-    $res += QuickSort($right)
-
-    return $res
+    return @(QuickSort($left)) + @($key) + @(QuickSort($right)) | Where-Object { $_ -ne $null }
 }
 
-Write-Host "Before Sort"
-$a = 1..1000 | Sort-Object { Get-Random }
-foreach ($i in $a) { Write-Host "$i " -NoNewline } # Write-Host 預設換行，不換行需加 -NoNewline argument
 
-Write-Host "`n" # powershell的escape char以「`」開頭
+function ArrayPrint {
+    param (
+        [array]$arr
+    )
 
-Write-Host "After Sort"
-$b=QuickSort($a)
-foreach ($i in $b) { Write-Host "$i " -NoNewline }
+    for ($i = 0; $i -lt $arr.Length; $i++) {
+        if ($i -ne $arr.Length - 1) {
+            Write-Host ("{0} " -f $arr[$i]) -NoNewline # Write-Host 預設換行，不換行需加 -NoNewline argument
+        }
+        else {
+            Write-Host ("{0}" -f $arr[$i])
+        }
+    }
+}
+
+
+function main {
+    Write-Host "Before Sort"
+    $a = 1..100 | Sort-Object { Get-Random }
+    ArrayPrint($a)
+
+    Write-Host "After Sort"
+    $b = QuickSort($a)
+    ArrayPrint($b)
+}
+
+main
+

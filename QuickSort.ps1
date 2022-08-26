@@ -1,6 +1,6 @@
 # 暑假在大雅ㄉ科技廠輪班，最近工作少到已經閒到開始研究powershell scriptㄌ
 # 上班時突然冒出用powershell寫QuickSort這個餿主意，於是下班就試著寫看看
-# 沒想到還真的能成功，酷欸
+# 沒想到真的能寫得出來，酷欸
 # 不知道bash能不能那麼猛
 
 function QuickSort([array]$arr) {

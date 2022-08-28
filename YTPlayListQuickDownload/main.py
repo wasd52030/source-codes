@@ -1,21 +1,19 @@
-#請確認已將ffmpeg下載到電腦中並設定環境變數！
+# 請確認已將ffmpeg下載到電腦中並設定環境變數！
 
-from pytube import Playlist, YouTube
 import os
 import subprocess
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import traceback
-from funcTimer import FuncTimer
+
+from pytube import Playlist, YouTube
+from tqdm import tqdm
 
 
 def download(item: YouTube) -> None:
-    global cnt, length
 
     try:
         item.streams.filter(only_audio=True).first().download()
         video = item.streams.filter(only_audio=True).first().default_filename
-        print(f'{video}下載完成，即將轉換成Mp3')
-        #mp3name = f"{video[:-4]}.mp3"
 
         # 調ffmpeg來把下載下來的mp4轉成mp3
         subprocess.run([
@@ -26,21 +24,14 @@ def download(item: YouTube) -> None:
         ], capture_output=True)
 
         os.remove(os.path.join(os.getcwd(), video))  # 刪掉原本的mp4
-        print(f"{str(video).replace('mp4','mp3')}\n轉換完成！")
-
-        cnt += 1
-        print(f"{cnt}/{length}\n")
     except:
         print(traceback.format_exc())
 
 
-@FuncTimer
 def main() -> None:
-    global length
 
-    # https://www.youtube.com/playlist?list=PLdx_s59BrvfXJXyoU5BHpUkZGmZL0g3Ip
-    p = Playlist(url=input("pls enter youtube playlist link："))
-    length = p.length
+    PlayListUrl = 'https://www.youtube.com/playlist?list=PLdx_s59BrvfXJXyoU5BHpUkZGmZL0g3Ip'
+    p = Playlist(url=PlayListUrl)
 
     if not os.path.exists(f"./YT-{p.title}"):
         os.mkdir(f"./YT-{p.title}")
@@ -50,11 +41,12 @@ def main() -> None:
         print("floder created！")
         os.chdir(f"./YT-{p.title}")
 
-    # max_workers請斟酌設定
-    with ThreadPoolExecutor(max_workers=10) as executer:
-        executer.map(download, p.videos)
+    progressBar = tqdm(total=p.length, desc='下載進度')  # 進度條
+    with ThreadPoolExecutor(max_workers=20) as executer:
+        futures = [executer.submit(download, video) for video in p.videos]
+        for _ in as_completed(futures):
+            progressBar.update(n=1)
 
 
 if __name__ == "__main__":
-    cnt, length = 0, 0
     main()

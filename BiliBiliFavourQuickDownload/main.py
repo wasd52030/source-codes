@@ -10,7 +10,7 @@ from funcTimer import FuncTimer
 
 async def download(id, num):
     d = Downloader(videos_dir=os.curdir, video_concurrency=5)
-    await d.get_favour(fid=id, quality=100, num=num, keyword='', series=False, only_audio=True, hierarchy=False)
+    await d.get_favour(fid=id, quality=100, num=num, keyword='', series=True, only_audio=True, hierarchy=False)
     await d.aclose()
 
 

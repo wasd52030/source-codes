@@ -6,6 +6,7 @@ func merge[T Number](left []T, right []T) (res []T) {
 	i, j := 0, 0 // i->left point;j->right point
 
 	for i < len(left) && j < len(right) {
+		//左右兩陣列依序取出元素進行比較，較小的推入result
 		if left[i] < right[j] {
 			res = append(res, left[i])
 			i++

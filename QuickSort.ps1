@@ -29,23 +29,13 @@ function ArrayPrint ([array]$arr) {
 }
 
 
-function getRandomArray($min, $max, $len) {
-    $res = @()
-    for ($i = 0; $i -lt $len; $i++) {
-        $res += @(Get-Random -Minimum $min -Maximum $max)
-    }
-    return $res
-}
-
-
 function main {
     Write-Host "Before Sort"
-    # Powershell函數多參數的坑: https://blog.darkthread.net/blog/ps-func-param-syntax/
-    $a = getRandomArray 0 1000 1000
+    $a = 1..100 | Sort-Object { Get-Random }
     ArrayPrint($a)
 
     Write-Host "After Sort"
-    ArrayPrint(QuickSort $a)
+    ArrayPrint(QuickSort($a))
 }
 
 main

@@ -7,10 +7,10 @@ function main {
     $a = Get-ChildItem -Directory | Where-Object { $_.BaseName -as [int] }
     for ($i = 0; $i -lt $a.Count; $i++) {
         if ($i -lt 10) {
-            zip.exe "./Compressed_for_HW/hw0$($i+1).zip" "$($a[$i].BaseName)/*"
+            Compress-Archive -Path "$($a[$i].BaseName)/*" -Force "./Compressed_for_HW/hw0$($i+1).zip"
         }
         else {
-            zip.exe "./Compressed_for_HW/hw$($i+1).zip" "$($a[$i].BaseName)/*"
+            Compress-Archive -Path "$($a[$i].BaseName)/*" -Force "./Compressed_for_HW/hw$($i+1).zip" 
         }
     }
 

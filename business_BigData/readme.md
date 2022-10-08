@@ -4,5 +4,5 @@
 
 這堂課又双叒叕在教pandas跟matplotlib......大一下的時候就有稍微提過了R，大二的程設三整學期都在講R......，幸好只有前面這兩個禮拜做個複習而已，再上pandas跟matplotlib下去真的不知道該說啥了......
 
-作業老師要求上傳到學校的教學平台`elearning.nkust.edu.tw`，且「建議」將該週作業的所有檔案包成一個壓縮檔，並命名成`hwxx`(xx表第幾次作業)，這時候突然懶性大發，剛好發現從powershell可以呼叫windows內建的壓縮程式，於是便花了些時間寫了一個將所有作業資料夾分別壓縮成對應的壓縮檔的powershell script了，詳情請看`autozip.ps1`
+作業老師要求上傳到學校的教學平台`elearning.nkust.edu.tw`，且「建議」將該週作業的所有檔案包成一個壓縮檔，並命名成`hwxx`(xx表第幾次作業)，這時候突然懶性大發，剛好發現從powershell從第五版之後已經內建了壓縮指令`Compress-Archive`，於是便花了些時間寫了一個將所有作業資料夾分別壓縮成對應的壓縮檔的powershell script了，詳情請看`autozip.ps1`
 

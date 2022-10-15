@@ -1,6 +1,6 @@
-# Windows Chocolate設定預設App安裝路徑
+# Windows Chocolatey設定預設App安裝路徑
 
-Chocolate，一種在Windows上面近似於Debian系的apt的套件管理工具，簡單來說就是可以用指令一次安裝很多軟體這樣
+Chocolatey，一種在Windows上面近似於Debian系的apt的套件管理工具，簡單來說就是可以用指令一次安裝很多軟體這樣
 
 請參考：https://ithelp.ithome.com.tw/articles/10242201
 

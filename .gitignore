@@ -1,3 +1,4 @@
+.gitignore
 .vs
 .idea
 node_modules

@@ -1,15 +1,62 @@
 import os
 import shutil
 import calendar
+import statistics
+from decimal import Decimal, ROUND_HALF_UP
 import pandas
+import numpy
 import seaborn
 from matplotlib import pyplot
-from sklearn.preprocessing import RobustScaler,StandardScaler
-from sklearn.preprocessing import MinMaxScaler,MaxAbsScaler
+from sklearn.preprocessing import RobustScaler, StandardScaler
+from sklearn.preprocessing import MinMaxScaler, MaxAbsScaler
 from sklearn.preprocessing import LabelEncoder
 from sklearn import tree
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import roc_curve, auc
+
+
+def manageFolder(name: str):
+    if not os.path.exists(f'./{name}'):
+        os.mkdir(f'./{name}')
+    else:
+        shutil.rmtree(f'./{name}')  # 等效於 rm -rf ./name
+        os.mkdir(f'./{name}')
+
+
+def pieCharFormatter(pct: float, value: float):
+    absolute = int(numpy.round(pct/100.*numpy.sum(value)))
+    return "{:.1f}%\n({:d})".format(pct, absolute)
+
+
+def describe(sample: pandas.Series):
+    # 平均數,中位數,眾數,全距,四分位距(IQR),四分位差(QD),平均絕對離差(MAD),
+    # 樣本變異數(s^2),樣本標準差(s),P20,P25(Q1),P50(Q2),P75(Q3),P80,變異係數(CV)
+    Descirbes = {
+        "平均數": statistics.mean(sample),
+        "中位數": statistics.median(sample),
+        "眾數": statistics.mode(sample),
+        "全距": sample.max()-sample.min(),
+        "四分位距": sample.quantile(.75)-sample.quantile(.25),
+        "四分位差": (sample.quantile(.75)-sample.quantile(.25))/2,
+        "平均絕對離差": sample.mad(),
+        "變異數": statistics.variance(sample),
+        "標準差": statistics.stdev(sample),
+        "變異係數": statistics.stdev(sample)/statistics.mean(sample),
+        "P20": sample.quantile(.2),
+        "P25(Q1)": sample.quantile(.25),
+        "P50(Q2)": sample.quantile(.5),
+        "P75(Q3)": sample.quantile(.75),
+        "P85": sample.quantile(.85),
+        # 皮爾生偏態係數(SKP)
+        "偏態係數": (3*(statistics.mean(sample)-statistics.median(sample))) / statistics.stdev(sample),
+        # 峰度係數(ck)
+        "峰度係數": sample.kurt(),
+    }
+
+    return {
+        k: Decimal(v).quantize(Decimal(".00"), ROUND_HALF_UP)
+        for k, v in Descirbes.items()
+    }  # 針對value做四捨五入到小數點第二位
 
 
 # 新增3個欄位
@@ -19,7 +66,7 @@ from sklearn.metrics import roc_curve, auc
 # 收益 (銷售收入 - 銷售成本)。
 def salesData():
     global data_ok
-    
+
     costs = [row['單位成本']*row['銷售數量'] for _, row in data_ok.iterrows()]
     proceeds = [row['單位售價']*row['銷售數量'] for _, row in data_ok.iterrows()]
     benfit = [proceeds[i]-costs[i] for i in range(len(costs))]
@@ -28,9 +75,9 @@ def salesData():
     data_ok['銷售收入'] = proceeds
     data_ok['收益'] = benfit
 
-    data_ok.to_csv("./Online_Sales.csv", index=False, encoding="utf8")
+    data_ok.to_csv("./tables/Online_Sales.csv", index=False, encoding="utf8")
 
-    print("銷售成本、銷售收入、收益已計算完成，隨同原本的資料一起存成 ./Online_Sales.csv！")
+    print("銷售成本、銷售收入、收益已計算完成，隨同原本的資料一起存成 ./tables/Online_Sales.csv！")
 
 
 # 分析商品種類的分佈、特徵、及資料變異等視覺化分析。
@@ -48,6 +95,17 @@ def hist_commodityType():
     pyplot.savefig("./plots/hist_commodity-type")
     pyplot.cla()
     print("商品種類長條圖已存於./plots/hist_commodity-type.png！")
+
+    for i in commodity_types:
+        result = pandas.DataFrame(
+            {
+                "銷售成本": describe(data_ok["銷售成本"][(data_ok["商品種類"] == i)]),
+                "銷售收入": describe(data_ok["銷售收入"][(data_ok["商品種類"] == i)]),
+                "收益": describe(data_ok["收益"][(data_ok["商品種類"] == i)])
+            }
+        )
+        result.to_csv(f"./tables/describe_{i}.csv")
+        print(f"./tables/describe_{i}.csv OK！")
 
 
 # 單位售價正規化: 採用RobustScaler和StandardScaler
@@ -124,7 +182,7 @@ def saleCostAnalyze():
     pyplot.pie(
         man_salecost_byconturies,
         labels=list(set(data_ok['國別'])),
-        autopct="%0.2f%%"
+        autopct=lambda pct: pieCharFormatter(pct, man_salecost_byconturies)
     )
     pyplot.xlabel('各國男性銷售總額的比率')
     pyplot.savefig("./plots/man_salecost_byconturies")
@@ -133,8 +191,10 @@ def saleCostAnalyze():
 
     # 法國男性與女性銷售總額的比率為何
     france_salecost = [
-        sum(data_ok['銷售收入'][(data_ok['性別'] == 'M') & (data_ok['國別'] == 'France')].values),
-        sum(data_ok['銷售收入'][(data_ok['性別'] == 'F') & (data_ok['國別'] == 'France')].values)
+        sum(data_ok['銷售收入'][(data_ok['性別'] == 'M')
+            & (data_ok['國別'] == 'France')].values),
+        sum(data_ok['銷售收入'][(data_ok['性別'] == 'F')
+            & (data_ok['國別'] == 'France')].values)
     ]
     pyplot.pie(
         france_salecost,
@@ -147,13 +207,13 @@ def saleCostAnalyze():
     print("法國男性與女性銷售總額的比率的製圖已存於 ./plots/france_salecost.png！")
 
     # 哪一個國家的總銷售金額最高?
-    man_salecost_byconturies = [
+    salecost_byconturies = [
         sum(data_ok['銷售收入'][(data_ok['國別'] == i)].values) for i in list(set(data_ok['國別']))
     ]
     pyplot.pie(
-        man_salecost_byconturies,
+        salecost_byconturies,
         labels=list(set(data_ok['國別'])),
-        autopct="%0.2f%%"
+        autopct=lambda pct: pieCharFormatter(pct, salecost_byconturies)
     )
     pyplot.xlabel('各國銷售總額的比率')
     pyplot.savefig("./plots/salecost_byconturies")
@@ -210,11 +270,8 @@ if __name__ == "__main__":
     pyplot.rcParams['font.sans-serif'] = ['Microsoft JhengHei']
     pyplot.rcParams['axes.unicode_minus'] = False
 
-    if not os.path.exists('./plots'):
-        os.mkdir('./plots')
-    else:
-        shutil.rmtree('./plots')  # 等效於 rm -rf ./plots
-        os.mkdir("./plots")
+    manageFolder('plots')
+    manageFolder('tables')
 
     data = pandas.read_excel("./Online_Sale.xlsx")
     data_ok = data[

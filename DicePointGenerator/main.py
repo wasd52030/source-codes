@@ -6,6 +6,7 @@ import random
 
 app = QApplication(sys.argv)
 root = QWidget()
+root.setWindowTitle('dice') #設定視窗標題
 root.resize(270, 365)
 root.setFixedSize(270, 365)
 

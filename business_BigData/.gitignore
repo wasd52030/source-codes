@@ -1,6 +1,6 @@
 Compressed_for_HW
 20221031/*.md
 20221017/*.md
-plots
-reports
-tables
+*/plots
+*/reports
+*/tables

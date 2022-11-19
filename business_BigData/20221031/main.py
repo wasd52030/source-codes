@@ -191,10 +191,8 @@ def saleCostAnalyze():
 
     # 法國男性與女性銷售總額的比率為何
     france_salecost = [
-        sum(data_ok['銷售收入'][(data_ok['性別'] == 'M')
-            & (data_ok['國別'] == 'France')].values),
-        sum(data_ok['銷售收入'][(data_ok['性別'] == 'F')
-            & (data_ok['國別'] == 'France')].values)
+        sum(data_ok['銷售收入'][(data_ok['性別'] == 'M') & (data_ok['國別'] == 'France')].values),
+        sum(data_ok['銷售收入'][(data_ok['性別'] == 'F') & (data_ok['國別'] == 'France')].values)
     ]
     pyplot.pie(
         france_salecost,

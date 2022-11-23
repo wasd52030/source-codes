@@ -14,7 +14,7 @@ def recognize_from_file():
     speech_config.speech_recognition_language = "zh-TW"
 
     # wav file resource: https://www.youtube.com/shorts/F96h76Z8Seg
-    recognize_file="static/speech_input.wav"
+    recognize_file = "static/speech_input.wav"
     audio_config = speechsdk.audio.AudioConfig(filename=recognize_file)
     speech_recognizer = speechsdk.SpeechRecognizer(
         speech_config=speech_config,
@@ -22,17 +22,18 @@ def recognize_from_file():
     )
 
     print(f"recognizing from file {recognize_file}...")
-    done = False
 
+
+    done = False
     def stop_cb(enevt):
         print('CLOSING on {}'.format(enevt))
         speech_recognizer.stop_continuous_recognition()
-        nonlocal done #reference -> https://ktinglee.github.io/LearningPython100days(6)_global_and_nonlocal
+        # reference -> https://ktinglee.github.io/LearningPython100days(6)_global_and_nonlocal
+        nonlocal done
         done = True
 
-    
-    speech_recognizer.recognized.connect(lambda enevt: results.append(enevt.result.text))
-
+    speech_recognizer.recognized.connect(
+        lambda enevt: results.append(enevt.result.text))
     speech_recognizer.session_stopped.connect(stop_cb)
     speech_recognizer.canceled.connect(stop_cb)
 

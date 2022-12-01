@@ -4,14 +4,16 @@
 
 - 上課作業
 
-  - 20220922 -> 在azure上開一個vm並架上wordpress
-  - 20220929 -> Remote to azure vm by ssh with Vscode
-  - 20221006 -> 用老師的帳號開一台有顯卡的vm並打上驅動，使`nvidia-smi`正確顯示資訊
-  - 20221013 -> 在azure上開一台vm並架上jupyter server
-  - 20221020 -> 在azure上開一台vm並架上Stable_Diffusion(視為期中考)
-  - 20221103 -> 把課堂上的Custom Vision訓練完成的模型下載下來，丟到netron上，並試著推倒實現方式
-  - 20221110 ->把老師提供的`testsenti.py`、`testcomputervision.py`、`testcv.py`程式正常執行
-  - 20221117 -> 使文字轉語音、語音辨識的程式正常執行
+  - 20220922 $\rightarrow$ 在azure上開一個vm並架上wordpress
+  - 20220929 $\rightarrow$ Remote to azure vm by ssh with Vscode
+  - 20221006 $\rightarrow$ 用老師的帳號開一台有顯卡的vm並打上驅動，使`nvidia-smi`正確顯示資訊
+  - 20221013 $\rightarrow$ 在azure上開一台vm並架上jupyter server
+  - 20221020 $\rightarrow$ 在azure上開一台vm並架上Stable_Diffusion(視為期中考)
+  - 20221103 $\rightarrow$ 把課堂上的Custom Vision訓練完成的模型下載下來，丟到netron上，並試著推倒實現方式
+  - 20221110 $\rightarrow$ 把老師提供的`testsenti.py`、`testcomputervision.py`、`testcv.py`程式正常執行
+  - 20221117 $\rightarrow$ 使文字轉語音、語音辨識的程式正常執行
+  - 20221124 $\rightarrow$ 在azML studio的compute架上Stable_Diffusion
+  - 20221201 $\rightarrow$ 用azure ML designer做一個模型並部屬成api
 
 - 常用指令
 
@@ -50,8 +52,12 @@
 	  
 	  # take https://huggingface.co/CompVis/stable-diffusion-v-1-4-original for example
 	  # CompVis/stable-diffusion-v-1-4-original is repo_id
-	  hf_hub_download(repo_id="CompVis/stable-diffusion-v-1-4-original", filename="file-in-repository",use_auth_token="usertoken-in-read-access")
+	  # hf_hub_download return the path of download file
+	  path=hf_hub_download(repo_id="CompVis/stable-diffusion-v-1-4-original", filename="file-in-repository",use_auth_token="usertoken-in-read-access")
+	  print(path)
 	  ```
+	  
 	- Azure Developer Document: https://learn.microsoft.com/zh-tw/azure/developer/
 	  
+	- change anaconda default python version: https://stackoverflow.com/questions/28436769/how-to-change-default-anaconda-python-environment
 

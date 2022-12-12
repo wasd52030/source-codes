@@ -8,12 +8,13 @@
   - 20220929 $\rightarrow$ Remote to azure vm by ssh with Vscode
   - 20221006 $\rightarrow$ 用老師的帳號開一台有顯卡的vm並打上驅動，使`nvidia-smi`正確顯示資訊
   - 20221013 $\rightarrow$ 在azure上開一台vm並架上jupyter server
-  - 20221020 $\rightarrow$ 在azure上開一台vm並架上Stable_Diffusion(視為期中考)
+  - 20221020 $\rightarrow$ 第一次期中作業：在azure上開一台vm並架上Stable_Diffusion
   - 20221103 $\rightarrow$ 把課堂上的Custom Vision訓練完成的模型下載下來，丟到netron上，並試著推倒實現方式
   - 20221110 $\rightarrow$ 把老師提供的`testsenti.py`、`testcomputervision.py`、`testcv.py`程式正常執行
   - 20221117 $\rightarrow$ 使文字轉語音、語音辨識的程式正常執行
   - 20221124 $\rightarrow$ 在azML studio的compute架上Stable_Diffusion
   - 20221201 $\rightarrow$ 用azure ML designer做一個模型並部屬成api
+  - 20221208 $\rightarrow$第二次期中作業：運用課堂所學到的azure ai相關技巧實作一個小專題
 
 - 常用指令
 

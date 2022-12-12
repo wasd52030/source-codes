@@ -1,0 +1,3 @@
+logger -> https://shengyu7697.github.io/python-logging/
+azure Captioning -> https://learn.microsoft.com/zh-tw/azure/cognitive-services/speech-service/captioning-quickstart?tabs=windows%2Cterminal&pivots=programming-language-python
+azure Translate -> https://learn.microsoft.com/zh-tw/azure/cognitive-services/translator/quickstart-translator?tabs=python

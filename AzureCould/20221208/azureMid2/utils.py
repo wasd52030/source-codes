@@ -28,14 +28,7 @@ def Logger(func):
         logStream.setLevel(logging.DEBUG)
         logStream.setFormatter(formatter)
 
-        logFile = logging.FileHandler(
-            datetime.datetime.now().strftime("%Y-%m-%d_%H_%M_%S.log")
-        )
-        logFile.setLevel(logging.DEBUG)
-        logFile.setFormatter(formatter)
-
         logger.addHandler(logStream)
-        logger.addHandler(logFile)
 
         logging.info(f'function {func.__name__}() start')
         t1 = time.time()
@@ -45,7 +38,6 @@ def Logger(func):
         logging.info(f'cost {t2-t1} s')
 
         logger.removeHandler(logStream)
-        logger.removeHandler(logFile)
 
         return result
     return wrap

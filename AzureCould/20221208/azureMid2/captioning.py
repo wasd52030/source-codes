@@ -11,18 +11,17 @@ import caption_helper
 import helper
 import user_config_helper
 from user_config_helper import CaptioningMode, get_phrases, get_compressed_audio_format
-from utils import AzureSpeechConfig,Logger
+from utils import AzureSpeechConfig, Logger
 from CAPTIONINGUSAGE import CAPTIONINGUSAGE
-
 
 
 class Captioning(object):
     def __init__(self, input, output, language):
 
-        # In order to switch to cli tool,enable line 70 and disable line 73-91.
+        # In order to switch to cli tool,enable line 23 and disable line 24-42.
         # self._user_config = user_config_helper.user_config_from_args(CAPTIONINGUSAGE)
 
-        self._user_config = {
+        self._user_config = helper.Read_Only_Dict({
             "use_compressed_audio": False,
             "compressed_audio_format": get_compressed_audio_format(),
             "profanity_option": speechsdk.ProfanityOption.Raw,
@@ -40,7 +39,7 @@ class Captioning(object):
             "stable_partial_result_threshold": '3',
             "subscription_key": AzureSpeechConfig.subscription_key.value,
             "region": AzureSpeechConfig.region.value,
-        }
+        })
         self._srt_sequence_number = 1
         self._previous_caption: Optional[caption_helper.Caption] = None
         self._previous_end_time: Optional[time] = None
@@ -339,8 +338,9 @@ class Captioning(object):
 
         return
 
+
 @Logger
-def makeSubtitles(filePath, outputPath,lang):
+def makeSubtitles(filePath, outputPath, lang):
     if user_config_helper.cmd_option_exists("--help"):
         print(CAPTIONINGUSAGE)
     else:

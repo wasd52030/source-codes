@@ -127,7 +127,7 @@ def user_config_from_args(usage: str):
         if int_lines < 1:
             int_lines = 2
 
-    return {
+    return helper.Read_Only_Dict({
         "use_compressed_audio": cmd_option_exists("--format"),
         "compressed_audio_format": get_compressed_audio_format(),
         "profanity_option": get_profanity_option(),
@@ -145,4 +145,4 @@ def user_config_from_args(usage: str):
         "stable_partial_result_threshold": get_cmd_option("--threshold"),
         "subscription_key": key,
         "region": region,
-    }
+    })

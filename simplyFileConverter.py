@@ -1,4 +1,4 @@
-#基於ffmpeg做的簡易轉檔器
+# 基於ffmpeg做的簡易轉檔器
 
 import os
 import sys
@@ -16,27 +16,35 @@ root = QWidget()
 grid = QGridLayout(root)
 root.setLayout(grid)
 
-UnixTimeStart = datetime(1970, 1, 1)
 dur_delta, now_delta = None, None
 
 
 def getFilePath():
     path, _ = QFileDialog.getOpenFileName(root)
     inputpath.setText(path)
-
+    # 預設把輸入檔名設成輸出檔名
+    outputpath.setText(os.path.basename(inputpath.text()))
 
 def transform_file():
     global duration, now, dur_delta, now_delta
 
-    if outputpath.text()=='':
+    if outputpath.text() == '' and inputpath.text() == '':
+        QMessageBox.warning(root, 'Error', '缺失輸入檔案與輸出檔名')
+        return
+    elif outputpath.text()== '' :
         QMessageBox.warning(root, 'Error', '缺失輸出檔名')
         return
+    elif inputpath.text() == '':
+        QMessageBox.warning(root, 'Error', '缺失輸入檔案')
+        return
+
+    os.chdir(os.path.dirname(inputpath.text()))
 
     args = [
         'ffmpeg',
-        '-y',  # overrite if file exist
+        '-y',  # overwrite if file exist
         '-i',
-        inputpath.text(),
+        os.path.basename(inputpath.text()),
         '-b' if bitrate.text() != '' else '',
         f'{bitrate.text()}' if bitrate.text() != '' else '',
         '-r' if frame.text() != '' else '',
@@ -46,15 +54,15 @@ def transform_file():
         outputpath.text(),
     ]
 
-    args = filter(lambda x: x != '', args)
     process = subprocess.Popen(
-        args,
+        filter(lambda x: x != '', args),
         encoding='utf-8',
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         universal_newlines=True
     )
 
+    # reference -> https://www.geeksforgeeks.org/python-re-search-vs-re-match/
     for line in process.stdout:
         DurationMatches = re.search(
             r'Duration: (\d+:\d+:\d+.\d+)',
@@ -83,8 +91,8 @@ def transform_file():
             bar.setValue(
                 int((now_delta.total_seconds()/dur_delta.total_seconds())*100)
             )
-        else:
-            bar.setValue(100)
+    else:
+        bar.setValue(100)
 
 
 Linput = QLabel('input', root)
@@ -111,6 +119,7 @@ outputpath = QLineEdit()
 outputpath.setFont(QFont('Arial', 10))
 grid.addWidget(outputpath, 1, 1)
 
+
 Lbitrate = QLabel('bit rate', root)
 Lbitrate.setAlignment(Qt.AlignLeft)
 Lbitrate.setFont(QFont('Arial', 10))
@@ -119,6 +128,7 @@ grid.addWidget(Lbitrate, 2, 0)
 bitrate = QLineEdit()
 bitrate.setFont(QFont('Arial', 10))
 grid.addWidget(bitrate, 2, 1)
+
 
 Lresolution = QLabel('resolution', root)
 Lresolution.setAlignment(Qt.AlignLeft)
@@ -129,6 +139,7 @@ resolution = QLineEdit()
 resolution.setFont(QFont('Arial', 10))
 grid.addWidget(resolution, 3, 1)
 
+
 Lframe = QLabel('frame', root)
 Lframe.setAlignment(Qt.AlignLeft)
 Lframe.setFont(QFont('Arial', 10))
@@ -138,10 +149,12 @@ frame = QLineEdit()
 frame.setFont(QFont('Arial', 10))
 grid.addWidget(frame, 4, 1)
 
+
 bar = QProgressBar()
 bar.setRange(0, 100)    # 進度條範圍
 bar.setValue(100)        # 進度條預設值
 grid.addWidget(bar, 5, 1)
+
 
 run = QPushButton('run')
 run.setFont(QFont('Arial', 10))

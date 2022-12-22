@@ -23,10 +23,10 @@ function ArrayPrint ([array]$arr) {
     }
 }
 
-function getRandomArray($min,$max,$len) {
-    $res=@()
+function getRandomArray($min, $max, $len) {
+    $res = @()
     for ($i = $0; $i -lt $len; $i++) {
-        $res+=@(Get-Random -Minimum $min -Maximum $max)
+        $res += @(Get-Random -Minimum $min -Maximum $max)
     }
     return $res
 }
@@ -35,11 +35,11 @@ function getRandomArray($min,$max,$len) {
 function main {
     Write-Host "Before Sort"
     # reference https://blog.darkthread.net/blog/ps-func-param-syntax/
-    $a= getRandomArray 0 1000 1000
-    ArrayPrint($a)
+    $a = getRandomArray 0 1000 1000
+    ArrayPrint $a
 
     Write-Host "After Sort"
-    ArrayPrint(QuickSort($a))
+    ArrayPrint(QuickSort $a)
 }
 
 main

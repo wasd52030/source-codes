@@ -2,14 +2,14 @@
 
 拿來放Azure修課相關的東西這樣
 
-- 上課作業
+- 課後作業
 
   - 20220922 $\rightarrow$ 在azure上開一個vm並架上wordpress
   - 20220929 $\rightarrow$ Remote to azure vm by ssh with Vscode
   - 20221006 $\rightarrow$ 用老師的帳號開一台有顯卡的vm並打上驅動，使`nvidia-smi`正確顯示資訊
   - 20221013 $\rightarrow$ 在azure上開一台vm並架上jupyter server
   - 20221020 $\rightarrow$ 第一次期中作業：在azure上開一台vm並架上Stable_Diffusion
-  - 20221103 $\rightarrow$ 把課堂上的Custom Vision訓練完成的模型下載下來，丟到netron上，並試著推倒實現方式
+  - 20221103 $\rightarrow$ 把課堂上的Custom Vision訓練完成的模型下載下來，丟到netron上，並試著推導實現方式
   - 20221110 $\rightarrow$ 把老師提供的`testsenti.py`、`testcomputervision.py`、`testcv.py`程式正常執行
   - 20221117 $\rightarrow$ 使文字轉語音、語音辨識的程式正常執行
   - 20221124 $\rightarrow$ 在azML studio的compute架上Stable_Diffusion
@@ -27,12 +27,6 @@
 	- Vsocde remote-ssh: https://hackmd.io/@brick9450/vscode-remote
 	
 	- Save as Root in Vscode Remote - SSH: https://github.com/yy0931/save-as-root
-	
-	- LAMP Ubuntu: https://ithelp.ithome.com.tw/articles/10216362
-	
-	- phpmyadmin: https://ithelp.ithome.com.tw/articles/10216815
-	
-	- wordpress(include LAMP&phpmyadmin): https://www.chirue.com/ubuntu-wordpress-web/
 	
 	- docker install: https://blog.gtwang.org/virtualization/ubuntu-linux-install-docker-tutorial/
 	

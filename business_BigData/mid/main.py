@@ -23,12 +23,12 @@ def manageFolder(name: str):
         os.mkdir(f'./{name}')
 
 
-def pieCharFormatter(pct: float, value: float):
+def pieCharFormatter(pct: float, value: float) -> str:
     absolute = int(numpy.round(pct/100.*numpy.sum(value)))
     return "{:.1f}%\n({:d})".format(pct, absolute)
 
 
-def describe(sample: pandas.Series):
+def describe(sample: pandas.Series) -> str:
     # 平均數,中位數,眾數,全距,四分位距(IQR),四分位差(QD),平均絕對離差(MAD),
     # 樣本變異數(s^2),樣本標準差(s),P20,P25(Q1),P50(Q2),P75(Q3),P80,變異係數(CV)
     Descirbes = {
@@ -191,8 +191,10 @@ def saleCostAnalyze():
 
     # 法國男性與女性銷售總額的比率為何
     france_salecost = [
-        sum(data_ok['銷售收入'][(data_ok['性別'] == 'M') & (data_ok['國別'] == 'France')].values),
-        sum(data_ok['銷售收入'][(data_ok['性別'] == 'F') & (data_ok['國別'] == 'France')].values)
+        sum(data_ok['銷售收入'][(data_ok['性別'] == 'M')
+            & (data_ok['國別'] == 'France')].values),
+        sum(data_ok['銷售收入'][(data_ok['性別'] == 'F')
+            & (data_ok['國別'] == 'France')].values)
     ]
     pyplot.pie(
         france_salecost,

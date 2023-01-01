@@ -22,6 +22,20 @@ def getClassName(obj) -> str:
     return f"{type(obj)}"
 
 
+def get_logger(name):
+    logger = logging.getLogger(name)
+    formatter = logging.Formatter(
+        '[%(levelname)s %(asctime)s] %(message)s',
+        datefmt='%Y%m%d %H:%M:%S'
+    )
+
+    if not logger.handlers:
+        logger.setLevel(logging.DEBUG)
+        sh = logging.StreamHandler()
+        sh.setFormatter(formatter)
+        logger.addHandler(sh)
+    return logger
+
 
 # 如果最外層有定義參數，呼叫時必須顯式傳遞
 def Logger(objName=''):
@@ -38,18 +52,7 @@ def Logger(objName=''):
                 startMsg = f'function {func.__name__}() start'
                 endMsg = f'function {func.__name__}() end'
 
-            logger = logging.getLogger()
-            logger.setLevel(logging.DEBUG)
-            formatter = logging.Formatter(
-                '[%(levelname)s %(asctime)s] %(message)s',
-                datefmt='%Y%m%d %H:%M:%S'
-            )
-
-            logStream = logging.StreamHandler()
-            logStream.setLevel(logging.DEBUG)
-            logStream.setFormatter(formatter)
-
-            logger.addHandler(logStream)
+            logger = get_logger('logging')
 
             logger.info(startMsg)
             t1 = time.time()
@@ -57,8 +60,6 @@ def Logger(objName=''):
             t2 = time.time()
             logger.info(endMsg)
             logger.info(f'cost {t2-t1} s')
-
-            logger.removeHandler(logStream)
 
             return result
         return wrap

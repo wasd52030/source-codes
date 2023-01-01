@@ -1,4 +1,3 @@
-
 import logging
 import inspect
 from datetime import datetime
@@ -13,34 +12,21 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import roc_curve, auc
 from darts import TimeSeries
 from darts.models import ExponentialSmoothing, Theta
-from utils import manageFolder, Logger
+from apyori import apriori
+from sklearn.cluster import KMeans
+from utils import manageFolder, Logger, get_logger
 
 
 class Analyzer:
     def __init__(self, data: pandas.DataFrame) -> None:
 
         logging.getLogger('matplotlib').setLevel(logging.INFO)
-        self.logger = logging.getLogger()
+        self.logger = get_logger('logging')
 
         self.data = data
         self.data = self.data.dropna()
         self.fig = None
 
-        # 單筆訂單顧客所消費的金額(含打折)
-        self.data['Price'] = [
-            (row['Sales']/row['Quantity'])/row['Discount'] if row['Discount'] > 0 else row['Sales']/row['Quantity']
-            for _, row in self.data.iterrows()
-        ]
-
-        # ym, y, m = [], [], []
-        # for index, item in enumerate(self.data['Order Date'].values):
-        #     try:
-        #         d = datetime.strptime(item, "%m/%d/%Y")
-        #         self.data.loc[index, 'Order Date'] = d
-        #         y.append(d.year)
-        #         m.append(d.month)
-        #     except ValueError:
-        #         self.data = self.data.drop(index)
         self.data['Order Date'] = self.data['Order Date'].apply(lambda _: datetime.strptime(_, "%m/%d/%Y"))
         self.data['Order_Year'] = self.data['Order Date'].apply(lambda _: _.year)
         self.data['Order_Month'] = self.data['Order Date'].apply(lambda _: _.month)
@@ -86,7 +72,6 @@ class Analyzer:
                 setattr(self, method, Logger(self.__class__.__name__)(m))
 
     # 分析顧客的國家、區域、州別分布
-    # Todo: 州別分布尚未製作
     def conturies_and_regions(self):
         self.fig = plotly_express.pie(
             pandas.DataFrame(
@@ -278,79 +263,81 @@ class Analyzer:
             )
 
     # 針對任一地區(Region)，分析其獲利最高、銷售數量及金額最高的商品(子類別)。
-    def sales_data_byRegion(self):
-        for i in self.region:
-            # 收益(獲利)
-            profit = [
-                [sum(self.data['Profit'][(self.data["Region"] == i) & (self.data['Sub-Category'] == j)]), j]
-                for j in self.subCateGory_types
-            ]
-            profit = list(filter(lambda x: x[0] > 0, profit))
-            self.fig = plotly_express.pie(
-                pandas.DataFrame(
-                    profit,
-                    columns=['Profit', 'Sub-Category']
-                ),
-                values='Profit',
-                title=f'{i}地區中子類別收益的比率',
-                names='Sub-Category'
-            )
-            self.fig.write_image(
-                f'./plots/profit/profit_by_{i}_region.png',
-                width=1024,
-                height=768
-            )
-            self.logger.info(
-                f"{i}地區中子類別收益比率的製圖已存於 ./plots/profit/profit_by_{i}_region.png！"
-            )
+    def subCategory_sales_data_byRegion(self):
+        # 從所有地區中抽一個來分析
+        r = numpy.random.choice(self.region, 1)[0]
 
-            # 銷量
-            quantity = [
-                [sum(self.data['Quantity'][(self.data["Region"] == i) & (self.data['Sub-Category'] == j)]), j]
-                for j in self.subCateGory_types
-            ]
-            quantity = list(filter(lambda x: x[0] > 0, quantity))
-            self.fig = plotly_express.pie(
-                pandas.DataFrame(
-                    quantity,
-                    columns=['Quantity', 'Sub-Category']
-                ),
-                values='Quantity',
-                title=f'{i}地區中子類別銷量的比率',
-                names='Sub-Category'
-            )
-            self.fig.write_image(
-                f'./plots/quantity/quantity_by_{i}_region.png',
-                width=1024,
-                height=768
-            )
-            self.logger.info(
-                f"{i}地區中子類別銷量比率的製圖已存於 ./plots/quantity/quantity_by_{i}_region.png！"
-            )
+        # 收益(獲利)
+        profit = [
+            [sum(self.data['Profit'][(self.data["Region"] == r) & (self.data['Sub-Category'] == j)]), j]
+            for j in self.subCateGory_types
+        ]
+        profit = list(filter(lambda x: x[0] > 0, profit))
+        self.fig = plotly_express.pie(
+            pandas.DataFrame(
+                profit,
+                columns=['Profit', 'Sub-Category']
+            ),
+            values='Profit',
+            title=f'{r}地區中子類別收益的比率',
+            names='Sub-Category'
+        )
+        self.fig.write_image(
+            f'./plots/profit/subCategory_profit_by_{r}_region.png',
+            width=1024,
+            height=768
+        )
+        self.logger.info(
+            f"{r}地區中子類別收益比率的製圖已存於 ./plots/profit/subCategory_profit_by_{r}_region.png！"
+        )
 
-            # 銷售額
-            Sales = [
-                [sum(self.data['Sales'][(self.data["Region"] == i) & (self.data['Sub-Category'] == j)]), j]
-                for j in self.subCateGory_types
-            ]
-            Sales = list(filter(lambda x: x[0] > 0, Sales))
-            self.fig = plotly_express.pie(
-                pandas.DataFrame(
-                    Sales,
-                    columns=['Sales', 'Sub-Category']
-                ),
-                values='Sales',
-                title=f'{i}地區中子類別銷售總額的比率',
-                names='Sub-Category'
-            )
-            self.fig.write_image(
-                f'./plots/Sales/Sales_by_{i}_region.png',
-                width=1024,
-                height=768
-            )
-            self.logger.info(
-                f"{i}地區中子類別銷售總額的比率的製圖已存於 ./plots/Sales/Sales_by_{i}_region.png！"
-            )
+        # 銷量
+        quantity = [
+            [sum(self.data['Quantity'][(self.data["Region"] == r) & (self.data['Sub-Category'] == j)]), j]
+            for j in self.subCateGory_types
+        ]
+        quantity = list(filter(lambda x: x[0] > 0, quantity))
+        self.fig = plotly_express.pie(
+            pandas.DataFrame(
+                quantity,
+                columns=['Quantity', 'Sub-Category']
+            ),
+            values='Quantity',
+            title=f'{r}地區中子類別銷量的比率',
+            names='Sub-Category'
+        )
+        self.fig.write_image(
+            f'./plots/quantity/subCategory_quantity_by_{r}_region.png',
+            width=1024,
+            height=768
+        )
+        self.logger.info(
+            f"{r}地區中子類別銷量比率的製圖已存於 ./plots/quantity/subCategory_quantity_by_{r}_region.png！"
+        )
+
+        # 銷售額
+        Sales = [
+            [sum(self.data['Sales'][(self.data["Region"] == r) & (self.data['Sub-Category'] == j)]), j]
+            for j in self.subCateGory_types
+        ]
+        Sales = list(filter(lambda x: x[0] > 0, Sales))
+        self.fig = plotly_express.pie(
+            pandas.DataFrame(
+                Sales,
+                columns=['Sales', 'Sub-Category']
+            ),
+            values='Sales',
+            title=f'{r}地區中子類別銷售總額的比率',
+            names='Sub-Category'
+        )
+        self.fig.write_image(
+            f'./plots/Sales/subCategory_Sales_by_{r}_region.png',
+            width=1024,
+            height=768
+        )
+        self.logger.info(
+            f"{r}地區中子類別銷售總額的比率的製圖已存於 ./plots/Sales/subCategory_Sales_by_{r}_region.png！"
+        )
 
     # 使用前三年的資料(2014~2016)，預測顧客在第四年(2017)會不會來買？
     def predict_repurchase(self):
@@ -363,7 +350,7 @@ class Analyzer:
         x['Region'] = LabelEncoder().fit_transform(self.data['Region'])
         x['Category'] = LabelEncoder().fit_transform(self.data['Category'])
         x['Sub-Category'] = LabelEncoder().fit_transform(self.data['Sub-Category'])
-        x['Price'] = self.data['Price']
+        x['Sales'] = self.data['Sales']
         x['Quantity'] = self.data['Quantity']
         x['Discount'] = self.data['Discount']
 
@@ -395,8 +382,9 @@ class Analyzer:
         pyplot.savefig("./plots/sales_predict/ROC")
         pyplot.clf()
         pyplot.cla()
-        print(f"根據顧客是否會回購，使用{str(type(clf)).split('.')[-1][:-2]}建立預測分類器")
-        print("將結果整理所製成的ROC(Receiver Operating Characteristics)已存於 ./plots/sales_predict/ROC.png！")
+        pyplot.close()
+        self.logger.info(f"根據顧客是否會在2017回購，使用{str(type(clf)).split('.')[-1][:-2]}建立預測分類器")
+        self.logger.info("將結果整理所製成的ROC(Receiver Operating Characteristics)已存於 ./plots/sales_predict/ROC.png！")
 
     # 使用前三年的資料(2014~2016)，預測顧客在第四年(2017)會買多少錢？
     def predict_Sales(self):
@@ -421,14 +409,118 @@ class Analyzer:
         pyplot.savefig('./plots/sales_predict/sales_predict.png')
         pyplot.clf()
         pyplot.cla()
+        pyplot.close()
+        reset_pyplot_style()
+        self.logger.info('基於2014-2016年的銷售額，預測2017的銷售額')
+        self.logger.info('其結果已經存到./plots/sales_predict/sales_predict.png')
+
+    # 針對顧客所屬的地區(Region)，分析消費金額、銷量的差異性。
+    def sales_data_byRegion(self):
+        Sales = [
+            [sum(self.data['Sales'][(self.data["Region"] == i)]), i] for i in self.region
+        ]
+        Sales = list(filter(lambda x: x[0] > 0, Sales))
+        self.fig = plotly_express.pie(
+            pandas.DataFrame(
+                Sales,
+                columns=['Sales', 'Sub-Category']
+            ),
+            values='Sales',
+            title=f'根據顧客地區分布分析消費金額的比率',
+            names='Sub-Category'
+        )
+        self.fig.write_image(
+            f'./plots/Sales/sales_data_byRegions.png',
+            width=1024,
+            height=768
+        )
+        self.logger.info(
+            f"根據顧客地區分布分析消費金額的比率的製圖已存於 ./plots/Sales/sales_data_byRegions.png！"
+        )
+
+        quantity = [
+            [sum(self.data['Quantity'][(self.data["Region"] == i)]), i] for i in self.region
+        ]
+        quantity = list(filter(lambda x: x[0] > 0, quantity))
+        self.fig = plotly_express.pie(
+            pandas.DataFrame(
+                quantity,
+                columns=['Quantity', 'Sub-Category']
+            ),
+            values='Quantity',
+            title=f'根據顧客地區分布分析銷量的比率',
+            names='Sub-Category'
+        )
+        self.fig.write_image(
+            f'./plots/quantity/quantity_byRegions.png',
+            width=1024,
+            height=768
+        )
+        self.logger.info(
+            f"根據顧客地區分布分析銷量比率的製圖已存於 ./plots/quantity/quantity_byRegions.png！"
+        )
+
+    # 所有顧客購買商品類別的關聯規則
+    def category_Association_Rules(self):
+        u = self.data.groupby(['Order Date'])
+        # reference -> https://pythonviz.com/pandas/pandas-groupby-tutorial/
+        v = u.agg({'Category': lambda data: data.values})
+        target = [list(set(i[0].tolist())) for i in v.values]
+
+        association_rules = apriori(target, min_support=0.16, min_confidence=0.2, min_lift=1, max_length=3)
+        with open('./tables_and_reports/category_association_rules.txt', 'w') as f:
+            for rules in association_rules:
+                print("=====================================", file=f)
+                items = list(rules[0])
+                print(f"Rule: {'->'.join(items)}", file=f)
+                print("Support: " + str(rules[1]), file=f)
+                print("Confidence: " + str(rules[2][0][2]), file=f)
+                print("Lift: " + str(rules[2][0][3]), file=f)
+                print("=====================================", file=f)
+                print(file=f)
+
+    # 針對顧客的重要特徵分群，找出2~3群最有特色的顧客，並解釋其價值與意義。
+    def customer_clustering(self):
+        u = self.data.groupby(['Customer ID'])
+        u = u.sum()
+        # axis 預設0，指删除row，因此删除columns時要指定axis=1
+        u = u.drop(['Row ID', 'Postal Code', 'Discount', 'Order_Year', 'Order_Month', 'repurchase'], axis=1)
+        target = numpy.array([[row['Quantity'], row['Sales']] for _, row in u.iterrows()])
+
+        cluster = KMeans(n_clusters=3)
+        cluster.fit(target)
+        y_kmeans = cluster.predict(target)
+
+        pyplot.figure(figsize=(12, 8))
+        pyplot.scatter(
+            target[:, 0], target[:, 1],
+            c=y_kmeans,         # 指定標記
+            edgecolor='none',   # 無邊框
+            alpha=0.5           # 不透明度
+        )
+        pyplot.xlabel('Quantity')
+        pyplot.ylabel('Sales')
+        pyplot.savefig('./plots/customer_clustering.png')
+        pyplot.clf()
+        pyplot.cla()
+        pyplot.close()
+        reset_pyplot_style()
+        self.logger.info(f"根據顧客的購買金額與購買數量，使用{str(type(cluster)).split('.')[-1][:-2]}分成3群")
+        self.logger.info('其結果已經存到./plots/customer_clustering.png')
 
 
-if __name__ == "__main__":
-
+def reset_pyplot_style():
+    pyplot.style.use('default')
     pyplot.rcParams['font.sans-serif'] = ['Microsoft JhengHei']
     pyplot.rcParams['axes.unicode_minus'] = False
 
-    manageFolder('tables')
+
+@Logger('')
+def main():
+    pyplot.rcParams['font.sans-serif'] = ['Microsoft JhengHei']
+    pyplot.rcParams['axes.unicode_minus'] = False
+
+    manageFolder('tables_and_reports')
     manageFolder('plots')
 
     data = pandas.read_csv("./[FN] Saledata.csv", encoding="utf-8")
@@ -438,6 +530,13 @@ if __name__ == "__main__":
     analyzer1.sales_byCategoryAndSubCategory()
     analyzer1.profit_byCategoryAndSubCategory()
     analyzer1.quantity_byCategoryAndSubCategory()
-    analyzer1.sales_data_byRegion()
+    analyzer1.subCategory_sales_data_byRegion()
     analyzer1.predict_repurchase()
     analyzer1.predict_Sales()
+    analyzer1.sales_data_byRegion()
+    analyzer1.category_Association_Rules()
+    analyzer1.customer_clustering()
+
+
+if __name__ == "__main__":
+    main()

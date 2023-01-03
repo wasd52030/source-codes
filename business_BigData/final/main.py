@@ -11,7 +11,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import roc_curve, auc
 from darts import TimeSeries
-from darts.models import ExponentialSmoothing, Theta
+from darts.models import ExponentialSmoothing
 from apyori import apriori
 from sklearn.cluster import KMeans
 from utils import manageFolder, Logger, get_logger
@@ -116,8 +116,8 @@ class Analyzer:
         )
         self.fig.write_image(
             './plots/contry_region_state/customer_states.png',
-            width=1024,
-            height=768,
+            width=1280,
+            height=1024,
         )
         self.logger.info("客戶所屬州歸納的製圖已存到 ./plots/contry_region_state/customer_states.png")
 
@@ -263,7 +263,7 @@ class Analyzer:
             )
 
     # 針對任一地區(Region)，分析其獲利最高、銷售數量及金額最高的商品(子類別)。
-    def subCategory_sales_data_byRegion(self):
+    def subCategory_sales_datas_byRegion(self):
         # 從所有地區中抽一個來分析
         r = numpy.random.choice(self.region, 1)[0]
 
@@ -489,12 +489,12 @@ class Analyzer:
 
         cluster = KMeans(n_clusters=3)
         cluster.fit(target)
-        y_kmeans = cluster.predict(target)
+        y_clustered = cluster.predict(target)
 
         pyplot.figure(figsize=(12, 8))
         pyplot.scatter(
             target[:, 0], target[:, 1],
-            c=y_kmeans,         # 指定標記
+            c=y_clustered,         # 指定標記
             edgecolor='none',   # 無邊框
             alpha=0.5           # 不透明度
         )
@@ -530,7 +530,7 @@ def main():
     analyzer1.sales_byCategoryAndSubCategory()
     analyzer1.profit_byCategoryAndSubCategory()
     analyzer1.quantity_byCategoryAndSubCategory()
-    analyzer1.subCategory_sales_data_byRegion()
+    analyzer1.subCategory_sales_datas_byRegion()
     analyzer1.predict_repurchase()
     analyzer1.predict_Sales()
     analyzer1.sales_data_byRegion()

@@ -2,10 +2,12 @@
 .idea
 node_modules
 __pycache__
-GolangGenericsQuicksort/go.sum
+*/go.sum
 專題指導老師.pdf
 AzureCould/20221103/model.pb.png
 *.mp4
 AzureCould/20221208/azureMid2/statics/Flutter Google Map With Live Location Tracking.wav
 AzureCould/20221208/azureMid2/substitles/Flutter Google Map With Live Location Tracking.srt
-AzureCould/20221229/chatgpt.mkv
+*/*.mkv
+*/*.ppt
+*/*.pttx

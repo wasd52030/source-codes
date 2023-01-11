@@ -42,7 +42,7 @@ def main() -> None:
         os.chdir(f"./YT-{p.title}")
 
     progressBar = tqdm(total=p.length, desc='下載進度')  # 進度條
-    with ThreadPoolExecutor(max_workers=20) as executer:
+    with ThreadPoolExecutor(max_workers=10) as executer:
         futures = [executer.submit(download, video) for video in p.videos]
         for _ in as_completed(futures):
             progressBar.update(n=1)

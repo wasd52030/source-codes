@@ -1,0 +1,3 @@
+# YTPlayListDownloader-py
+
+如標題所言，是用python寫的Youtube播放清單下載器，方便下載youtube playlist的音樂，不過近期發現在某些狀態下會下載失敗。

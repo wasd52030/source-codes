@@ -45,11 +45,9 @@ def run_game():
     rein = 0
     allclear, only_value = 0, 0
 
-    u = ([item, index] for index, item in enumerate(data))
-    v = ([item, index] for index, item in enumerate(user_input))
-    for du, dv in zip(u, v):
-        if dv[0] in data:
-            if dv[0] == du[0] and dv[1] == du[1]:
+    for index,dv in enumerate(user_input):
+        if dv in data:
+            if dv == data[index]:
                 allclear += 1
             else:
                 only_value += 1
@@ -74,7 +72,7 @@ def main():
         data = random.sample(list(range(0, 10)), 4)
         print(data)
         game_input()
-    elif kin_flag==0:
+    elif kin_flag == 0:
         os._exit(0)
     else:
         print("不支援指令")

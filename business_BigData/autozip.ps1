@@ -1,28 +1,30 @@
 function main {
 
-    $excludes = @("*.md")
+    $excludes = @("*.md", "*.ppt", "*.pptx")
+    $directory = "HW_Compressed"
 
-    if (!(Test-Path './HW_Compressed')) {
-        mkdir './HW_Compressed'
+    if (!(Test-Path "./$directory")) {
+        mkdir "./$directory"
     }
 
-    $a = Get-ChildItem -Directory | Sort-Object CreationTime | Where-Object { $_.BaseName -ne "HW_Compressed" }
+    $a = Get-ChildItem -Directory | Sort-Object CreationTime | Where-Object { $_.BaseName -ne "$directory" }
     for ($i = 0; $i -lt $a.Count; $i++) {
         # 平常的作業皆以教授出作業當天日期(YYYYMMDD)命名，以便跟期中期末區隔
+        $no = $i + 1
         if ($a[$i].BaseName -as [int]) {
-            if ($i -lt 10) {
-                Get-ChildItem $a[$i].BaseName -Exclude $excludes | Compress-Archive -Force -DestinationPath "./HW_Compressed/hw0$($i+1).zip"
+            if ($no -le 9) {
+                Get-ChildItem $a[$i].BaseName -Exclude $excludes | Compress-Archive -Force -DestinationPath "./$directory/hw0$no.zip"
             }
             else {
-                Get-ChildItem $a[$i].BaseName -Exclude $excludes | Compress-Archive -Force -DestinationPath "./HW_Compressed/hw$($i+1).zip" 
+                Get-ChildItem $a[$i].BaseName -Exclude $excludes | Compress-Archive -Force -DestinationPath "./$directory/hw$no.zip" 
             }
         }
         else {
-            if ($i -lt 10) {
-                Get-ChildItem $a[$i].BaseName -Exclude $excludes | Compress-Archive -Force -DestinationPath "./HW_Compressed/hw0$($i+1)_$($a[$i].BaseName).zip"
+            if ($no -le 9) {
+                Get-ChildItem $a[$i].BaseName -Exclude $excludes | Compress-Archive -Force -DestinationPath "./$directory/hw0$($no)_$($a[$i].BaseName).zip"
             }
             else {
-                Get-ChildItem $a[$i].BaseName -Exclude $excludes | Compress-Archive -Force -DestinationPath "./HW_Compressed/hw$($i+1)_$($a[$i].BaseName).zip" 
+                Get-ChildItem $a[$i].BaseName -Exclude $excludes | Compress-Archive -Force -DestinationPath "./$directory/hw$($no)_$($a[$i].BaseName).zip" 
             }
         }
         

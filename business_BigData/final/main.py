@@ -5,6 +5,7 @@ import pandas
 import numpy
 from matplotlib import pyplot
 import plotly.express as plotly_express
+import plotly.graph_objects as plotly_graphObjects
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import LabelEncoder
 from sklearn.ensemble import RandomForestClassifier
@@ -269,18 +270,18 @@ class Analyzer:
 
         # 收益(獲利)
         profit = [
-            [sum(self.data['Profit'][(self.data["Region"] == r) & (self.data['Sub-Category'] == j)]), j]
-            for j in self.subCateGory_types
+            sum(self.data['Profit'][(self.data["Region"] == r) & (self.data['Sub-Category'] == j)]) for j in self.subCateGory_types
         ]
-        profit = list(filter(lambda x: x[0] > 0, profit))
-        self.fig = plotly_express.pie(
-            pandas.DataFrame(
-                profit,
-                columns=['Profit', 'Sub-Category']
-            ),
-            values='Profit',
-            title=f'{r}地區中子類別收益的比率',
-            names='Sub-Category'
+        profit = list(filter(lambda x: x > 0, profit))
+        self.fig = plotly_graphObjects.Figure(
+            data=[
+                plotly_graphObjects.Pie(
+                    labels=self.subCateGory_types,
+                    values=profit,
+                    title=f'{r}地區中子類別收益的比率',
+                    pull=[0.2 if i == max(profit) else 0 for i in profit]
+                )
+            ]
         )
         self.fig.write_image(
             f'./plots/profit/subCategory_profit_by_{r}_region.png',
@@ -293,18 +294,18 @@ class Analyzer:
 
         # 銷量
         quantity = [
-            [sum(self.data['Quantity'][(self.data["Region"] == r) & (self.data['Sub-Category'] == j)]), j]
-            for j in self.subCateGory_types
+            sum(self.data['Quantity'][(self.data["Region"] == r) & (self.data['Sub-Category'] == j)]) for j in self.subCateGory_types
         ]
-        quantity = list(filter(lambda x: x[0] > 0, quantity))
-        self.fig = plotly_express.pie(
-            pandas.DataFrame(
-                quantity,
-                columns=['Quantity', 'Sub-Category']
-            ),
-            values='Quantity',
-            title=f'{r}地區中子類別銷量的比率',
-            names='Sub-Category'
+        quantity = list(filter(lambda x: x > 0, quantity))
+        self.fig = plotly_graphObjects.Figure(
+            data=[
+                plotly_graphObjects.Pie(
+                    labels=self.subCateGory_types,
+                    values=quantity,
+                    title=f'{r}地區中子類別銷量的比率',
+                    pull=[0.2 if i == max(quantity) else 0 for i in quantity]
+                )
+            ]
         )
         self.fig.write_image(
             f'./plots/quantity/subCategory_quantity_by_{r}_region.png',
@@ -317,18 +318,18 @@ class Analyzer:
 
         # 銷售額
         Sales = [
-            [sum(self.data['Sales'][(self.data["Region"] == r) & (self.data['Sub-Category'] == j)]), j]
-            for j in self.subCateGory_types
+            sum(self.data['Sales'][(self.data["Region"] == r) & (self.data['Sub-Category'] == j)]) for j in self.subCateGory_types
         ]
-        Sales = list(filter(lambda x: x[0] > 0, Sales))
-        self.fig = plotly_express.pie(
-            pandas.DataFrame(
-                Sales,
-                columns=['Sales', 'Sub-Category']
-            ),
-            values='Sales',
-            title=f'{r}地區中子類別銷售總額的比率',
-            names='Sub-Category'
+        Sales = list(filter(lambda x: x > 0, Sales))
+        self.fig = plotly_graphObjects.Figure(
+            data=[
+                plotly_graphObjects.Pie(
+                    labels=self.subCateGory_types,
+                    values=Sales,
+                    title=f'{r}地區中子類別銷售額的比率',
+                    pull=[0.2 if i == max(Sales) else 0 for i in Sales]
+                )
+            ]
         )
         self.fig.write_image(
             f'./plots/Sales/subCategory_Sales_by_{r}_region.png',
@@ -336,7 +337,7 @@ class Analyzer:
             height=768
         )
         self.logger.info(
-            f"{r}地區中子類別銷售總額的比率的製圖已存於 ./plots/Sales/subCategory_Sales_by_{r}_region.png！"
+            f"{r}地區中子類別銷售額的比率的製圖已存於 ./plots/Sales/subCategory_Sales_by_{r}_region.png！"
         )
 
     # 使用前三年的資料(2014~2016)，預測顧客在第四年(2017)會不會來買？
@@ -467,7 +468,7 @@ class Analyzer:
         v = u.agg({'Category': lambda data: data.values})
         target = [list(set(i[0].tolist())) for i in v.values]
 
-        association_rules = apriori(target, min_support=0.16, min_confidence=0.2, min_lift=1, max_length=3)
+        association_rules = apriori(target, min_support=0.15, min_confidence=0.2, min_lift=1)
         with open('./tables_and_reports/category_association_rules.txt', 'w') as f:
             for rules in association_rules:
                 print("=====================================", file=f)

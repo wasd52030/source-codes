@@ -38,3 +38,5 @@ D:\source-codes\YTPlayListDownloader_csharp\obj\Debug\net6.0\YTPlayListDownloade
 D:\source-codes\YTPlayListDownloader_csharp\obj\Debug\net6.0\ref\YTPlayListDownloader_csharp.dll
 D:\source-codes\YTPlayListDownloader_csharp\obj\Debug\net6.0\YTPlayListDownloader_csharp.pdb
 D:\source-codes\YTPlayListDownloader_csharp\obj\Debug\net6.0\YTPlayListDownloader_csharp.genruntimeconfig.cache
+D:\source-codes\YTPlayListDownloader_csharp\bin\Debug\net6.0\Microsoft.Bcl.AsyncInterfaces.dll
+D:\source-codes\YTPlayListDownloader_csharp\bin\Debug\net6.0\System.Linq.Async.dll

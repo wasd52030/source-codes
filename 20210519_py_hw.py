@@ -6,12 +6,12 @@ from threading import Timer
 root = Tk()
 btns = []
 ans = StringVar()
-Ans = ''.join([chr(random.randint(97, 122)) for i in range(random.randint(2, 10))])
+Ans = ''.join([chr(random.randint(97, 122)) for _ in range(random.randint(2, 10))])
 u, v = 0, 0
 Score = 0
 score = StringVar()
 g = []
-r = [i for i in range(10)]
+r = [*range(10)]
 
 
 def run():

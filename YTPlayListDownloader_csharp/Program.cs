@@ -27,10 +27,18 @@ async Task download(YoutubeClient yt, string url)
         var vinfo = await yt.Videos.GetAsync(video.Url);
         var vtitle = vinfo.Title;
         vtitle = removeSpecialChar(vtitle);
+
+        if (File.Exists($@"./{vtitle}.mp3"))
+        {
+            Console.WriteLine(@$"{vtitle}.mp3 download complete");
+            continue;
+        }
+        
         var list = await yt.Videos.Streams.GetManifestAsync(video.Url);
         var videoInfo = list.GetAudioOnlyStreams().GetWithHighestBitrate();
         await yt.Videos.Streams.DownloadAsync(videoInfo, $@"./{vtitle}.mp3");
         Console.WriteLine(@$"{vtitle}.mp3 download complete");
+        await Task.Delay(1000);
     }
 }
 

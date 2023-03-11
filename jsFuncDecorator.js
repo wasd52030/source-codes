@@ -12,7 +12,7 @@ function funcTimer(func) {
 //reference -> https://blog.darkthread.net/blog/find-repeated-item-group/
 function* FindRepeatItemGroups(list, areEqual) {
     if (list !== undefined && list !== null) {
-        f = [list[0]]
+        let f = [list[0]]
         for (let item of list.slice(1)) {
             if (areEqual(f.slice(-1)[0], item)) {
                 f.push(item)

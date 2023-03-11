@@ -4,13 +4,13 @@ from urllib.parse import parse_qs, urlparse
 import asyncio
 import requests
 import os
-from bilix.download import Downloader
+from bilix.download import DownloaderBilibili
 from funcTimer import FuncTimer
 
 
 async def download(id, num):
-    d = Downloader(videos_dir=os.curdir, video_concurrency=5)
-    await d.get_favour(fid=id, quality=100, num=num, keyword='', series=True, only_audio=True, hierarchy=False)
+    d = DownloaderBilibili(videos_dir=os.curdir, video_concurrency=5)
+    await d.get_favour(url_or_fid=str(id), quality=100, num=num, keyword='', series=True, only_audio=True, hierarchy=False)
     await d.aclose()
 
 

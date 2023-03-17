@@ -280,11 +280,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "d:\\source-codes\\YTPlayListDownloader_csharp\\YTPlayListDownloader_csharp.csproj",
+      "projectUniqueName": "D:\\source-codes\\YTPlayListDownloader_csharp\\YTPlayListDownloader_csharp.csproj",
       "projectName": "YTPlayListDownloader_csharp",
-      "projectPath": "d:\\source-codes\\YTPlayListDownloader_csharp\\YTPlayListDownloader_csharp.csproj",
+      "projectPath": "D:\\source-codes\\YTPlayListDownloader_csharp\\YTPlayListDownloader_csharp.csproj",
       "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-      "outputPath": "d:\\source-codes\\YTPlayListDownloader_csharp\\obj\\",
+      "outputPath": "D:\\source-codes\\YTPlayListDownloader_csharp\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -335,7 +335,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.114\\RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -1,6 +1,6 @@
 function main {
 
-    $excludes = @("*.md", "*.ppt", "*.pptx")
+    $excludes = @("*.md", "*.ppt", "*.pptx", "*/.idea", "*/.vscode")
     $directory = "HW_Compressed"
 
     if (!(Test-Path "./$directory")) {

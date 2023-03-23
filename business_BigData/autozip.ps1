@@ -1,13 +1,15 @@
 function main {
 
-    $excludes = @("*.md", "*.ppt", "*.pptx", "*/.idea", "*/.vscode")
+    $excludes = @("*.md", "*.ppt", "*.pptx", ".*", "_*")
+    $NozipDirectory = @("HW_Compressed")
     $directory = "HW_Compressed"
+    
 
     if (!(Test-Path "./$directory")) {
         mkdir "./$directory"
     }
 
-    $a = Get-ChildItem -Directory | Sort-Object CreationTime | Where-Object { $_.BaseName -ne "$directory" }
+    $a = Get-ChildItem -Directory -Exclude $NozipDirectory | Sort-Object CreationTime
     for ($i = 0; $i -lt $a.Count; $i++) {
         # 平常的作業皆以教授出作業當天日期(YYYYMMDD)命名，以便跟期中期末區隔
         $no = $i + 1

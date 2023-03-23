@@ -44,4 +44,4 @@ class dataPreProcess:
     # 切train data/test data
     @staticmethod
     def splitTrainTest(data: pandas.DataFrame, percent: float) -> List:
-        return train_test_split(data, test_size=percent)
+        return train_test_split(data, train_size=percent)

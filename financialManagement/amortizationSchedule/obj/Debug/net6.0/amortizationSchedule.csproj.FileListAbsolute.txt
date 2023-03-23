@@ -1,0 +1,15 @@
+C:\Users\user\Downloads\amortizationSchedule\bin\Debug\net6.0\amortizationSchedule.exe
+C:\Users\user\Downloads\amortizationSchedule\bin\Debug\net6.0\amortizationSchedule.deps.json
+C:\Users\user\Downloads\amortizationSchedule\bin\Debug\net6.0\amortizationSchedule.runtimeconfig.json
+C:\Users\user\Downloads\amortizationSchedule\bin\Debug\net6.0\amortizationSchedule.dll
+C:\Users\user\Downloads\amortizationSchedule\bin\Debug\net6.0\ref\amortizationSchedule.dll
+C:\Users\user\Downloads\amortizationSchedule\bin\Debug\net6.0\amortizationSchedule.pdb
+C:\Users\user\Downloads\amortizationSchedule\obj\Debug\net6.0\amortizationSchedule.csproj.AssemblyReference.cache
+C:\Users\user\Downloads\amortizationSchedule\obj\Debug\net6.0\amortizationSchedule.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Downloads\amortizationSchedule\obj\Debug\net6.0\amortizationSchedule.AssemblyInfoInputs.cache
+C:\Users\user\Downloads\amortizationSchedule\obj\Debug\net6.0\amortizationSchedule.AssemblyInfo.cs
+C:\Users\user\Downloads\amortizationSchedule\obj\Debug\net6.0\amortizationSchedule.csproj.CoreCompileInputs.cache
+C:\Users\user\Downloads\amortizationSchedule\obj\Debug\net6.0\amortizationSchedule.dll
+C:\Users\user\Downloads\amortizationSchedule\obj\Debug\net6.0\ref\amortizationSchedule.dll
+C:\Users\user\Downloads\amortizationSchedule\obj\Debug\net6.0\amortizationSchedule.pdb
+C:\Users\user\Downloads\amortizationSchedule\obj\Debug\net6.0\amortizationSchedule.genruntimeconfig.cache

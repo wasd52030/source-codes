@@ -10,34 +10,56 @@ def data() -> pandas.DataFrame:
 
 def test_check_null(data):
     print()
+    # 將檢查結果印出來
     print(dataPreProcess.checkNull(data))
 
 
 def test_remove_null_by_row(data):
     print()
-    print(dataPreProcess.removeNullByRow(data))
+    t = dataPreProcess.checkNull(data)
+    result = dataPreProcess.removeNullByRow(data)
+    print(f"data.shape={data.shape}\nresult.shape={result.shape}")
+    # 如果前面得到的表中有要drop的row的話，其shape理當不一樣，否則應該一樣
+    assert (
+        result.shape == data.shape
+        if len(set(t)) == 1
+        else result.shape != data.shape
+    )
+
 
 def test_get_data_dummies(data):
     print()
+    # 將轉成dummies type的資料印出來
     print(dataPreProcess.getDataDummies(data))
 
 
-def test_standardized(data):
-    data=dataPreProcess.getDataDummies(data)
+def test_split_train_test(data):
+    # 先轉成dummies
+    data = dataPreProcess.getDataDummies(data)
+    train_percent = 0.7
+    train, test = dataPreProcess.splitTrainTest(data, train_percent)
 
     print()
+    print(f"train: {train.shape[0] / data.shape[0]}")
+    print(f"test: {test.shape[0] / data.shape[0]}")
+
+    # 檢查train data占資料的%數是否與設定的%數相同
+    assert train.shape[0] / data.shape[0] == train_percent
+
+
+def test_standardized(data):
+    # 先轉成dummies
+    data = dataPreProcess.getDataDummies(data)
+
+    print()
+    # 把經過處理的資料印出來
     print(dataPreProcess.standardized(data))
 
 
 def test_minmax(data):
+    # 先轉成dummies
     data = dataPreProcess.getDataDummies(data)
 
     print()
+    # 把經過處理的資料印出來
     print(dataPreProcess.minmax(data))
-
-
-def test_split_train_test(data):
-    data = dataPreProcess.getDataDummies(data)
-
-    print()
-    print(dataPreProcess.splitTrainTest(data,0.7))

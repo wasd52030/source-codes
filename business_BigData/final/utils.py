@@ -3,6 +3,7 @@ import shutil
 import time
 import logging
 import numpy
+from typing import Callable
 
 
 def pieCharFormatter(pct: float, value: float) -> str:
@@ -22,7 +23,7 @@ def getClassName(obj) -> str:
     return f"{type(obj)}"
 
 
-def get_logger(name):
+def get_logger(name:str='')->logging.Logger:
     logger = logging.getLogger(name)
     formatter = logging.Formatter(
         '[%(levelname)s %(asctime)s] %(message)s',
@@ -38,8 +39,8 @@ def get_logger(name):
 
 
 # 如果最外層有定義參數，呼叫時必須顯式傳遞
-def Logger(objName=''):
-    def decorator(func):
+def Logger(objName='')->Callable:
+    def decorator(func)->Callable:
         def wrap(*args, **kwargs):
             # reference -> https://stackoverflow.com/questions/35325042/python-logging-disable-logging-from-imported-modules
             logging.getLogger('matplotlib').setLevel(logging.INFO)

@@ -516,7 +516,7 @@ def reset_pyplot_style():
     pyplot.rcParams['axes.unicode_minus'] = False
 
 
-@Logger('')
+@Logger()
 def main():
     pyplot.rcParams['font.sans-serif'] = ['Microsoft JhengHei']
     pyplot.rcParams['axes.unicode_minus'] = False

@@ -4,11 +4,9 @@
 
 1. 終值(Future Value，FV): 指今天投資的一筆錢，隨著時間的流逝，在一定的利率複利計算下會變成多少錢。
 
-	$
-	\begin{aligned}
+	$\begin{aligned}
 		FV_n&=PV_0*FVIF(k\%,n)\\&=PV_0*(1+k\%)^n
-	\end{aligned}
-	$
+	\end{aligned}$
 
 2. 現值(Present Value，PV): 是指未來的貨幣在今日的價值，也就是說未來一筆金額，
 經過一段時間 折現(Discount)後，算出的現在貨幣價值，簡單來說就是未來的1元等於今天多少錢。

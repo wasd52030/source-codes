@@ -4,7 +4,8 @@ function main {
     $NozipDirectory = @(
 		"HW_Compressed", 
 		"amortizationSchedule", 
-		"amortizationSchedule"
+		"amortizationSchedule",
+        "note&exercise"
 	)
     $directory = "HW_Compressed"
     

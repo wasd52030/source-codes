@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\source-codes\\YTPlayListDownloader_csharp\\YTPlayListDownloader_csharp.csproj": {}
+    "d:\\source-codes\\YTPlayListDownloader_csharp\\YTPlayListDownloader_csharp.csproj": {}
   },
   "projects": {
-    "D:\\source-codes\\YTPlayListDownloader_csharp\\YTPlayListDownloader_csharp.csproj": {
+    "d:\\source-codes\\YTPlayListDownloader_csharp\\YTPlayListDownloader_csharp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\source-codes\\YTPlayListDownloader_csharp\\YTPlayListDownloader_csharp.csproj",
+        "projectUniqueName": "d:\\source-codes\\YTPlayListDownloader_csharp\\YTPlayListDownloader_csharp.csproj",
         "projectName": "YTPlayListDownloader_csharp",
-        "projectPath": "D:\\source-codes\\YTPlayListDownloader_csharp\\YTPlayListDownloader_csharp.csproj",
+        "projectPath": "d:\\source-codes\\YTPlayListDownloader_csharp\\YTPlayListDownloader_csharp.csproj",
         "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "D:\\source-codes\\YTPlayListDownloader_csharp\\obj\\",
+        "outputPath": "d:\\source-codes\\YTPlayListDownloader_csharp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config"

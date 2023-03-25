@@ -30,14 +30,14 @@ async Task equalTotalPayment(Decimal principal, Decimal percent, int year)
             cSum += c;
 
             // 期末餘額
-            var iterFinal = principal - c;
+            var iterFinal = (principal - c) > 0 ? principal - c : 0;
 
-            await file.WriteAsync($"{i + 1},{principal:###},{a:###},{b:###},{c:###},{iterFinal:###}\n");
+            await file.WriteAsync($"{i + 1},{principal:0},{a:0},{b:0},{c:0},{iterFinal:0}\n");
 
             principal = iterFinal;
         }
 
-        await file.WriteAsync($"總計,,{Enumerable.Repeat(a, n).Sum():###},{bSum:###},{cSum:###},0");
+        await file.WriteAsync($"總計,,{Enumerable.Repeat(a, n).Sum():0},{bSum:0},{cSum:0},");
     }
 }
 

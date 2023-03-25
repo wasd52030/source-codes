@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\user\\Downloads\\amortizationSchedule\\amortizationSchedule.csproj": {}
+    "D:\\source-codes\\financialManagement\\amortizationSchedule\\amortizationSchedule.csproj": {}
   },
   "projects": {
-    "C:\\Users\\user\\Downloads\\amortizationSchedule\\amortizationSchedule.csproj": {
+    "D:\\source-codes\\financialManagement\\amortizationSchedule\\amortizationSchedule.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\user\\Downloads\\amortizationSchedule\\amortizationSchedule.csproj",
+        "projectUniqueName": "D:\\source-codes\\financialManagement\\amortizationSchedule\\amortizationSchedule.csproj",
         "projectName": "amortizationSchedule",
-        "projectPath": "C:\\Users\\user\\Downloads\\amortizationSchedule\\amortizationSchedule.csproj",
+        "projectPath": "D:\\source-codes\\financialManagement\\amortizationSchedule\\amortizationSchedule.csproj",
         "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\user\\Downloads\\amortizationSchedule\\obj\\",
+        "outputPath": "D:\\source-codes\\financialManagement\\amortizationSchedule\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config"

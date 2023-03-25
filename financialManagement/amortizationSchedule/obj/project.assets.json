@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\user\\Downloads\\amortizationSchedule\\amortizationSchedule.csproj",
+      "projectUniqueName": "d:\\source-codes\\financialManagement\\amortizationSchedule\\amortizationSchedule.csproj",
       "projectName": "amortizationSchedule",
-      "projectPath": "C:\\Users\\user\\Downloads\\amortizationSchedule\\amortizationSchedule.csproj",
+      "projectPath": "d:\\source-codes\\financialManagement\\amortizationSchedule\\amortizationSchedule.csproj",
       "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\user\\Downloads\\amortizationSchedule\\obj\\",
+      "outputPath": "d:\\source-codes\\financialManagement\\amortizationSchedule\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config"

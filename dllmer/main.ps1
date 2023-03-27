@@ -2,7 +2,7 @@ Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
 $form = New-Object System.Windows.Forms.Form
-$form.Text = '正在前往KNN的路上'
+$form.Text = "正在前往KNN的路上"
 $form.ClientSize = New-Object System.Drawing.Size(400, 300)
 [System.Windows.Forms.Application]::EnableVisualStyles() | Out-Null
 
@@ -70,6 +70,7 @@ $ReportProgress = {
         })
         
 }
+
 
 [System.Windows.Forms.Application]::Run($form)
 

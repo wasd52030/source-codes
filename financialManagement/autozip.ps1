@@ -3,7 +3,6 @@ function main {
     $excludes = @("*.md", "*.ppt", "*.pptx", ".*", "_*")
     $NozipDirectory = @(
 		"HW_Compressed", 
-		"amortizationSchedule", 
 		"amortizationSchedule",
         "note&exercise"
 	)

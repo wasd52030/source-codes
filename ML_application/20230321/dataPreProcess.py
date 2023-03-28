@@ -3,6 +3,7 @@ from typing import List
 import numpy
 import pandas
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import StandardScaler
 
@@ -31,6 +32,14 @@ class dataPreProcess:
     def getDataDummies(data: pandas.DataFrame) -> pandas.DataFrame:
         return pandas.get_dummies(data)
 
+    @staticmethod
+    def labelEncoding(data: pandas.DataFrame) -> pandas.DataFrame:
+        # 檢查所有column是不是數字型態，不是就把該column Label encode
+        for col in data.columns:
+            if not (data[col].dtype.kind == 'f' or data[col].dtype.kind == 'i'):
+                data[col] = LabelEncoder().fit_transform(data[col])
+        return data
+
     # 特徵縮放: standardized
     @staticmethod
     def standardized(data: pandas.DataFrame) -> numpy.ndarray:
@@ -39,7 +48,7 @@ class dataPreProcess:
     # 特徵縮放: MinMax
     @staticmethod
     def minmax(data: pandas.DataFrame) -> numpy.ndarray:
-        return StandardScaler().fit_transform(data)
+        return MinMaxScaler().fit_transform(data)
 
     # 切train data/test data
     @staticmethod

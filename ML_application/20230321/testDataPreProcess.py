@@ -1,5 +1,6 @@
 import pytest
 import pandas
+import numpy
 from dataPreProcess import dataPreProcess
 
 
@@ -33,9 +34,15 @@ def test_get_data_dummies(data):
     print(dataPreProcess.getDataDummies(data))
 
 
+def test_label_encoding(data):
+    print()
+    print(dataPreProcess.labelEncoding(data))
+
+
 def test_split_train_test(data):
-    # 先轉成dummies
-    data = dataPreProcess.getDataDummies(data)
+    # LabelEncoding
+    data = dataPreProcess.labelEncoding(data)
+
     train_percent = 0.7
     train, test = dataPreProcess.splitTrainTest(data, train_percent)
 
@@ -48,8 +55,8 @@ def test_split_train_test(data):
 
 
 def test_standardized(data):
-    # 先轉成dummies
-    data = dataPreProcess.getDataDummies(data)
+    # LabelEncoding
+    data = dataPreProcess.labelEncoding(data)
 
     print()
     # 把經過處理的資料印出來
@@ -57,9 +64,10 @@ def test_standardized(data):
 
 
 def test_minmax(data):
-    # 先轉成dummies
-    data = dataPreProcess.getDataDummies(data)
+    # LabelEncoding
+    data = dataPreProcess.labelEncoding(data)
 
     print()
     # 把經過處理的資料印出來
-    print(dataPreProcess.minmax(data))
+    x=dataPreProcess.minmax(data)
+    print(x)

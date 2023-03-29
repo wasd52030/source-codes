@@ -53,9 +53,11 @@ def equalTotalPayment(principal: float, percent: float, year: int):
     ]
     for col in table.columns.values:
         table[col] = table[col].apply(
-            lambda x: round(x, 0) if isinstance(x, Decimal) else x
+            lambda x: int(round(x, 0)) if isinstance(x, Decimal) else x
         )
-    table.to_csv("./result.csv", index=False)
+
+    with pandas.ExcelWriter("./result.xlsx") as writer:
+        table.to_excel(writer, sheet_name="本息平均攤還法",index=False)
 
 
 equalTotalPayment(7000000, 1.8, 20)

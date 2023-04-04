@@ -39,6 +39,10 @@
 	- 參考adafruit的ili9341 library與網路資料，整理ili9341 SPI LCD螢幕的code
 	- 加入讓螢幕顯示中文的能力
 	- 利用multithreading讓各個任務互不干擾
+- 20230403
+	- 網路上的code在解析圖片時會有6秒延遲，故而轉成adafruit的ili9341 library
+- 20220404
+	- 把聲音感測模組的狀態加入判斷
 
 ## refrernce
 - 光敏電阻模組 $\rightarrow$ https://shop.cpu.com.tw/product/46957/info/

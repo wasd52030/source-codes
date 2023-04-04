@@ -3,51 +3,38 @@ from PIL import ImageFont
 import subprocess
 import threading
 import time
+from ili9341_Adafruit import ili9341_Adafruit
+from adafruit_blinka.microcontroller.bcm283x.pin import Pin
 from rgbLED import RGBLED
 from buzzer import buzzer
-from ili9341 import ili9341
-
-
-GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BOARD)
-
-# RGBLED
-led1 = RGBLED(red=36, green=38, blue=40)
-
-# LM358光敏電阻
-GPIO.setup(11, GPIO.IN)
-
-# LM393麥克風模組
-GPIO.setup(13, GPIO.IN)
-
-# 蜂鳴器
-buz1 = buzzer(15)
-
-screen1 = ili9341(dc=18, reset=22, led=12)
-
-font = ImageFont.truetype(
-    "/usr/share/fonts/truetype/opentype/NotoSansCJK-Regular.ttc", 20
-)
+from datetime import datetime
 
 
 def lightTask():
+    global light,warning
     while 1:
-        if GPIO.input(11):
-            led1.setColor(0x00FF00)
-            # tBuzz = threading.Thread(target=buzzTask, daemon=True)
-            # tBuzz.start()
-            # tBuzz.join()
+        if GPIO.input(17) or warning:
+            light = False
         else:
-            led1.setColor(0x000000)
+            light = True
+        time.sleep(0.5)
 
-        time.sleep(0.4)
+
+def micTask():
+    global mic,warning
+    while 1:
+        if GPIO.input(27) or warning:
+            mic = False
+        else:
+            mic = True
+        time.sleep(0.5)
 
 
 def piSysInfo():
     global font
 
     # 把畫面清空
-    screen1.draw.rectangle((0, 0, 340, 240), fill="#000000")
+    screen.draw.rectangle((0, 0, 340, 240), fill="#000000")
 
     cmd = "hostname -I | cut -d' ' -f1"
     IP = "IP: " + subprocess.check_output(cmd, shell=True).decode("utf-8")
@@ -62,40 +49,122 @@ def piSysInfo():
 
     x, y = 0, -2
 
-    screen1.draw.text((x, y), IP, font=font, fill="#FFFFFF")
+    screen.draw.text((x, y), IP, font=font, fill="#FFFFFF")
     y += font.getsize(IP)[1]
-    screen1.draw.text((x, y), CPU, font=font, fill="#FFFF00")
+    screen.draw.text((x, y), CPU, font=font, fill="#FFFF00")
     y += font.getsize(CPU)[1]
-    screen1.draw.text((x, y), MemUsage, font=font, fill="#00FF00")
+    screen.draw.text((x, y), MemUsage, font=font, fill="#00FF00")
     y += font.getsize(MemUsage)[1]
-    screen1.draw.text((x, y), Disk, font=font, fill="#0000FF")
+    screen.draw.text((x, y), Disk, font=font, fill="#0000FF")
     y += font.getsize(Disk)[1]
-    screen1.draw.text((x, y), Temp, font=font, fill="#FF00FF")
+    screen.draw.text((x, y), Temp, font=font, fill="#FF00FF")
 
-    screen1.drawImg16BitColor()
+    screen.disp.image(screen.image)
 
 
-def buzzTask():
+def envMonitor():
+    global font, mic, light, warning
+
+    # 把畫面清空
+    screen.draw.rectangle((0, 0, 340, 240), fill="#000000")
+
+    currTime = datetime.now()
+    timeText = f"現在時間: {currTime.hour:>02}：{currTime.minute:>02}：{currTime.second:>02}"
+
+    # print(timeText,light)
+    lightStatus = "亮度正常" if light or warning else "請開燈！"
+    micStatus = "目前沒噪音" if mic or warning else "請小聲！"
+
+    x, y = 0, -2
+    screen.draw.text((x, y), timeText, font=font, fill="#FFFFFF")
+    y += font.getsize(timeText)[1]
+    screen.draw.text(
+        xy=(x, y),
+        text=lightStatus,
+        font=font,
+        fill="#FFFFFF" if light or warning else "#FF0000",
+    )
+    y += font.getsize(lightStatus)[1]
+    screen.draw.text(
+        xy=(x, y),
+        text=micStatus,
+        font=font,
+        fill="#FFFFFF" if mic or warning else "#FF0000",
+    )
+    y += font.getsize(micStatus)[1]
+
+    screen.disp.image(screen.image)
+
+
+def warningTask():
+    led1.setColor(0xFF0000)
     buz1.beep(5)
 
-
 def mainTask():
+    global mic, light,warning
     while 1:
-        print(GPIO.input(13))
-        piSysInfo()
-        time.sleep(1)
+        if (not light) and (not mic):
+            print(warning)
+            warning = True
+            tBuzz = threading.Thread(target=warningTask, daemon=True)
+            tBuzz.start()
+            tBuzz.join()
+            warning = False
+            print(warning)
+            
+        elif not light:
+            led1.setColor(0x00FF00)
+        elif not mic:
+            led1.setColor(0x0000FF)
+        else:
+            led1.setColor(0x000000)
+        envMonitor()
 
 
 def main():
     tMain = threading.Thread(target=mainTask, daemon=True)
     tLight = threading.Thread(target=lightTask, daemon=True)
-    
+    tMic = threading.Thread(target=micTask, daemon=True)
+
     tMain.start()
     tLight.start()
+    tMic.start()
 
-    tLight.join()
     tMain.join()
+    tLight.join()
+    tMic.join()
 
 
 if __name__ == "__main__":
+    GPIO.setwarnings(False)
+    # 為架接Adafruit的ili9341驅動，把編碼改成BCM模式
+    GPIO.setmode(GPIO.BCM)
+
+    # RGBLED
+    led1 = RGBLED(red=16, green=20, blue=21)
+
+    # LM358光敏電阻
+    GPIO.setup(17, GPIO.IN)
+
+    # LM393麥克風模組
+    GPIO.setup(27, GPIO.IN)
+
+    # 蜂鳴器
+    buz1 = buzzer(22)
+
+    # 光敏電阻狀態
+    light = True
+
+    # 壓電麥克風狀態
+    mic = True
+
+    # 警報狀態
+    warning = False
+
+    screen = ili9341_Adafruit(cs=Pin(8), dc=Pin(24), rst=Pin(25))
+
+    font = ImageFont.truetype(
+        "/usr/share/fonts/truetype/opentype/NotoSansCJK-Regular.ttc", 20
+    )
+
     main()

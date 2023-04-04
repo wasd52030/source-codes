@@ -1,4 +1,5 @@
 import RPi.GPIO as GPIO
+import asyncio
 import time
 
 
@@ -21,4 +22,4 @@ class buzzer:
             k = not k
             time.sleep(0.5)
             self.buzz.ChangeDutyCycle(0)
-            time.sleep(0.5)
+            # await asyncio.sleep(0.5)

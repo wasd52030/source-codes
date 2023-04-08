@@ -9,3 +9,6 @@
 - 收集資料與統計資料由`main` function的`isDownloading`變數進行切換
   - True: 收集資料
   - False: 統計資料
+
+
+**請將`Appsettings.json`中的YoutubeAPIKey填上自己的Youtube Data Api Key，並將檔名改成`appsettings.json`**

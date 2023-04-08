@@ -11,4 +11,4 @@
   - False: 統計資料
 
 
-**請將`Appsettings.json`中的YoutubeAPIKey填上自己的Youtube Data Api Key，並將檔名改成`appsettings.json`**
+**請將`appsettings_1.json`中的YoutubeAPIKey填上自己的Youtube Data Api Key，並將檔名改成`appsettings.json`**

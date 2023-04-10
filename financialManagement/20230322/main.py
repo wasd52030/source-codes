@@ -1,11 +1,15 @@
 from decimal import Decimal
+import decimal
 import pandas
 import numpy
 
 
 # 本息平均攤還法
 def equalTotalPayment(principal: float, percent: float, year: int):
-    principal, percent = Decimal(principal), Decimal(percent)
+    # c = decimal.getcontext()
+    # c.rounding = decimal.ROUND_HALF_UP
+
+    principal, percent = Decimal(str(principal)), Decimal(str(percent))
 
     # 期數(以月計算)
     n = year * 12
@@ -23,7 +27,7 @@ def equalTotalPayment(principal: float, percent: float, year: int):
 
     for _ in range(n):
         # 每月償還利息
-        b = round(principal * percent * 1 / 100 * 1 / 12, 0)
+        b = Decimal(str(principal * ((percent * 1 / 100) * 1 / 12))).quantize(0, decimal.ROUND_HALF_UP)
         tableB.append(b)
         # 每月償還本金
         c = a - b
@@ -53,11 +57,13 @@ def equalTotalPayment(principal: float, percent: float, year: int):
     ]
     for col in table.columns.values:
         table[col] = table[col].apply(
-            lambda x: int(round(x, 0)) if isinstance(x, Decimal) else x
+            lambda x: int(x.quantize(0, decimal.ROUND_HALF_UP))
+            if isinstance(x, Decimal)
+            else x
         )
 
     with pandas.ExcelWriter("./result.xlsx") as writer:
-        table.to_excel(writer, sheet_name="本息平均攤還法",index=False)
+        table.to_excel(writer, sheet_name="本息平均攤還法", index=False)
 
 
 equalTotalPayment(7000000, 1.8, 20)

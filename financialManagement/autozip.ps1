@@ -1,6 +1,6 @@
 function main {
 
-    $excludes = @("*.md", "*.ppt", "*.pptx", ".*", "_*")
+    $excludes = @("*.md", "*.ppt", "*.pptx", ".*", "_*","結果加驗算.xlsx")
     $NozipDirectory = @(
 		"HW_Compressed", 
 		"amortizationSchedule",

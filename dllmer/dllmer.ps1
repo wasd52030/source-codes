@@ -27,7 +27,7 @@ $btn1.Add_Click({
             # Write-Host "Start DLLM"
             for ($i = 0; $i -le 100; $i++) {
                 Invoke-Command -ScriptBlock $progressReporter -ArgumentList $i, "屌你老母", $i
-                Start-Sleep -Milliseconds 100
+                Start-Sleep -m 100
             }
             # Write-Host "End DLLM"
 

@@ -6,9 +6,6 @@ import numpy
 
 # 本息平均攤還法
 def equalTotalPayment(principal: float, percent: float, year: int):
-    # c = decimal.getcontext()
-    # c.rounding = decimal.ROUND_HALF_UP
-
     principal, percent = Decimal(str(principal)), Decimal(str(percent))
 
     # 期數(以月計算)

@@ -1,5 +1,6 @@
 .vs
 .idea
+.vscode
 node_modules
 __pycache__
 **/go.sum

@@ -1,5 +1,6 @@
 ﻿using YoutubeExplode;
 using YoutubeExplode.Videos.Streams;
+using YoutubeExplode.Playlists;
 
 string removeSpecialChar(string input)
 {
@@ -20,31 +21,51 @@ async Task<Dictionary<string, string>> getPlayListInfo(YoutubeClient yt, string 
     return info;
 }
 
-async Task download(YoutubeClient yt, string url)
+async Task<int> download(YoutubeClient yt, List<PlaylistVideo> list, int playListLength, int count = 0, int explodeCount = 0)
 {
-    await foreach (var video in yt.Playlists.GetVideosAsync(url))
+    if (list.Count == 0)
     {
-        var vinfo = await yt.Videos.GetAsync(video.Url);
+        return explodeCount;
+    }
+
+    while (list.Count > 0)
+    {
+        var vinfo = await yt.Videos.GetAsync(list[0].Url);
         var vtitle = vinfo.Title;
         vtitle = removeSpecialChar(vtitle);
-
-        if (File.Exists($@"./{vtitle}.mp3"))
+        try
         {
-            Console.WriteLine(@$"{vtitle}.mp3 download complete");
-            continue;
+            count++;
+            if (File.Exists($@"./{vtitle}.mp3"))
+            {
+
+                list.Remove(list[0]);
+                Console.WriteLine($"{vtitle} ok！\n{count}/{playListLength}\n");
+                continue;
+            }
+            else
+            {
+                var videolist = await yt.Videos.Streams.GetManifestAsync(list[0].Url);
+                var videoInfo = videolist.GetAudioOnlyStreams().GetWithHighestBitrate();
+                await yt.Videos.Streams.DownloadAsync(videoInfo, $@"./{vtitle}.mp3");
+                Console.WriteLine($"{vtitle} ok！\n{count}/{playListLength}\n");
+                list.Remove(list[0]);
+            }
+            await Task.Delay(250);
         }
-        
-        var list = await yt.Videos.Streams.GetManifestAsync(video.Url);
-        var videoInfo = list.GetAudioOnlyStreams().GetWithHighestBitrate();
-        await yt.Videos.Streams.DownloadAsync(videoInfo, $@"./{vtitle}.mp3");
-        Console.WriteLine(@$"{vtitle}.mp3 download complete");
-        await Task.Delay(1000);
+        catch (System.Exception)
+        {
+            await download(yt, list, playListLength, count - 1, explodeCount + 1);
+        }
     }
+    return explodeCount;
 }
 
 //reference -> https://csharpkh.blogspot.com/2017/10/c-async-void-async-task.html
 async Task main()
 {
+    Console.OutputEncoding = System.Text.Encoding.UTF8;
+
     var t1 = DateTime.UtcNow;
     // reference -> https://github.com/Tyrrrz/YoutubeExplode
     var yt = new YoutubeClient();
@@ -64,12 +85,17 @@ async Task main()
         name = $"YT-{playListInfo["title"]}";
     }
     name = removeSpecialChar(name);
+
     if (!Directory.Exists($"./{name}"))
     {
         Directory.CreateDirectory($"./{name}");
     }
     Directory.SetCurrentDirectory($"./{name}");
-    await download(yt, url);
+
+
+    var playList = await yt.Playlists.GetVideosAsync(url).ToListAsync();
+    var explodeCount = await download(yt, playList, playList.Count);
+    Console.WriteLine($"共炸了{explodeCount}次");
 
     var t2 = DateTime.UtcNow;
     Console.WriteLine($"執行時間: {(t2 - t1)}");

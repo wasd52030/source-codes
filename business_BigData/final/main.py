@@ -360,7 +360,7 @@ class Analyzer:
 
         normal_w = MinMaxScaler().fit(x).transform(x)
         # 切測試資料與訓練資料
-        train_x, test_x, train_y, test_y = train_test_split(normal_w, y, test_size=0.7)
+        train_x, test_x, train_y, test_y = train_test_split(normal_w, y, test_size=0.3)
         train_y = numpy.ravel(train_y)
 
         clf = RandomForestClassifier(max_depth=70, random_state=0)

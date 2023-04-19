@@ -1,0 +1,14 @@
+# kotlinProcessing
+
+如標題，是用kotlin來寫processing code的研究紀錄
+
+會搞這玩意是考慮到這學期某門課期末可能要用到processing這玩意，不過看老師搞感覺開發環境跟arduino一樣都跟記事本沒兩樣，看著就蠻燥的，而arduino方面在vscode上面的extension對我來說已經夠用了，而processing在vscode上面的支援可以說是0。於是便想到processing是基於java開發的，那是不是能以library的形式導進java專案呢？
+
+經過一番調研後，發現了[這東西](https://mvnrepository.com/artifact/org.processing/core)，非常好！這就是我要的。
+
+反正都能透過gradle拉了，用kotlin來搞感覺會比java輕鬆很多XDDDDD
+
+不過kotlin對浮點數預設用double，而processing收的參數都是float，導致每次都要轉，應該就這點比較麻煩了
+
+一直在想，如果用processing的目的只是要收Serial的值來做UI，那大可選python等其他語言啊，何必搞大號記事本processing呢？
+

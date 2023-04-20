@@ -19,6 +19,7 @@
 - 蜂鳴器: 聲音過吵+亮度過低發出警報聲
 - LED: 當聲音過吵|亮度太暗時亮起
 - LCD螢幕: 顯示聲音和亮度的警報訊息(e.g. 請小聲|請開燈)
+- 溫溼度感測器: 實時監測目前溫溼度
 
 ## dev log
 - 20230318
@@ -43,9 +44,16 @@
 	- 網路上的code在解析圖片時會有6秒延遲，故而轉成adafruit的ili9341 library
 - 20220404
 	- 把聲音感測模組的狀態加入判斷
+- 20230408
+	- 引入通知功能
+		- 如果太吵或太暗，會透過Line Notify發訊息通知使用者
+- 20230413
+	- 取得溫溼度資訊，每隔一段時間透過Line Notify發訊息通知使用者
 
-## refrernce
+## reference
 - 光敏電阻模組 $\rightarrow$ https://shop.cpu.com.tw/product/46957/info/
 - 聲音感測模組 $\rightarrow$ https://blog.jmaker.com.tw/arduino-sound/
 - ili9341 spi LCD螢幕 $\rightarrow$ https://blog.csdn.net/chenqide163/article/details/125580594
 - adafruit ili9341 spi LCD螢幕 library $\rightarrow$ https://learn.adafruit.com/adafruit-2-8-and-3-2-color-tft-touchscreen-breakout-v2/python-usage
+- Line Notify $\rightarrow$ https://ithelp.ithome.com.tw/articles/10282029
+- adafruit dht11 $\rightarrow$ https://learn.adafruit.com/dht-humidity-sensing-on-raspberry-pi-with-gdocs-logging/python-setup

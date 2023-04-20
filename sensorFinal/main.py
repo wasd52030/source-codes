@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import RPi.GPIO as GPIO
 from PIL import ImageFont
 import subprocess
@@ -5,13 +7,63 @@ import threading
 import time
 from ili9341_Adafruit import ili9341_Adafruit
 from adafruit_blinka.microcontroller.bcm283x.pin import Pin
+import adafruit_dht
 from rgbLED import RGBLED
 from buzzer import buzzer
 from datetime import datetime
+import requests
+
+
+def getDTH11Data():
+    global dht11_data
+
+    device = adafruit_dht.DHT11(Pin(26))
+    while 1:
+        try:
+            dht11_data = [device.temperature, device.humidity]
+            print(f"dht11_data={dht11_data}")
+        except RuntimeError as error:
+            # Errors happen fairly often, DHT's are hard to read, just keep going
+            print(error.args[0])
+            time.sleep(2)
+        except Exception as error:
+            device.exit()
+            raise error
+        time.sleep(5)
+
+
+def tempNotify():
+    global dht11_data, headers
+
+    temp_dht11 = [0, 0]
+    while 1:
+        if len(dht11_data) > 0:
+            temp_dht11 = dht11_data
+
+        if temp_dht11[0] != 0 and temp_dht11[1] != 0:
+            requests.post(
+                f"https://notify-api.line.me/api/notify?message=現在溫度：{temp_dht11[0]}°C",
+                headers=headers,
+            )
+            requests.post(
+                f"https://notify-api.line.me/api/notify?message=現在濕度：{temp_dht11[1]}%",
+                headers=headers,
+            )
+        elif temp_dht11[0] != 0:
+            requests.post(
+                f"https://notify-api.line.me/api/notify?message=現在溫度：{temp_dht11[0]}°C",
+                headers=headers,
+            )
+        elif temp_dht11[1] != 0:
+            requests.post(
+                f"https://notify-api.line.me/api/notify?message=現在濕度：{temp_dht11[1]}%",
+                headers=headers,
+            )
+        time.sleep(60)
 
 
 def lightTask():
-    global light,warning
+    global light, warning
     while 1:
         if GPIO.input(17) or warning:
             light = False
@@ -21,7 +73,7 @@ def lightTask():
 
 
 def micTask():
-    global mic,warning
+    global mic, warning
     while 1:
         if GPIO.input(27) or warning:
             mic = False
@@ -64,6 +116,8 @@ def piSysInfo():
 
 def envMonitor():
     global font, mic, light, warning
+    
+    # print(light, mic)
 
     # 把畫面清空
     screen.draw.rectangle((0, 0, 340, 240), fill="#000000")
@@ -73,7 +127,7 @@ def envMonitor():
 
     # print(timeText,light)
     lightStatus = "亮度正常" if light or warning else "請開燈！"
-    micStatus = "目前沒噪音" if mic or warning else "請小聲！"
+    micStatus = "音量正常" if mic or warning else "請小聲！"
 
     x, y = 0, -2
     screen.draw.text((x, y), timeText, font=font, fill="#FFFFFF")
@@ -93,6 +147,22 @@ def envMonitor():
     )
     y += font.getsize(micStatus)[1]
 
+    temp_dht11 = [0, 0]
+    if len(dht11_data) > 0:
+        temp_dht11 = dht11_data
+
+        temp = f"現在溫度：{temp_dht11[0]}°C"
+        screen.draw.text((x, y), temp, font=font, fill="#FFFFFF")
+        y += font.getsize(temp)[1]
+
+        humi = f"現在濕度：{temp_dht11[1]}%"
+        screen.draw.text((x, y), humi, font=font, fill="#FFFFFF")
+        y += font.getsize(humi)[1]
+    else:
+        text = "正在讀取溫溼度資訊"
+        screen.draw.text((x, y), text, font=font, fill="#FFFFFF")
+        y += font.getsize(text)[1]
+
     screen.disp.image(screen.image)
 
 
@@ -100,22 +170,32 @@ def warningTask():
     led1.setColor(0xFF0000)
     buz1.beep(5)
 
+
 def mainTask():
-    global mic, light,warning
+    global mic, light, warning, headers
+
     while 1:
         if (not light) and (not mic):
-            print(warning)
+            # print(warning)
             warning = True
             tBuzz = threading.Thread(target=warningTask, daemon=True)
             tBuzz.start()
             tBuzz.join()
             warning = False
-            print(warning)
-            
+            # print(warning)
+
         elif not light:
             led1.setColor(0x00FF00)
+            requests.post(
+                f"https://notify-api.line.me/api/notify?message=太暗了，請開燈！",
+                headers=headers,
+            )
         elif not mic:
             led1.setColor(0x0000FF)
+            requests.post(
+                f"https://notify-api.line.me/api/notify?message=太吵了，請小聲！",
+                headers=headers,
+            )
         else:
             led1.setColor(0x000000)
         envMonitor()
@@ -125,14 +205,20 @@ def main():
     tMain = threading.Thread(target=mainTask, daemon=True)
     tLight = threading.Thread(target=lightTask, daemon=True)
     tMic = threading.Thread(target=micTask, daemon=True)
+    tDht11 = threading.Thread(target=getDTH11Data, daemon=True)
+    tTempNotify = threading.Thread(target=tempNotify, daemon=False)
 
     tMain.start()
     tLight.start()
     tMic.start()
+    tDht11.start()
+    tTempNotify.start()
 
     tMain.join()
     tLight.join()
     tMic.join()
+    tDht11.join()
+    tTempNotify.join()
 
 
 if __name__ == "__main__":
@@ -160,6 +246,12 @@ if __name__ == "__main__":
 
     # 警報狀態
     warning = False
+
+    # 溫溼度資料
+    dht11_data = []
+
+    # line notify header
+    headers = {"Authorization": "Bearer YH0OHNw8ymq85mhIgsxYqrDT9Lhio9wuFIeTJC2nBbH"}
 
     screen = ili9341_Adafruit(cs=Pin(8), dc=Pin(24), rst=Pin(25))
 

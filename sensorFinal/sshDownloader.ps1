@@ -6,5 +6,5 @@
 
 # 目前是在以前備份過的資料夾使用，所以位置直接寫該資料夾下全部的檔案
 $ip = Read-Host -Prompt "樹莓派IP"
-scp "user@$($ip):~/sensorFinal/*" "./"
+scp -r "user@$($ip):~/sensorFinal/*" "./"
 pause

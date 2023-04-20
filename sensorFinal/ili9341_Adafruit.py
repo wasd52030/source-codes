@@ -1,9 +1,6 @@
-import time
-from datetime import datetime
 import digitalio
 import board
-import subprocess
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw
 from adafruit_rgb_display import ili9341
 from adafruit_blinka.microcontroller.bcm283x.pin import Pin
 

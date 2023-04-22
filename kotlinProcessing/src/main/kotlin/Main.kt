@@ -18,7 +18,7 @@ class processingPlayground : PApplet() {
     private lateinit var velocity: PVector // 速度
 
     override fun settings() {
-        size(Width, Height, P3D)
+        size(Width, Height)
     }
 
     override fun setup() {

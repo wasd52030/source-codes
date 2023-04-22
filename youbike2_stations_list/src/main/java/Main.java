@@ -11,6 +11,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.FileWriter;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,7 +38,7 @@ public class Main {
             JsonObject data = JsonParser.parseString(JsonSource.html()).getAsJsonObject();
             JsonObject pageProps = data.get("props").getAsJsonObject().get("pageProps").getAsJsonObject();
             JsonArray yb2 = pageProps.get("jsonYb2").getAsJsonArray();
-            try (FileWriter file = new FileWriter("YouBike2.0_站點列表.txt")) {
+            try (FileWriter file = new FileWriter("YouBike2.0_站點列表.txt", Charset.forName("UTF-8"))) {
                 for (JsonElement item : yb2) {
                     JsonObject station = item.getAsJsonObject();
                     JsonObject available = station.get("available_spaces_detail").getAsJsonObject();

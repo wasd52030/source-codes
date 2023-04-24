@@ -11,9 +11,10 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.FileWriter;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class Main {
     public static void main(String[] args) {
@@ -28,32 +29,40 @@ public class Main {
             Document website = Jsoup.parse(html);
             Elements JsonSource = website.select("#__NEXT_DATA__");
             Elements cityOption = website.select("#stations-select-area");
-            Map<String, String> citys = new HashMap<>();
+            Map<String, String> cities = new HashMap<>();
             for (Element city : cityOption.get(0).children()) {
                 if (!city.val().equals("")) {
-                    citys.put(city.val(), city.html());
+                    cities.put(city.val(), city.html());
                 }
             }
 
             JsonObject data = JsonParser.parseString(JsonSource.html()).getAsJsonObject();
             JsonObject pageProps = data.get("props").getAsJsonObject().get("pageProps").getAsJsonObject();
             JsonArray yb2 = pageProps.get("jsonYb2").getAsJsonArray();
-            try (FileWriter file = new FileWriter("YouBike2.0_站點列表.txt", Charset.forName("UTF-8"))) {
+            try (FileWriter file = new FileWriter("YouBike2.0_站點列表.txt", StandardCharsets.UTF_8)) {
+                var Townships = new TreeMap<String, Integer>();
                 for (JsonElement item : yb2) {
+
                     JsonObject station = item.getAsJsonObject();
                     JsonObject available = station.get("available_spaces_detail").getAsJsonObject();
 
-                    String city = citys.get(station.get("area_code").getAsString());
+                    String city = cities.get(station.get("area_code").getAsString());
                     String district = station.get("district_tw").getAsString();
                     String address = station.get("address_tw").getAsString();
 
                     file.write(String.format("地區: %s\n", city));
                     file.write(String.format("站名: %s\n", station.get("name_tw").getAsString()));
                     file.write(String.format("所在地: %s\n", district + address));
+                    Townships.put(city + district, (Townships.containsKey(city + district) ? Townships.get(city + district) + 1 : 0));
+
                     file.write(String.format("可借數量: %s\n", available.get("yb2").getAsString()));
                     file.write(String.format("空位: %s\n", station.get("empty_spaces").getAsString()));
                     file.write("\n");
                     file.flush();
+                }
+
+                for (var township : Townships.entrySet()) {
+                    file.write(String.format("%s：%d\n", township.getKey(), township.getValue()));
                 }
             } catch (Exception e) {
                 e.printStackTrace();

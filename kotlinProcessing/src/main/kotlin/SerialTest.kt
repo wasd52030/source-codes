@@ -1,7 +1,7 @@
 import processing.core.PApplet
 import processing.serial.*
 
-class SerialTest : PApplet() {
+class serialTest : PApplet() {
     private lateinit var serialClient: Serial
 
     // size必須在settings裡面設定

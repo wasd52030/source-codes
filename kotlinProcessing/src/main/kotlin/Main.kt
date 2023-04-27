@@ -48,5 +48,5 @@ class processingPlayground : PApplet() {
 
 //YourClass::class.java.name
 fun main() {
-    PApplet.main(processingPlayground::class.java.name)
+    PApplet.main(serialTest::class.java.name)
 }

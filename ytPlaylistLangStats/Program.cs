@@ -126,21 +126,23 @@ async Task dataAnalysis(string path)
 async Task main()
 {
 
-    IConfiguration config = new ConfigurationBuilder()
+    IConfiguration configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
             .Build();
-    string? apiKey = config["youtubeAPIKey"];
 
-    bool isDownloading = false;
-    if (isDownloading)
+    Configure config = new Configure();
+    config.apiKey = configuration.GetValue<string>("YoutubeAPIKey");
+    config.isDownloading = configuration.GetValue<bool>("isDownloading");
+    
+    if (config.isDownloading)
     {
         await getPlayListData(
             "https://www.youtube.com/playlist?list=PLdx_s59BrvfXJXyoU5BHpUkZGmZL0g3Ip",
             new List<JsonElement>(),
-            apiKey!
+            config.apiKey!
         );
-        await getVideoDetail("./data.json", apiKey!);
+        await getVideoDetail("./data.json", config.apiKey!);
         Console.Write("因Youtube API能拿到的資料不完整，");
         Console.WriteLine("請再次確認每隻影片的語言");
     }

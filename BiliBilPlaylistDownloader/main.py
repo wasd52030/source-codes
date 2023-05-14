@@ -1,17 +1,25 @@
-#請確認已將ffmpeg下載到電腦中並設定環境變數！
+# 請確認已將ffmpeg下載到電腦中並設定環境變數！
 
 from urllib.parse import parse_qs, urlparse
 import asyncio
 import requests
 import os
-from bilix.download import DownloaderBilibili
+from bilix.sites.bilibili import DownloaderBilibili
 from funcTimer import FuncTimer
 
 
 async def download(id, num):
-    d = DownloaderBilibili(videos_dir=os.curdir, video_concurrency=5)
-    await d.get_favour(url_or_fid=str(id), quality=100, num=num, keyword='', series=True, only_audio=True, hierarchy=False)
-    await d.aclose()
+    async with DownloaderBilibili(
+        part_concurrency=5, video_concurrency=5, hierarchy=False
+    ) as d:
+        await d.get_favour(
+            url_or_fid=str(id),
+            quality=100,
+            num=num,
+            keyword="",
+            series=True,
+            only_audio=True,
+        )
 
 
 @FuncTimer
@@ -22,13 +30,13 @@ def main():
         urlprase函數裡面填要下載的收藏夾網址
     """
     url = urlparse(
-        'https://space.bilibili.com/15007690/favlist?fid=171091690&ftype=create'
+        "https://space.bilibili.com/15007690/favlist?fid=171091690&ftype=create"
     )
     parameters = parse_qs(url.query)
 
     FavourInfo = requests.get(
         f"https://api.bilibili.com/x/v3/fav/resource/list?media_id={parameters['fid'][0]}&ps=1"
-    ).json()['data']['info']
+    ).json()["data"]["info"]
 
     if not os.path.exists(f"./Bilibili-{FavourInfo['title']}"):
         os.mkdir(f"./Bilibili-{FavourInfo['title']}")
@@ -38,7 +46,7 @@ def main():
         print("floder created！")
         os.chdir(f"./Bilibili-{FavourInfo['title']}")
 
-    asyncio.run(download(FavourInfo['id'], FavourInfo['media_count']))
+    asyncio.run(download(FavourInfo["id"], FavourInfo["media_count"]))
     print("下載完成")
 
 

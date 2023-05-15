@@ -43,7 +43,7 @@ def main():
     # 切訓練與測試資料
     x1 = data.iloc[:, :-1].values
     x2 = data[
-        ["Administrative_Duration", "Informational", "Informational_Duration"]
+        ["PageValues", "ExitRates", "ProductRelated_Duration"]
     ].values
     y = data.iloc[:, data.shape[1] - 1].values
     train_x1, test_x1, train_y, test_y = dataPreProcess.splitTrainTest(

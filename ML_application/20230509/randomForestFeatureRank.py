@@ -27,11 +27,16 @@ def randomForestFeatureRank(
     rank = model.feature_importances_
     inidices = numpy.argsort(rank)[::-1]
 
-    for f in range(train_x.shape[1]):
-        print(
-            f"%2d) %-*s %f" % (f + 1, 30, featureNames[inidices[f]], rank[inidices[f]])
-        )
+    with open(
+        "./tables_and_reports/featureRank.txt", encoding="utf-8", mode="w"
+    ) as file:
+        for f in range(train_x.shape[1]):
+            print(
+                f"%2d) %-*s %f" % (f + 1, 30, featureNames[inidices[f]], rank[inidices[f]]),
+                file=file,
+            )
 
+    featureNames = [featureNames[inidices[f]] for f in range(train_x.shape[1])]
     pyplot.title("Feature Importance")
     pyplot.bar(range(train_x.shape[1]), rank[inidices], align="center")
     pyplot.xticks(range(train_x.shape[1]), featureNames, rotation=90)
@@ -68,12 +73,13 @@ def main():
 
 if __name__ == "__main__":
     manageFolder("plots")
+    manageFolder("tables_and_reports")
 
     data = pandas.DataFrame()
     data = pandas.read_csv("./online_shoppers_intention.csv")
 
     # feature names
-    featureNames = [*data.columns[1:]]
+    featureNames = [*data.columns[:-1]]
 
     train_x, train_y, test_x, test_y = (
         numpy.ndarray([1, 2, 3]),

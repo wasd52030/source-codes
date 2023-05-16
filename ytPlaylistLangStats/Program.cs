@@ -117,10 +117,11 @@ async Task dataAnalysis(string path)
         stat.Add("total", stat.Values.Sum());
     }
 
-    foreach (var key in stat.Keys)
-    {
-        Console.WriteLine($"{key}: {stat[key]}");
-    }
+    await File.WriteAllTextAsync(
+        Path.Combine(Directory.GetCurrentDirectory(), "result.json"),
+        JsonSerializer.Serialize(stat),
+        System.Text.Encoding.UTF8
+    );
 }
 
 async Task main()
@@ -132,15 +133,15 @@ async Task main()
             .Build();
 
     Configure config = new Configure();
-    config.apiKey = configuration.GetValue<string>("YoutubeAPIKey");
+    config.apiKey = configuration.GetValue<string>("YoutubeAPIKey")!;
     config.isDownloading = configuration.GetValue<bool>("isDownloading");
-    
+
     if (config.isDownloading)
     {
         await getPlayListData(
             "https://www.youtube.com/playlist?list=PLdx_s59BrvfXJXyoU5BHpUkZGmZL0g3Ip",
             new List<JsonElement>(),
-            config.apiKey!
+            config.apiKey
         );
         await getVideoDetail("./data.json", config.apiKey!);
         Console.Write("因Youtube API能拿到的資料不完整，");

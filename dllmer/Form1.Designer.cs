@@ -30,39 +30,51 @@ partial class Form1
     {
         this.components = new System.ComponentModel.Container();
         this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        this.ClientSize = new System.Drawing.Size(400, 300);
+        this.AutoSize=true;
         this.Text = "正在前往KNN的路上";
 
         this.rootLayout = new TableLayoutPanel();
-        this.rootLayout.Anchor = AnchorStyles.None;
+        this.rootLayout.Location=new Point(5,30);
         this.rootLayout.AutoSize = true;
-        this.rootLayout.Location = new Point(5, 5);
+
         this.Controls.Add(this.rootLayout);
 
-        this.btn1 = new Button();
-        this.btn1.AutoSize = true;
-        this.btn1.Text = "親切問候";
-        this.btn1.Anchor = AnchorStyles.None;
-        this.btn1.Click += btn1_click;
-        this.rootLayout.Controls.Add(this.btn1,1,1);
+        this.btns = new Button[100];
+        int temp = 1;
+        for (int i = 0; i < 10; i++)
+        {
+            for (int j = 0; j < 10; j++)
+            {
+                this.btns[i] = new Button();
+                this.btns[i].Size=new Size(115,50);
+                // this.btns[i].AutoSize = true;
+                this.btns[i].Text = $"親切問候{temp}";
+                this.btns[i].Anchor = AnchorStyles.None;
+                this.btns[i].Click += btns_click;
+                this.rootLayout.Controls.Add(this.btns[i], j, i + 1);
+                temp++;
+            }
+        }
 
-        this.label1=new Label();
-        this.label1.AutoSize=true;
-        this.label1.Size=new Size(50,20);
-        this.label1.Anchor=AnchorStyles.None;
-        this.label1.Text="o4o555";
-        this.rootLayout.Controls.Add(this.label1,1,2);
+        this.label1 = new Label();
+        this.label1.AutoSize = true;
+        this.label1.Size = new Size(50, 5);
+        this.label1.Anchor = AnchorStyles.None;
+        this.label1.Text = "o4o555";
+        this.label1.Location=new Point(10,5);
+        this.Controls.Add(this.label1);
 
-        this.progressBar1=new ProgressBar();
-        this.progressBar1.Size=new Size(250,20);
-        this.progressBar1.Anchor=AnchorStyles.None;
-        this.rootLayout.Controls.Add(this.progressBar1,2,2);
+        this.progressBar1 = new ProgressBar();
+        this.progressBar1.Size = new Size(250, 20);
+        this.progressBar1.Anchor = AnchorStyles.None;
+        this.progressBar1.Location=new Point(135,5);
+        this.Controls.Add(this.progressBar1);
     }
 
     #endregion
 
     private TableLayoutPanel rootLayout;
-    private Button btn1;
+    private Button[] btns;
     private Label label1;
     private ProgressBar progressBar1;
 }

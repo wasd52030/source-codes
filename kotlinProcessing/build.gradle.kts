@@ -24,6 +24,8 @@ dependencies {
     //required for processing.serial
     implementation("io.github.java-native:jssc:2.9.4")
     implementation(kotlin("stdlib-jdk8"))
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
 }
 
 // reference https://www.jetbrains.com/help/idea/create-your-first-kotlin-app.html#run-the-jar

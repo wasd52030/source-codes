@@ -1,17 +1,17 @@
- 1) PageValues                     0.378013
- 2) ExitRates                      0.091122
- 3) ProductRelated_Duration        0.089242
- 4) ProductRelated                 0.073676
- 5) Administrative_Duration        0.057892
- 6) BounceRates                    0.055990
- 7) Month                          0.043413
- 8) Administrative                 0.042631
- 9) TrafficType                    0.031752
-10) Region                         0.030453
-11) Informational_Duration         0.025992
-12) Browser                        0.019273
-13) OperatingSystems               0.018392
-14) Informational                  0.016884
-15) VisitorType                    0.011680
-16) Weekend                        0.010287
-17) SpecialDay                     0.003310
+ 1) PageValues                     0.390232
+ 2) ExitRates                      0.089200
+ 3) ProductRelated_Duration        0.087496
+ 4) ProductRelated                 0.071999
+ 5) Administrative_Duration        0.058273
+ 6) BounceRates                    0.058003
+ 7) Administrative                 0.042483
+ 8) Month                          0.040861
+ 9) TrafficType                    0.030336
+10) Region                         0.029369
+11) Informational_Duration         0.025823
+12) Browser                        0.017705
+13) OperatingSystems               0.016964
+14) Informational                  0.016677
+15) VisitorType                    0.011071
+16) Weekend                        0.010036
+17) SpecialDay                     0.003472

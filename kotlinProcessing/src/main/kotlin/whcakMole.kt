@@ -25,14 +25,14 @@ class whcakMole : PApplet() {
     private var backBtn = Button(100f, 45f, 700f, 0f, color(255, 0, 0), "Back", 20f)
     private var state = GameState.Start
     private var Timer = 0
-    private var Moles = listOf<Int>()
+    private var Moles = arrayOf<Int>()
     private var level = 0
     private var score = 0
-    private var msgs = mutableListOf("", "", "")
+    private var msgs = arrayOf("", "", "")
     private var btns = mutableListOf<Button>()
 
-    private fun SetLevelData(n: Int): List<Int> {
-        return btns.indices.shuffled().take(n).toList()
+    private fun setLevelData(n: Int): Array<Int> {
+        return btns.indices.shuffled().take(n).toTypedArray()
     }
 
     override fun mousePressed() {
@@ -102,8 +102,8 @@ class whcakMole : PApplet() {
                     state = GameState.Done
                 } else if (Timer % 20 == 0) {
                     level++
-                    var temp = Random.nextInt(1, 11)
-                    Moles = SetLevelData(temp)
+                    var temp = Random.nextInt(5, 11)
+                    Moles = setLevelData(temp)
                     btns.forEach { i -> i.text = "" }
                     for (i in Moles) {
                         btns[i].text = "X"
@@ -113,7 +113,7 @@ class whcakMole : PApplet() {
                 Timer++
 
                 msgs[0] = "現在是第${level}關，共${score}分"
-                msgs[1] = "${Timer/4}秒"
+                msgs[1] = "${Timer / 4}秒"
 
                 fill(backBtn.color)
                 rect(backBtn.posX, backBtn.posY, backBtn.width, backBtn.height)
@@ -128,7 +128,7 @@ class whcakMole : PApplet() {
                     text(item, width / 2f, 10f + (20 * index))
                 }
 
-                btns.forEachIndexed { index, btn ->
+                btns.forEach { btn ->
                     fill(btn.color)
                     rect(btn.posX, btn.posY, btn.width, btn.height)
                     textSize(btn.textSize)

@@ -6,6 +6,6 @@
 
 **筆記的`hcakmd`連結:  https://hackmd.io/@9kDD5OucTsigU4yUanEPQg/HkGFmW4fn**
 
-程式作業涉及算錢基本上都會用`Decimal`型態，畢竟**算錢用浮點，遲早被人扁**XDDDDDD
+程式作業涉及算錢基本上會用`Decimal`型態，畢竟**算錢用浮點，遲早被人扁**XDDDDDD
 
 都2023年了，為甚麼excel讀csv不是預設utf-8？？？還要用`資料>從文字/CSV導入`？？？百思不得其解

@@ -4,6 +4,7 @@ import numpy
 import pandas
 
 from matplotlib import pyplot
+from sklearn.base import BaseEstimator
 
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
@@ -20,7 +21,8 @@ from sklearn.metrics import (
     auc,
 )
 from sklearn.pipeline import Pipeline
-from sklearn.model_selection import KFold, cross_val_score
+from sklearn.model_selection import GridSearchCV, KFold, cross_val_score
+from sympy import true
 
 
 from dataPreProcess import dataPreProcess
@@ -34,26 +36,31 @@ from utils import (
     resultOutput,
 )
 
-from typing import Callable, List
+from typing import List, Dict, Any
 
 
-def modelPipeline(model: object):
-    global results, train_x, test_x, train_y, test_y
-
-    modelPipeline = Pipeline(
+def getPipeLine(model: object) -> Pipeline:
+    return Pipeline(
         [
             ("scaler", StandardScaler()),
             ("pca", PCA(n_components=2)),
             ("model", model),
         ]
     )
-    modelPipeline.fit(train_x, train_y)
+
+
+def modelPipe(model: object):
+    global results, train_x, test_x, train_y, test_y
+
+    pipeline = getPipeLine(model)
+
+    pipeline.fit(train_x, train_y)
 
     results.append(
         modelScore(
-            modelPipeline,
-            modelPipeline.score(train_x, train_y),
-            modelPipeline.score(test_x, test_y),
+            pipeline,
+            pipeline.score(train_x, train_y),
+            pipeline.score(test_x, test_y),
             f"{inspect.stack()[0][3]}_{str(model.__class__)[1:-2].split('.')[-1]}",
         )
     )
@@ -62,13 +69,7 @@ def modelPipeline(model: object):
 def KFoldCrossValidation(model: object):
     global results, train_x, test_x, train_y, test_y
 
-    pipeline = Pipeline(
-        [
-            ("scaler", StandardScaler()),
-            ("pca", PCA(n_components=2)),
-            ("model", model),
-        ]
-    )
+    pipeline = getPipeLine(model)
 
     scores = cross_val_score(
         estimator=pipeline,
@@ -89,16 +90,29 @@ def KFoldCrossValidation(model: object):
     )
 
 
-def performanceMetrics(model: object):
-    global logger, results, train_x, test_x, train_y, test_y
+def gridSearch(paramGrid: List[Dict[str, Any]]) -> BaseEstimator:
+    global results, train_x, test_x, train_y, test_y
 
     pipeline = Pipeline(
         [
             ("scaler", StandardScaler()),
             ("pca", PCA(n_components=2)),
-            ("model", model),
+            ("model", None),
         ]
     )
+
+    grid_search = GridSearchCV(
+        estimator=pipeline, param_grid=paramGrid, scoring="accuracy", cv=5, n_jobs=-1
+    )
+
+    grid_search.fit(train_x, train_y)
+
+    # 最佳參數模型
+    return grid_search.best_estimator_
+
+
+def performanceMetrics(pipeline: object):
+    global logger, results, train_x, test_x, train_y, test_y
 
     pipeline.fit(train_x, train_y)
     predY = pipeline.predict(test_x)
@@ -109,23 +123,15 @@ def performanceMetrics(model: object):
 
     results.append(
         modelPerformanceMetrics(
-            model, accuracyScore, precisionScore, recallScore, f1Score
+            pipeline.steps[-1][-1], accuracyScore, precisionScore, recallScore, f1Score
         )
     )
 
 
-def confusionMatrix(model: object):
+def confusionMatrix(pipeline: object):
     global logger, results, train_x, test_x, train_y, test_y
 
-    modelName = str(model.__class__)[1:-2].split(".")[-1]
-
-    pipeline = Pipeline(
-        [
-            ("scaler", StandardScaler()),
-            ("pca", PCA(n_components=2)),
-            ("model", model),
-        ]
-    )
+    modelName = str(pipeline.steps[-1][-1].__class__)[1:-2].split(".")[-1]
 
     pipeline.fit(train_x, train_y)
     predY = pipeline.predict(test_x)
@@ -148,21 +154,16 @@ def confusionMatrix(model: object):
 
 
 @Logger("")
-def ROC_AUCs(models: List[object]):
+def ROC_AUCs(pipelines: List[object]):
     global logger, results, train_x, test_x, train_y, test_y
 
     pyplot.figure(figsize=(10, 6))
 
-    for model in models:
-        modelName = str(model.__class__)[1:-2].split(".")[-1]
+    for pipeline in pipelines:
+        modelName = str(pipeline.steps[-1][-1].__class__)[1:-2].split(".")[-1]
 
-        pipeline = Pipeline(
-            [
-                ("scaler", StandardScaler()),
-                ("pca", PCA(n_components=2)),
-                ("model", model),
-            ]
-        )
+        if modelName == "SVC":
+            pipeline.steps[-1][-1].probability = True
 
         clf = pipeline.fit(train_x, train_y)
         proba = clf.predict_proba(test_x)[:, -1]
@@ -194,7 +195,7 @@ def originModelJob():
         SVC(kernel="rbf", random_state=1, gamma=0.1, C=100),
     ]
 
-    jobs = [modelPipeline, KFoldCrossValidation]
+    jobs = [modelPipe, KFoldCrossValidation]
 
     for job in jobs:
         for i in range(len(originModels)):
@@ -207,29 +208,63 @@ def originModelJob():
             results.clear()
 
 
+@Logger("")
+def findBestModel():
+    modelPipes = []
+
+    paramGrids = [
+        {
+            "model": [LogisticRegression()],
+            "model__C": [0.01, 0.1, 1, 10, 100],
+            "model__random_state": [0.01, 0.1, 1, 10, 100],
+            "model__solver": [
+                "lbfgs",
+                "liblinear",
+                "newton-cg",
+                "newton-cholesky",
+                "sag",
+                "saga",
+            ],
+            "model__multi_class": ["auto", "ovr", "multinomial"],
+            "model__penalty": ["l1", "l2", "elasticnet"],
+        },
+        {
+            "model": [DecisionTreeClassifier()],
+            "model__criterion": ["gini", "entropy", "log_loss"],
+            "model__random_state": [0.01, 0.1, 1, 10, 100],
+            "model__max_depth": [4, 8, 10],
+            "model__min_samples_split": [0.01, 0.1, 1, 10, 100],
+            "model__splitter": ["best", "random"],
+        },
+        {
+            "model": [SVC()],
+            "model__random_state": [0.01, 0.1, 1, 10, 100],
+            "model__C": [0.01, 0.1, 1, 10, 100],
+            "model__gamma": [0.01, 0.1, 1, 10, 100],
+        },
+    ]
+
+    for paramGrid in paramGrids:
+        modelPipes.append(
+            Logger(str(paramGrid["model"][0].__class__)[1:-2].split(".")[-1])(
+                gridSearch
+            )(paramGrid)
+        )
+
+    return modelPipes
+
+
 def optimizedModelsJob():
     global x, y, results
 
-    optimizedModels = [
-        LogisticRegression(
-            C=1, random_state=100, solver="saga", multi_class="auto", penalty="l1"
-        ),
-        DecisionTreeClassifier(
-            criterion="entropy",
-            random_state=1,
-            max_depth=4,
-            min_samples_split=0.01,
-            splitter="best",
-        ),
-        SVC(kernel="rbf", random_state=1, gamma=10, C=0.1, probability=True),
-    ]
+    optimizedModels = findBestModel()
 
     jobs = [confusionMatrix, performanceMetrics]
     for job in jobs:
         for i in range(len(optimizedModels)):
-            Logger(str(optimizedModels[i].__class__)[1:-2].split(".")[-1])(job)(
-                optimizedModels[i]
-            )
+            Logger(
+                str(optimizedModels[i].steps[-1][-1].__class__)[1:-2].split(".")[-1]
+            )(job)(optimizedModels[i])
 
         if len(results) != 0:
             resultOutput(f"./tables_and_reports/optimized_{job.__name__}.txt", results)

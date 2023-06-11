@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.ir.backend.js.compile
 
 plugins {
     kotlin("jvm") version "1.8.10"
@@ -26,6 +27,9 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
+
+    // reference: https://stackoverflow.com/questions/54166069/how-do-you-add-local-jar-file-dependency-to-build-gradle-kt-file
+    implementation(fileTree(mapOf("dir" to "lib/SimpleOpenNI/library", "include" to listOf("*.jar"))))
 }
 
 // reference https://www.jetbrains.com/help/idea/create-your-first-kotlin-app.html#run-the-jar

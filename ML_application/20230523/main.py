@@ -5,6 +5,8 @@ import pandas
 
 from matplotlib import pyplot
 from sklearn.base import BaseEstimator
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.neighbors import KNeighborsClassifier
 
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
@@ -191,8 +193,12 @@ def originModelJob():
 
     originModels = [
         LogisticRegression(C=100, random_state=1, solver="lbfgs", multi_class="ovr"),
-        DecisionTreeClassifier(criterion="gini", random_state=1, max_depth=4),
         SVC(kernel="rbf", random_state=1, gamma=0.1, C=100),
+        DecisionTreeClassifier(criterion="gini", random_state=1, max_depth=4),
+        RandomForestClassifier(
+            criterion="gini", n_estimators=500, random_state=1, n_jobs=2
+        ),
+        KNeighborsClassifier(n_neighbors=5, p=2, metric="minkowski"),
     ]
 
     jobs = [modelPipe, KFoldCrossValidation]
@@ -216,31 +222,39 @@ def findBestModel():
         {
             "model": [LogisticRegression()],
             "model__C": [0.01, 0.1, 1, 10, 100],
-            "model__random_state": [0.01, 0.1, 1, 10, 100],
+            "model__random_state": [1, 10, 100],
             "model__solver": [
                 "lbfgs",
                 "liblinear",
-                "newton-cg",
-                "newton-cholesky",
-                "sag",
-                "saga",
             ],
-            "model__multi_class": ["auto", "ovr", "multinomial"],
-            "model__penalty": ["l1", "l2", "elasticnet"],
+            "model__multi_class": ["auto", "ovr"],
+        },
+        {
+            "model": [SVC()],
+            "model__random_state": [1, 10, 100],
+            "model__C": [0.01, 0.1, 1, 10, 100],
+            "model__gamma": [0.01, 0.1, 1, 10, 100],
         },
         {
             "model": [DecisionTreeClassifier()],
             "model__criterion": ["gini", "entropy", "log_loss"],
-            "model__random_state": [0.01, 0.1, 1, 10, 100],
+            "model__random_state": [1, 10, 100],
             "model__max_depth": [4, 8, 10],
-            "model__min_samples_split": [0.01, 0.1, 1, 10, 100],
+            "model__min_samples_split": [2, 5, 10, 100],
             "model__splitter": ["best", "random"],
         },
         {
-            "model": [SVC()],
-            "model__random_state": [0.01, 0.1, 1, 10, 100],
-            "model__C": [0.01, 0.1, 1, 10, 100],
-            "model__gamma": [0.01, 0.1, 1, 10, 100],
+            "model": [RandomForestClassifier()],
+            "model__criterion": ["gini", "entropy", "log_loss"],
+            "model__random_state": [1, 10, 100],
+            "model__max_depth": [4, 8, 10],
+            "model__min_samples_split": [2, 5, 10, 100],
+            "model__max_features": ["sqrt", "log2"],
+        },
+        {
+            "model": [KNeighborsClassifier()],
+            "model__weights": ["uniform", "distance"],
+            "model__algorithm": ["auto", "ball_tree", "kd_tree", "brute"],
         },
     ]
 

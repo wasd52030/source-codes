@@ -49,5 +49,5 @@ class processingPlayground : PApplet() {
 
 //YourPAppletClass::class.java.name
 fun main() {
-    PApplet.main(midSoftware::class.java.name)
+    PApplet.main(whcakMole::class.java.name)
 }

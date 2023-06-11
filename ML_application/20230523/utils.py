@@ -105,8 +105,8 @@ def Logger(objName="") -> Callable:
 
             startMsg, endMsg = "", ""
             if objName != "":
-                startMsg = f"method {objName}.{func.__name__}() start"
-                endMsg = f"method {objName}.{func.__name__}() end"
+                startMsg = f"function {objName}_{func.__name__}() start"
+                endMsg = f"function {objName}_{func.__name__}() end"
             else:
                 startMsg = f"function {func.__name__}() start"
                 endMsg = f"function {func.__name__}() end"

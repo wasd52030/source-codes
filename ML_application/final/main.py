@@ -1,3 +1,7 @@
+from datetime import datetime
+import logging
+from typing import List, Dict, Any
+
 import numpy
 import pandas
 
@@ -11,6 +15,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
+from imblearn.over_sampling import SMOTE
 from sklearn.metrics import (
     confusion_matrix,
     accuracy_score,
@@ -37,14 +42,12 @@ from utils import (
     resultOutput,
 )
 
-from typing import List, Dict, Any
-
 
 def getPipeLine(model: object) -> Pipeline:
     return Pipeline(
         [
             ("scaler", StandardScaler()),
-            ("pca", PCA(n_components=2)),
+            ("pca", PCA(n_components=5)),
             ("model", model),
         ]
     )
@@ -107,13 +110,7 @@ def randomForestFeatureRank():
 def gridSearch(paramGrid: List[Dict[str, Any]]) -> BaseEstimator:
     global results, train_x, test_x, train_y, test_y
 
-    pipeline = Pipeline(
-        [
-            ("scaler", StandardScaler()),
-            ("pca", PCA(n_components=2)),
-            ("model", None),
-        ]
-    )
+    pipeline = getPipeLine(paramGrid["model"][0])
 
     grid_search = GridSearchCV(
         estimator=pipeline, param_grid=paramGrid, scoring="accuracy", cv=5, n_jobs=-1
@@ -200,18 +197,16 @@ def performanceMetrics(model: object, train: bool):
     X = train_x if train else test_x
     Y = train_y if train else test_y
 
-    pipeline = getPipeLine(model)
+    pipeline = model if isinstance(model, Pipeline) else getPipeLine(model)
     pipeline.fit(train_x, train_y)
     predY = pipeline.predict(X)
 
-    confMat = confusion_matrix(
-        y_true=train_y if train else test_y, y_pred=predY
-    ).tolist()
+    confMat = confusion_matrix(y_true=Y, y_pred=predY).tolist()
     accuracyScore = accuracy_score(y_true=Y, y_pred=predY)
     precisionScore = precision_score(y_true=Y, y_pred=predY, zero_division=1)
     recallScore = recall_score(y_true=Y, y_pred=predY, zero_division=1)
     f1Score = f1_score(y_true=Y, y_pred=predY, zero_division=1)
-    aucScore = roc_auc_score(Y, predY)
+    aucScore = roc_auc_score(y_true=Y, y_score=predY)
 
     results.append(
         modelPerformanceMetrics(
@@ -236,14 +231,14 @@ def originModelJob():
     train_x, test_x, train_y, test_y = dataPreProcess.splitTrainTest(
         feature=x,
         label=y,
-        test_percent=0.2,
+        test_percent=0.3,
         random_state=52,
         stratify=y,
     )
 
     originModels = [paramGrid["model"][0] for paramGrid in paramGrids]
 
-    jobs = [performanceMetrics, KFoldCrossValidation]
+    jobs = [performanceMetrics]
     for job in jobs:
         train = True
         for _ in range(2):
@@ -315,9 +310,23 @@ def main():
 if __name__ == "__main__":
     results = []
 
-    logger = get_logger("logging")
     manageFolder("plots")
     manageFolder("tables_and_reports")
+
+    manageFolder("logs")
+    logging.basicConfig(
+        handlers=[
+            logging.FileHandler(
+                filename=f"./logs/{datetime.now().strftime('%Y%m%d_%H-%M-%S')}.log",
+                encoding="utf-8",
+                mode="w",
+            )
+        ],
+        level=logging.INFO,
+        format="[%(levelname)s %(asctime)s] %(message)s",
+        datefmt="%Y%m%d %H:%M:%S",
+    )
+    logger = get_logger("logging")
 
     data = pandas.DataFrame()
     data = pandas.read_csv("./online_shoppers_intention.csv")
@@ -338,8 +347,7 @@ if __name__ == "__main__":
     paramGrids = [
         {
             "model": [LogisticRegression()],
-            "model__C": [0.01, 0.1, 1, 10, 100],
-            "model__random_state": [1, 10, 100],
+            "model__C": [1, 2, 5, 10],
             "model__solver": [
                 "lbfgs",
                 "liblinear",
@@ -348,9 +356,9 @@ if __name__ == "__main__":
         },
         {
             "model": [SVC(probability=True)],
-            "model__random_state": [1, 10, 100],
-            "model__C": [0.01, 0.1, 1, 10, 100],
-            "model__gamma": [0.01, 0.1, 1, 10, 100],
+            "model__random_state": [0, 10, 50, 100],
+            "model__C": [1, 10, 50, 100],
+            "model__gamma": [25, 50, 75, 100],
         },
         {
             "model": [DecisionTreeClassifier()],
@@ -361,19 +369,17 @@ if __name__ == "__main__":
             "model__splitter": ["best", "random"],
         },
         {
-            "model": [RandomForestClassifier()],
+            "model": [RandomForestClassifier(n_jobs=2)],
             "model__criterion": ["gini", "entropy", "log_loss"],
-            "model__random_state": [1, 10, 100],
+            "model__random_state": [1, 10, 50, 100],
+            "model__n_estimators": [25, 50, 75, 100],
             "model__max_depth": [4, 5, 8, 10],
             "model__min_samples_split": [2, 5, 10, 100],
-            "model__max_features": ["sqrt", "log2"],
         },
         {
             "model": [KNeighborsClassifier()],
             "model__n_neighbors": [1, 2, 5, 10],
             "model__p": [1, 2, 5, 10],
-            "model__weights": ["uniform", "distance"],
-            "model__algorithm": ["auto", "ball_tree", "kd_tree", "brute"],
         },
     ]
 

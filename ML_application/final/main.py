@@ -47,7 +47,7 @@ def getPipeLine(model: object) -> Pipeline:
     return Pipeline(
         [
             ("scaler", StandardScaler()),
-            ("pca", PCA(n_components=5)),
+            ("pca", PCA(n_components=2)),
             ("model", model),
         ]
     )
@@ -264,7 +264,7 @@ def optimizedModelsJob():
     # 特徵關聯排名
     rank = randomForestFeatureRank()
 
-    x = data[rank[:5]].values
+    x = data[rank[:3]].values
     y = data.iloc[:, data.shape[1] - 1].values
 
     train_x, test_x, train_y, test_y = dataPreProcess.splitTrainTest(
@@ -328,8 +328,9 @@ if __name__ == "__main__":
     )
     logger = get_logger("logging")
 
-    data = pandas.DataFrame()
-    data = pandas.read_csv("./online_shoppers_intention.csv")
+    dataSetPath = "./online_shoppers_intention.csv"
+    data = pandas.read_csv(dataSetPath)
+    logger.info(f"using dataSet {dataSetPath[2:]}")
 
     # 去空值
     data = dataPreProcess.removeNullByRow(data)

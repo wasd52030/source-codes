@@ -1,3 +1,5 @@
+package sketchs
+
 import processing.core.PApplet
 import processing.core.PImage
 import processing.serial.Serial

@@ -11,6 +11,11 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+    mavenLocal()
+    maven {
+        url = uri("https://repo.clojars.org")
+        name = "Clojars"
+    }
 }
 
 dependencies {
@@ -22,6 +27,10 @@ dependencies {
     // https://mvnrepository.com/artifact/org.processing/serial
     implementation("org.processing:serial:3.3.7")
 
+    // https://mvnrepository.com/artifact/ddf.minim/ddf.minim
+//    implementation("ddf.minim:ddf.minim:2.2.0")
+
+
     //required for processing.serial
     implementation("io.github.java-native:jssc:2.9.4")
     implementation(kotlin("stdlib-jdk8"))
@@ -30,6 +39,10 @@ dependencies {
 
     // reference: https://stackoverflow.com/questions/54166069/how-do-you-add-local-jar-file-dependency-to-build-gradle-kt-file
     implementation(fileTree(mapOf("dir" to "lib/SimpleOpenNI/library", "include" to listOf("*.jar"))))
+}
+
+application {
+    mainClass.set("MainKt")
 }
 
 // reference https://www.jetbrains.com/help/idea/create-your-first-kotlin-app.html#run-the-jar
@@ -50,8 +63,4 @@ tasks.test {
 tasks.withType<KotlinCompile> {
 //    kotlinOptions.jvmTarget = "1.8"
     kotlinOptions.jvmTarget = "11"
-}
-
-application {
-    mainClass.set("MainKt")
 }

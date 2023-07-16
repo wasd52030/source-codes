@@ -114,14 +114,16 @@ async Task dataAnalysis(string path)
                 stat.Add(lang!, 1);
             }
         }
-        stat.Add("total", stat.Values.Sum());
     }
+    stat = stat.OrderByDescending(l => l.Value).ToDictionary(l => l.Key, l => l.Value);
+    stat.Add("total", stat.Values.Sum());
 
     await File.WriteAllTextAsync(
         Path.Combine(Directory.GetCurrentDirectory(), "result.json"),
         JsonSerializer.Serialize(stat),
         System.Text.Encoding.UTF8
     );
+    Console.WriteLine("stat success！");
 }
 
 async Task main()

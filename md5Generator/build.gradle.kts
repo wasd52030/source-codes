@@ -18,6 +18,8 @@ kotlin {
     jvm {
         jvmToolchain(17)
         withJava()
+
+
     }
     sourceSets {
         val jvmMain by getting {
@@ -29,6 +31,8 @@ kotlin {
         val jvmTest by getting
     }
 }
+
+
 
 compose.desktop {
     application {

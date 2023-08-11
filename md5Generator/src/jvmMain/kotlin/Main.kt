@@ -1,3 +1,4 @@
+
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,7 +14,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import com.google.common.hash.Hashing
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
@@ -49,7 +51,7 @@ fun App() {
             Button({
                 clipboardManager.setText(AnnotatedString(md5))
 
-                GlobalScope.launch {
+                CoroutineScope(Dispatchers.IO).launch {
                     snackScaffoldState.snackbarHostState.showSnackbar(
                         "已複製",
                         "",

@@ -1,4 +1,3 @@
-
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,7 +28,9 @@ fun App() {
 
     val snackScaffoldState = rememberScaffoldState()
 
-    Scaffold(scaffoldState = snackScaffoldState) {
+    Scaffold(
+        scaffoldState = snackScaffoldState
+    ) {
         Column(modifier = Modifier.padding(10.dp).fillMaxSize()) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text("enter some word")

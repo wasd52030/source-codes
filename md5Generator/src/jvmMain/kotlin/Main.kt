@@ -26,10 +26,10 @@ fun App() {
 
     val clipboardManager = LocalClipboardManager.current
 
-    val snackScaffoldState = rememberScaffoldState()
+    val mainScaffoldState = rememberScaffoldState()
 
     Scaffold(
-        scaffoldState = snackScaffoldState
+        scaffoldState = mainScaffoldState
     ) {
         Column(modifier = Modifier.padding(10.dp).fillMaxSize()) {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -53,7 +53,7 @@ fun App() {
                 clipboardManager.setText(AnnotatedString(md5))
 
                 CoroutineScope(Dispatchers.IO).launch {
-                    snackScaffoldState.snackbarHostState.showSnackbar(
+                    mainScaffoldState.snackbarHostState.showSnackbar(
                         "已複製",
                         "",
                         SnackbarDuration.Short

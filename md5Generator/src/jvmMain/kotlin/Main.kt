@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 @Composable
 @Preview
 fun App() {
-    var u by remember { mutableStateOf("") }
+    var userInput by remember { mutableStateOf("") }
     var md5 by remember { mutableStateOf("") }
 
     val clipboardManager = LocalClipboardManager.current
@@ -34,17 +34,17 @@ fun App() {
         Column(modifier = Modifier.padding(10.dp).fillMaxSize()) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text("enter some word")
-                TextField(u, {
-                    u = it
+                TextField(userInput, {
+                    userInput = it
                 }, modifier = Modifier.padding(2.dp))
             }
             Text(
-                if (u == "") {
+                if (userInput == "") {
                     val text = "TextField is empty"
                     md5 = text
                     text
                 } else {
-                    val res = Hashing.md5().hashString(u, Charsets.UTF_8).toString()
+                    val res = Hashing.md5().hashString(userInput, Charsets.UTF_8).toString()
                     md5 = res
                     "md5 result -> $res"
                 }, modifier = Modifier.padding(0.dp, 10.dp)

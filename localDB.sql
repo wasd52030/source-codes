@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.1.2
 -- https://www.phpmyadmin.net/
 --
--- 主機： 127.0.0.1
--- 產生時間： 2023-03-06 13:48:11
--- 伺服器版本： 10.4.22-MariaDB
--- PHP 版本： 7.4.26
+-- Host: localhost:3306
+-- Generation Time: Sep 27, 2023 at 07:28 AM
+-- Server version: 5.7.24
+-- PHP Version: 8.1.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,235 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- 資料庫: `mmisdb`
+-- Database: `meeting_manage`
+--
+CREATE DATABASE IF NOT EXISTS `meeting_manage` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `meeting_manage`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `meeting`
+--
+
+CREATE TABLE IF NOT EXISTS `meeting` (
+  `id` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `start` datetime NOT NULL,
+  `end` datetime NOT NULL,
+  `meetingRoomId` varchar(255) DEFAULT NULL,
+  `creatorId` varchar(255) DEFAULT NULL,
+  `isCheckin` tinyint(4) NOT NULL DEFAULT '0',
+  `checkLimit` int(11) NOT NULL DEFAULT '5',
+  `isCheckout` tinyint(4) NOT NULL DEFAULT '0',
+  `notificationTime` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_a00e1c5af408052c92418ea9bec` (`meetingRoomId`),
+  KEY `FK_fe775c687e31ff7950e35650c40` (`creatorId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `meeting`
+--
+
+INSERT INTO `meeting` (`id`, `name`, `start`, `end`, `meetingRoomId`, `creatorId`, `isCheckin`, `checkLimit`, `isCheckout`, `notificationTime`) VALUES
+('M030', 'zzzz', '2023-09-08 18:30:00', '2023-09-08 19:30:00', 'A001', 'A124', 0, 1, 0, 30),
+('M046', 'asd', '2023-06-08 15:30:00', '2023-06-08 17:30:00', 'A002', 'A124', 0, 5, 0, 0);
+
+--
+-- Triggers `meeting`
+--
+DELIMITER $$
+DROP TRIGGER IF EXISTS meetingroomAutoId $$
+CREATE TRIGGER `meetingroomAutoId` BEFORE INSERT ON `meeting` FOR EACH ROW BEGIN
+    INSERT INTO meeting_sequence VALUES (NULL);
+    SET NEW.id=concat('M',right(1000+Last_insert_id(),3));
+END
+$$
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `meetingroom_borrow`
+--
+
+CREATE TABLE IF NOT EXISTS `meetingroom_borrow` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `start` datetime NOT NULL,
+  `end` datetime NOT NULL,
+  `meetingRoomId` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_ba36ba5095271c4e90c4e17b952` (`meetingRoomId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `meeting_member`
+--
+
+CREATE TABLE IF NOT EXISTS `meeting_member` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `participantId` varchar(255) DEFAULT NULL,
+  `meetingId` varchar(255) DEFAULT NULL,
+  `singin` datetime DEFAULT NULL,
+  `singout` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_34b5654c29e64f0a80ff5f2c691` (`participantId`),
+  KEY `FK_58f476a39e1b8c0ea2ceab23552` (`meetingId`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `meeting_member`
+--
+
+INSERT INTO `meeting_member` (`id`, `participantId`, `meetingId`, `singin`, `singout`) VALUES
+(10, 'A124', 'M030', '2023-07-07 18:45:00', '2023-07-07 19:25:00'),
+(11, 'A124', 'M046', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `meeting_room`
+--
+
+CREATE TABLE IF NOT EXISTS `meeting_room` (
+  `id` varchar(255) NOT NULL,
+  `name` varchar(15) NOT NULL COMMENT '會議室名稱',
+  `location` varchar(15) NOT NULL COMMENT '會議室位置',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `meeting_room`
+--
+
+INSERT INTO `meeting_room` (`id`, `name`, `location`) VALUES
+('A001', 'MA324', '管一三樓'),
+('A002', 'MA212', '管一二樓');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `meeting_sequence`
+--
+
+CREATE TABLE IF NOT EXISTS `meeting_sequence` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `meeting_sequence`
+--
+
+INSERT INTO `meeting_sequence` (`id`) VALUES
+(1),
+(2),
+(3),
+(4),
+(5),
+(6),
+(7),
+(8),
+(9),
+(10),
+(11),
+(12),
+(13),
+(14),
+(15),
+(16),
+(17),
+(18),
+(19),
+(20),
+(21),
+(22),
+(23),
+(24),
+(25),
+(26),
+(27),
+(28),
+(29),
+(30),
+(31),
+(32),
+(33),
+(34),
+(35),
+(36),
+(37),
+(38),
+(39),
+(40),
+(41),
+(42),
+(43),
+(44),
+(45),
+(46),
+(47),
+(48),
+(49),
+(50),
+(51),
+(52),
+(53);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
+CREATE TABLE IF NOT EXISTS `user` (
+  `id` varchar(255) NOT NULL,
+  `name` varchar(15) NOT NULL COMMENT '姓名',
+  `account` varchar(20) NOT NULL COMMENT '帳號',
+  `password` varchar(255) NOT NULL COMMENT '加鹽並hash過後的密碼',
+  `salt` varchar(255) NOT NULL COMMENT '密碼加鹽',
+  `role` enum('admin','employee') NOT NULL DEFAULT 'employee',
+  `lineid` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `IDX_4ab2df0a57a74fdf904e0e2708` (`account`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id`, `name`, `account`, `password`, `salt`, `role`, `lineid`) VALUES
+('A124', 'uuu', 'asdfgh', 'dcdfe1e77ec35072007f8944428ae364eae257f9a6faeba628275fb1e067d1075944bb38454a5b21ea058745e4620f2f200fcc8f545407e6791cc6c41d5326e9', '41fb705682d413ca6496a9a38182567c', 'employee', NULL),
+('A125', 'asdf', 'zxcv', 'c9d12d8edc28ae8738c0e296bb114065e6dd51dbac7f951acf12a37d29425364a9137c05d53f3a89965dcb770910e00cb302b60abaf1fdecc6f2f5871567023d', 'f3d78e0bc37fb5b4a69299ab047c9fbe', 'admin', NULL);
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `meeting`
+--
+ALTER TABLE `meeting`
+  ADD CONSTRAINT `FK_a00e1c5af408052c92418ea9bec` FOREIGN KEY (`meetingRoomId`) REFERENCES `meeting_room` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FK_fe775c687e31ff7950e35650c40` FOREIGN KEY (`creatorId`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `meetingroom_borrow`
+--
+ALTER TABLE `meetingroom_borrow`
+  ADD CONSTRAINT `FK_ba36ba5095271c4e90c4e17b952` FOREIGN KEY (`meetingRoomId`) REFERENCES `meeting_room` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `meeting_member`
+--
+ALTER TABLE `meeting_member`
+  ADD CONSTRAINT `FK_34b5654c29e64f0a80ff5f2c691` FOREIGN KEY (`participantId`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FK_58f476a39e1b8c0ea2ceab23552` FOREIGN KEY (`meetingId`) REFERENCES `meeting` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+--
+-- Database: `mmisdb`
 --
 CREATE DATABASE IF NOT EXISTS `mmisdb` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `mmisdb`;
@@ -26,10 +254,10 @@ USE `mmisdb`;
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `account`
+-- Table structure for table `account`
 --
 
-CREATE TABLE `account` (
+CREATE TABLE IF NOT EXISTS `account` (
   `UserID` varchar(50) NOT NULL,
   `PassWord` varchar(50) NOT NULL,
   `UserName` varchar(50) NOT NULL,
@@ -37,7 +265,7 @@ CREATE TABLE `account` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- 傾印資料表的資料 `account`
+-- Dumping data for table `account`
 --
 
 INSERT INTO `account` (`UserID`, `PassWord`, `UserName`, `Mobile`) VALUES
@@ -46,10 +274,10 @@ INSERT INTO `account` (`UserID`, `PassWord`, `UserName`, `Mobile`) VALUES
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `customer`
+-- Table structure for table `customer`
 --
 
-CREATE TABLE `customer` (
+CREATE TABLE IF NOT EXISTS `customer` (
   `CustName` varchar(31) DEFAULT NULL COMMENT '客戶寶號',
   `CustId` varchar(9) DEFAULT NULL COMMENT '客戶代號',
   `City` varchar(9) DEFAULT NULL COMMENT '縣市',
@@ -63,7 +291,7 @@ CREATE TABLE `customer` (
 ) ENGINE=InnoDB DEFAULT CHARSET=big5;
 
 --
--- 傾印資料表的資料 `customer`
+-- Dumping data for table `customer`
 --
 
 INSERT INTO `customer` (`CustName`, `CustId`, `City`, `Address`, `ZipCode`, `Contact`, `JobTitle`, `Phone`, `Industry`, `TaxNo`) VALUES
@@ -131,17 +359,17 @@ INSERT INTO `customer` (`CustName`, `CustId`, `City`, `Address`, `ZipCode`, `Con
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `dept`
+-- Table structure for table `dept`
 --
 
-CREATE TABLE `dept` (
+CREATE TABLE IF NOT EXISTS `dept` (
   `DeptName` varchar(9) DEFAULT NULL COMMENT '部門名稱',
   `DeptId` varchar(9) DEFAULT NULL COMMENT '部門代號',
   `ManagerName` varchar(9) DEFAULT NULL COMMENT '主管姓名'
 ) ENGINE=InnoDB DEFAULT CHARSET=big5;
 
 --
--- 傾印資料表的資料 `dept`
+-- Dumping data for table `dept`
 --
 
 INSERT INTO `dept` (`DeptName`, `DeptId`, `ManagerName`) VALUES
@@ -166,10 +394,10 @@ INSERT INTO `dept` (`DeptName`, `DeptId`, `ManagerName`) VALUES
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `employee`
+-- Table structure for table `employee`
 --
 
-CREATE TABLE `employee` (
+CREATE TABLE IF NOT EXISTS `employee` (
   `EmpId` varchar(5) NOT NULL,
   `EmpName` varchar(8) DEFAULT NULL COMMENT '姓名',
   `JobTitle` varchar(11) DEFAULT NULL COMMENT '現任職稱',
@@ -183,7 +411,7 @@ CREATE TABLE `employee` (
 ) ENGINE=InnoDB DEFAULT CHARSET=big5;
 
 --
--- 傾印資料表的資料 `employee`
+-- Dumping data for table `employee`
 --
 
 INSERT INTO `employee` (`EmpId`, `EmpName`, `JobTitle`, `DeptId`, `City`, `Address`, `Phone`, `ZipCode`, `MonthSalary`, `AnnualLeave`) VALUES
@@ -288,10 +516,10 @@ INSERT INTO `employee` (`EmpId`, `EmpName`, `JobTitle`, `DeptId`, `City`, `Addre
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `exp`
+-- Table structure for table `exp`
 --
 
-CREATE TABLE `exp` (
+CREATE TABLE IF NOT EXISTS `exp` (
   `EmpId` varchar(5) NOT NULL,
   `OutsideJob1` varchar(13) DEFAULT NULL COMMENT '在外任職一',
   `OutsideJob2` varchar(16) DEFAULT NULL COMMENT '在外任職二',
@@ -300,7 +528,7 @@ CREATE TABLE `exp` (
 ) ENGINE=InnoDB DEFAULT CHARSET=big5;
 
 --
--- 傾印資料表的資料 `exp`
+-- Dumping data for table `exp`
 --
 
 INSERT INTO `exp` (`EmpId`, `OutsideJob1`, `OutsideJob2`, `CompJob1`, `CompJob2`) VALUES
@@ -405,17 +633,17 @@ INSERT INTO `exp` (`EmpId`, `OutsideJob1`, `OutsideJob2`, `CompJob1`, `CompJob2`
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `inv`
+-- Table structure for table `inv`
 --
 
-CREATE TABLE `inv` (
+CREATE TABLE IF NOT EXISTS `inv` (
   `ProdId` varchar(16) DEFAULT NULL COMMENT '產品代號',
   `Stock` double DEFAULT NULL COMMENT '現存量',
   `SafeStock` double DEFAULT NULL COMMENT '安全存量'
 ) ENGINE=InnoDB DEFAULT CHARSET=big5;
 
 --
--- 傾印資料表的資料 `inv`
+-- Dumping data for table `inv`
 --
 
 INSERT INTO `inv` (`ProdId`, `Stock`, `SafeStock`) VALUES
@@ -443,20 +671,21 @@ INSERT INTO `inv` (`ProdId`, `Stock`, `SafeStock`) VALUES
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `leav`
+-- Table structure for table `leav`
 --
 
-CREATE TABLE `leav` (
-  `LeavID` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `leav` (
+  `LeavID` int(11) NOT NULL AUTO_INCREMENT,
   `EmpID` varchar(5) NOT NULL,
   `Vacation` varchar(9) DEFAULT NULL COMMENT '假別',
   `Year` double DEFAULT NULL COMMENT '年',
   `Month` double DEFAULT NULL COMMENT '月',
-  `Days` double DEFAULT NULL COMMENT '天數'
-) ENGINE=InnoDB DEFAULT CHARSET=big5;
+  `Days` double DEFAULT NULL COMMENT '天數',
+  PRIMARY KEY (`LeavID`)
+) ENGINE=InnoDB AUTO_INCREMENT=195 DEFAULT CHARSET=big5;
 
 --
--- 傾印資料表的資料 `leav`
+-- Dumping data for table `leav`
 --
 
 INSERT INTO `leav` (`LeavID`, `EmpID`, `Vacation`, `Year`, `Month`, `Days`) VALUES
@@ -658,20 +887,20 @@ INSERT INTO `leav` (`LeavID`, `EmpID`, `Vacation`, `Year`, `Month`, `Days`) VALU
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `orderdetail`
+-- Table structure for table `orderdetail`
 --
 
-CREATE TABLE `orderdetail` (
+CREATE TABLE IF NOT EXISTS `orderdetail` (
   `seq` int(11) NOT NULL COMMENT '序號',
   `OrderId` varchar(8) NOT NULL COMMENT '訂單編號',
   `ProdId` varchar(14) NOT NULL COMMENT '產品代號',
   `Qty` int(11) NOT NULL COMMENT '數量',
   `Discount` float NOT NULL COMMENT '折扣',
-  `post` tinyint(1) NOT NULL DEFAULT 0
+  `post` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- 傾印資料表的資料 `orderdetail`
+-- Dumping data for table `orderdetail`
 --
 
 INSERT INTO `orderdetail` (`seq`, `OrderId`, `ProdId`, `Qty`, `Discount`, `post`) VALUES
@@ -1341,18 +1570,19 @@ INSERT INTO `orderdetail` (`seq`, `OrderId`, `ProdId`, `Qty`, `Discount`, `post`
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `overtime`
+-- Table structure for table `overtime`
 --
 
-CREATE TABLE `overtime` (
-  `OverID` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `overtime` (
+  `OverID` int(11) NOT NULL AUTO_INCREMENT,
   `EmpId` varchar(5) NOT NULL COMMENT '員工代號',
   `OverDate` date NOT NULL COMMENT '加班日期',
-  `OverHours` double DEFAULT NULL COMMENT '加班時數'
-) ENGINE=InnoDB DEFAULT CHARSET=big5;
+  `OverHours` double DEFAULT NULL COMMENT '加班時數',
+  PRIMARY KEY (`OverID`)
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=big5;
 
 --
--- 傾印資料表的資料 `overtime`
+-- Dumping data for table `overtime`
 --
 
 INSERT INTO `overtime` (`OverID`, `EmpId`, `OverDate`, `OverHours`) VALUES
@@ -1459,10 +1689,10 @@ INSERT INTO `overtime` (`OverID`, `EmpId`, `OverDate`, `OverHours`) VALUES
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `person`
+-- Table structure for table `person`
 --
 
-CREATE TABLE `person` (
+CREATE TABLE IF NOT EXISTS `person` (
   `EmpId` varchar(5) NOT NULL,
   `JobTitle` varchar(11) DEFAULT NULL COMMENT '職稱',
   `Birth` date DEFAULT NULL COMMENT '年齡',
@@ -1477,7 +1707,7 @@ CREATE TABLE `person` (
 ) ENGINE=InnoDB DEFAULT CHARSET=big5;
 
 --
--- 傾印資料表的資料 `person`
+-- Dumping data for table `person`
 --
 
 INSERT INTO `person` (`EmpId`, `JobTitle`, `Birth`, `Gender`, `BirthPlace`, `NativePlace`, `WorkYear`, `Expertise1`, `Expertise2`, `ForeignLang1`, `ForeignLang2`) VALUES
@@ -1582,10 +1812,10 @@ INSERT INTO `person` (`EmpId`, `JobTitle`, `Birth`, `Gender`, `BirthPlace`, `Nat
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `product`
+-- Table structure for table `product`
 --
 
-CREATE TABLE `product` (
+CREATE TABLE IF NOT EXISTS `product` (
   `ProdName` varchar(31) DEFAULT NULL COMMENT '產品名稱',
   `ProdID` varchar(14) DEFAULT NULL COMMENT '產品代號',
   `UnitPrice` double DEFAULT NULL COMMENT '單價',
@@ -1593,7 +1823,7 @@ CREATE TABLE `product` (
 ) ENGINE=InnoDB DEFAULT CHARSET=big5;
 
 --
--- 傾印資料表的資料 `product`
+-- Dumping data for table `product`
 --
 
 INSERT INTO `product` (`ProdName`, `ProdID`, `UnitPrice`, `Cost`) VALUES
@@ -1621,19 +1851,20 @@ INSERT INTO `product` (`ProdName`, `ProdID`, `UnitPrice`, `Cost`) VALUES
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `purchasedetail`
+-- Table structure for table `purchasedetail`
 --
 
-CREATE TABLE `purchasedetail` (
-  `seq` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `purchasedetail` (
+  `seq` int(11) NOT NULL AUTO_INCREMENT,
   `PurchaseId` varchar(8) NOT NULL,
   `ProdId` varchar(10) NOT NULL,
   `Qty` int(11) NOT NULL,
-  `PurchasePrice` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `PurchasePrice` int(11) NOT NULL,
+  PRIMARY KEY (`seq`)
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
 
 --
--- 傾印資料表的資料 `purchasedetail`
+-- Dumping data for table `purchasedetail`
 --
 
 INSERT INTO `purchasedetail` (`seq`, `PurchaseId`, `ProdId`, `Qty`, `PurchasePrice`) VALUES
@@ -1694,19 +1925,20 @@ INSERT INTO `purchasedetail` (`seq`, `PurchaseId`, `ProdId`, `Qty`, `PurchasePri
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `purchaseorder`
+-- Table structure for table `purchaseorder`
 --
 
-CREATE TABLE `purchaseorder` (
-  `seq` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `purchaseorder` (
+  `seq` int(11) NOT NULL AUTO_INCREMENT,
   `PurchaseId` varchar(8) NOT NULL,
   `EmpId` varchar(8) NOT NULL,
   `SupplierId` varchar(8) NOT NULL,
-  `PurchaseDate` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `PurchaseDate` date NOT NULL,
+  PRIMARY KEY (`seq`)
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
 
 --
--- 傾印資料表的資料 `purchaseorder`
+-- Dumping data for table `purchaseorder`
 --
 
 INSERT INTO `purchaseorder` (`seq`, `PurchaseId`, `EmpId`, `SupplierId`, `PurchaseDate`) VALUES
@@ -1748,10 +1980,10 @@ INSERT INTO `purchaseorder` (`seq`, `PurchaseId`, `EmpId`, `SupplierId`, `Purcha
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `quota`
+-- Table structure for table `quota`
 --
 
-CREATE TABLE `quota` (
+CREATE TABLE IF NOT EXISTS `quota` (
   `EmpId` varchar(5) NOT NULL,
   `Quota2016` double DEFAULT NULL COMMENT '業績目標2016',
   `Quota2017` double DEFAULT NULL COMMENT '業績目標2017',
@@ -1759,7 +1991,7 @@ CREATE TABLE `quota` (
 ) ENGINE=MyISAM DEFAULT CHARSET=big5;
 
 --
--- 傾印資料表的資料 `quota`
+-- Dumping data for table `quota`
 --
 
 INSERT INTO `quota` (`EmpId`, `Quota2016`, `Quota2017`, `Quota2018`) VALUES
@@ -1783,10 +2015,10 @@ INSERT INTO `quota` (`EmpId`, `Quota2016`, `Quota2017`, `Quota2018`) VALUES
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `records`
+-- Table structure for table `records`
 --
 
-CREATE TABLE `records` (
+CREATE TABLE IF NOT EXISTS `records` (
   `ClassNo` varchar(9) DEFAULT NULL COMMENT '班級座號',
   `YMD` date DEFAULT NULL COMMENT '年月日',
   `PublicLeave` double DEFAULT NULL COMMENT '公假',
@@ -1796,7 +2028,7 @@ CREATE TABLE `records` (
 ) ENGINE=InnoDB DEFAULT CHARSET=big5;
 
 --
--- 傾印資料表的資料 `records`
+-- Dumping data for table `records`
 --
 
 INSERT INTO `records` (`ClassNo`, `YMD`, `PublicLeave`, `Leave`, `SickLeave`, `Absent`) VALUES
@@ -2082,10 +2314,10 @@ INSERT INTO `records` (`ClassNo`, `YMD`, `PublicLeave`, `Leave`, `SickLeave`, `A
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `salesorder`
+-- Table structure for table `salesorder`
 --
 
-CREATE TABLE `salesorder` (
+CREATE TABLE IF NOT EXISTS `salesorder` (
   `seq` int(11) NOT NULL COMMENT '序號',
   `OrderId` varchar(8) NOT NULL COMMENT '訂單編號',
   `EmpId` varchar(8) NOT NULL COMMENT '員工代號',
@@ -2095,7 +2327,7 @@ CREATE TABLE `salesorder` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- 傾印資料表的資料 `salesorder`
+-- Dumping data for table `salesorder`
 --
 
 INSERT INTO `salesorder` (`seq`, `OrderId`, `EmpId`, `CustId`, `OrderDate`, `Descript`) VALUES
@@ -2304,10 +2536,10 @@ INSERT INTO `salesorder` (`seq`, `OrderId`, `EmpId`, `CustId`, `OrderDate`, `Des
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `students`
+-- Table structure for table `students`
 --
 
-CREATE TABLE `students` (
+CREATE TABLE IF NOT EXISTS `students` (
   `ClassNo` varchar(9) DEFAULT NULL COMMENT '班級座號',
   `StName` varchar(7) DEFAULT NULL COMMENT '姓名',
   `Birthday` date DEFAULT NULL COMMENT '出生年月日',
@@ -2319,7 +2551,7 @@ CREATE TABLE `students` (
 ) ENGINE=InnoDB DEFAULT CHARSET=big5;
 
 --
--- 傾印資料表的資料 `students`
+-- Dumping data for table `students`
 --
 
 INSERT INTO `students` (`ClassNo`, `StName`, `Birthday`, `IDCard`, `Address`, `Parent`, `Phone`, `Department`) VALUES
@@ -2806,10 +3038,10 @@ INSERT INTO `students` (`ClassNo`, `StName`, `Birthday`, `IDCard`, `Address`, `P
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `supplier`
+-- Table structure for table `supplier`
 --
 
-CREATE TABLE `supplier` (
+CREATE TABLE IF NOT EXISTS `supplier` (
   `SupplierName` varchar(31) DEFAULT NULL COMMENT '供應商寶號',
   `SupplierId` varchar(9) DEFAULT NULL COMMENT '供應商代號',
   `City` varchar(9) DEFAULT NULL COMMENT '縣市',
@@ -2821,7 +3053,7 @@ CREATE TABLE `supplier` (
 ) ENGINE=InnoDB DEFAULT CHARSET=big5;
 
 --
--- 傾印資料表的資料 `supplier`
+-- Dumping data for table `supplier`
 --
 
 INSERT INTO `supplier` (`SupplierName`, `SupplierId`, `City`, `Address`, `ZipCode`, `Contact`, `JobTitle`, `Phone`) VALUES
@@ -2885,64 +3117,8 @@ INSERT INTO `supplier` (`SupplierName`, `SupplierId`, `City`, `Address`, `ZipCod
 ('現代農牧股份有限公司', 'S0059', '台北市', '南港區東新街34巷10號3樓', '105', '秦嘉鴻', '採購專員', '02-7899552'),
 ('惠亞工程股份有限公司', 'S0060', '台北市', '三重市重新路五段609巷16號6樓', '106', '高文彬', '總務主任', '02-6548854'),
 ('詮讚興業公司', 'S0038', '新竹縣', '秀水鄉埔崙村三越街82號', '302', '林清富', '工程師', '035-584425');
-
 --
--- 已傾印資料表的索引
---
-
---
--- 資料表索引 `leav`
---
-ALTER TABLE `leav`
-  ADD PRIMARY KEY (`LeavID`);
-
---
--- 資料表索引 `overtime`
---
-ALTER TABLE `overtime`
-  ADD PRIMARY KEY (`OverID`);
-
---
--- 資料表索引 `purchasedetail`
---
-ALTER TABLE `purchasedetail`
-  ADD PRIMARY KEY (`seq`);
-
---
--- 資料表索引 `purchaseorder`
---
-ALTER TABLE `purchaseorder`
-  ADD PRIMARY KEY (`seq`);
-
---
--- 在傾印的資料表使用自動遞增(AUTO_INCREMENT)
---
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `leav`
---
-ALTER TABLE `leav`
-  MODIFY `LeavID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=195;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `overtime`
---
-ALTER TABLE `overtime`
-  MODIFY `OverID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `purchasedetail`
---
-ALTER TABLE `purchasedetail`
-  MODIFY `seq` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `purchaseorder`
---
-ALTER TABLE `purchaseorder`
-  MODIFY `seq` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
---
--- 資料庫: `mvcfinal`
+-- Database: `mvcfinal`
 --
 CREATE DATABASE IF NOT EXISTS `mvcfinal` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `mvcfinal`;
@@ -2950,16 +3126,17 @@ USE `mvcfinal`;
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `action`
+-- Table structure for table `action`
 --
 
-CREATE TABLE `action` (
-  `id` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE IF NOT EXISTS `action` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4;
 
 --
--- 傾印資料表的資料 `action`
+-- Dumping data for table `action`
 --
 
 INSERT INTO `action` (`id`, `name`) VALUES
@@ -3000,17 +3177,18 @@ INSERT INTO `action` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `cchoose`
+-- Table structure for table `cchoose`
 --
 
-CREATE TABLE `cchoose` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `cchoose` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `Sid` varchar(50) NOT NULL,
-  `Cid` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `Cid` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
 
 --
--- 傾印資料表的資料 `cchoose`
+-- Dumping data for table `cchoose`
 --
 
 INSERT INTO `cchoose` (`id`, `Sid`, `Cid`) VALUES
@@ -3021,22 +3199,23 @@ INSERT INTO `cchoose` (`id`, `Sid`, `Cid`) VALUES
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `cdata`
+-- Table structure for table `cdata`
 --
 
-CREATE TABLE `cdata` (
-  `Cid` int(10) NOT NULL,
+CREATE TABLE IF NOT EXISTS `cdata` (
+  `Cid` int(10) NOT NULL AUTO_INCREMENT,
   `Cname` varchar(50) NOT NULL,
   `Introduction` varchar(100) NOT NULL,
   `teacherid` varchar(10) NOT NULL,
   `weekday` varchar(10) NOT NULL,
   `lessonFrom` int(11) NOT NULL,
   `lessonTo` int(11) NOT NULL,
-  `credit` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `credit` varchar(10) NOT NULL,
+  PRIMARY KEY (`Cid`)
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4;
 
 --
--- 傾印資料表的資料 `cdata`
+-- Dumping data for table `cdata`
 --
 
 INSERT INTO `cdata` (`Cid`, `Cname`, `Introduction`, `teacherid`, `weekday`, `lessonFrom`, `lessonTo`, `credit`) VALUES
@@ -3050,18 +3229,19 @@ INSERT INTO `cdata` (`Cid`, `Cname`, `Introduction`, `teacherid`, `weekday`, `le
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `chomework`
+-- Table structure for table `chomework`
 --
 
-CREATE TABLE `chomework` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `chomework` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `Cid` int(11) NOT NULL,
   `teacherid` varchar(100) NOT NULL,
-  `Infomation` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `Infomation` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4;
 
 --
--- 傾印資料表的資料 `chomework`
+-- Dumping data for table `chomework`
 --
 
 INSERT INTO `chomework` (`id`, `Cid`, `teacherid`, `Infomation`) VALUES
@@ -3077,18 +3257,19 @@ INSERT INTO `chomework` (`id`, `Cid`, `teacherid`, `Infomation`) VALUES
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `clecture`
+-- Table structure for table `clecture`
 --
 
-CREATE TABLE `clecture` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `clecture` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `Cid` int(11) NOT NULL,
   `teacherid` varchar(100) NOT NULL,
-  `lectureFile` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `lectureFile` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
 
 --
--- 傾印資料表的資料 `clecture`
+-- Dumping data for table `clecture`
 --
 
 INSERT INTO `clecture` (`id`, `Cid`, `teacherid`, `lectureFile`) VALUES
@@ -3100,19 +3281,20 @@ INSERT INTO `clecture` (`id`, `Cid`, `teacherid`, `lectureFile`) VALUES
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `crecord`
+-- Table structure for table `crecord`
 --
 
-CREATE TABLE `crecord` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `crecord` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `Cid` varchar(50) NOT NULL,
   `Sid` varchar(100) NOT NULL,
   `Midtern` int(11) NOT NULL,
-  `Final` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `Final` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
 
 --
--- 傾印資料表的資料 `crecord`
+-- Dumping data for table `crecord`
 --
 
 INSERT INTO `crecord` (`id`, `Cid`, `Sid`, `Midtern`, `Final`) VALUES
@@ -3123,45 +3305,47 @@ INSERT INTO `crecord` (`id`, `Cid`, `Sid`, `Midtern`, `Final`) VALUES
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `handhomework`
+-- Table structure for table `handhomework`
 --
 
-CREATE TABLE `handhomework` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `handhomework` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `Hid` int(11) NOT NULL,
   `Cid` int(11) NOT NULL,
   `Sid` varchar(50) NOT NULL,
   `HomeworkFile` varchar(100) NOT NULL,
-  `HomeworkScore` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `HomeworkScore` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4;
 
 --
--- 傾印資料表的資料 `handhomework`
+-- Dumping data for table `handhomework`
 --
 
 INSERT INTO `handhomework` (`id`, `Hid`, `Cid`, `Sid`, `HomeworkFile`, `HomeworkScore`) VALUES
 (22, 3, 5, 'wasd12345', '2020-10-18__17-50-31.15364.IDB.Local.log', 95),
 (24, 7, 5, 'wasd12345', 'cal110-2.pdf', 85),
-(25, 8, 14, 'wasd12345', '04_LinkedLists.ppt', 75),
 (26, 10, 14, 'wasd12345', '06_Graphs.ppt', 95),
-(27, 9, 21, 'wasd12345', '.gitignore', 80);
+(27, 9, 21, 'wasd12345', '.gitignore', 80),
+(28, 8, 14, 'wasd12345', 'RandomForestClassifier_ROC(KFold)_optimized_test.jpg', 0);
 
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `profile`
+-- Table structure for table `profile`
 --
 
-CREATE TABLE `profile` (
+CREATE TABLE IF NOT EXISTS `profile` (
   `id` varchar(10) NOT NULL,
   `password` varchar(10) NOT NULL,
   `name` varchar(10) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `phone` varchar(11) NOT NULL
+  `phone` varchar(11) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- 傾印資料表的資料 `profile`
+-- Dumping data for table `profile`
 --
 
 INSERT INTO `profile` (`id`, `password`, `name`, `email`, `phone`) VALUES
@@ -3172,16 +3356,17 @@ INSERT INTO `profile` (`id`, `password`, `name`, `email`, `phone`) VALUES
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `role`
+-- Table structure for table `role`
 --
 
-CREATE TABLE `role` (
-  `id` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE IF NOT EXISTS `role` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
 --
--- 傾印資料表的資料 `role`
+-- Dumping data for table `role`
 --
 
 INSERT INTO `role` (`id`, `name`) VALUES
@@ -3191,17 +3376,18 @@ INSERT INTO `role` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `role_action`
+-- Table structure for table `role_action`
 --
 
-CREATE TABLE `role_action` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `role_action` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `role_id` int(11) NOT NULL,
-  `action_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `action_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4;
 
 --
--- 傾印資料表的資料 `role_action`
+-- Dumping data for table `role_action`
 --
 
 INSERT INTO `role_action` (`id`, `role_id`, `action_id`) VALUES
@@ -3247,159 +3433,26 @@ INSERT INTO `role_action` (`id`, `role_id`, `action_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `user_role`
+-- Table structure for table `user_role`
 --
 
-CREATE TABLE `user_role` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `user_role` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` varchar(50) NOT NULL,
-  `role_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `role_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
 --
--- 傾印資料表的資料 `user_role`
+-- Dumping data for table `user_role`
 --
 
 INSERT INTO `user_role` (`id`, `user_id`, `role_id`) VALUES
 (1, 'qwer24680', 1),
 (2, 'abc456', 1),
 (3, 'wasd12345', 2);
-
 --
--- 已傾印資料表的索引
---
-
---
--- 資料表索引 `action`
---
-ALTER TABLE `action`
-  ADD PRIMARY KEY (`id`);
-
---
--- 資料表索引 `cchoose`
---
-ALTER TABLE `cchoose`
-  ADD PRIMARY KEY (`id`);
-
---
--- 資料表索引 `cdata`
---
-ALTER TABLE `cdata`
-  ADD PRIMARY KEY (`Cid`);
-
---
--- 資料表索引 `chomework`
---
-ALTER TABLE `chomework`
-  ADD PRIMARY KEY (`id`);
-
---
--- 資料表索引 `clecture`
---
-ALTER TABLE `clecture`
-  ADD PRIMARY KEY (`id`);
-
---
--- 資料表索引 `crecord`
---
-ALTER TABLE `crecord`
-  ADD PRIMARY KEY (`id`);
-
---
--- 資料表索引 `handhomework`
---
-ALTER TABLE `handhomework`
-  ADD PRIMARY KEY (`id`);
-
---
--- 資料表索引 `profile`
---
-ALTER TABLE `profile`
-  ADD PRIMARY KEY (`id`);
-
---
--- 資料表索引 `role`
---
-ALTER TABLE `role`
-  ADD PRIMARY KEY (`id`);
-
---
--- 資料表索引 `role_action`
---
-ALTER TABLE `role_action`
-  ADD PRIMARY KEY (`id`);
-
---
--- 資料表索引 `user_role`
---
-ALTER TABLE `user_role`
-  ADD PRIMARY KEY (`id`);
-
---
--- 在傾印的資料表使用自動遞增(AUTO_INCREMENT)
---
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `action`
---
-ALTER TABLE `action`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `cchoose`
---
-ALTER TABLE `cchoose`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `cdata`
---
-ALTER TABLE `cdata`
-  MODIFY `Cid` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `chomework`
---
-ALTER TABLE `chomework`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `clecture`
---
-ALTER TABLE `clecture`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `crecord`
---
-ALTER TABLE `crecord`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `handhomework`
---
-ALTER TABLE `handhomework`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `role`
---
-ALTER TABLE `role`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `role_action`
---
-ALTER TABLE `role_action`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `user_role`
---
-ALTER TABLE `user_role`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
---
--- 資料庫: `n`
+-- Database: `n`
 --
 CREATE DATABASE IF NOT EXISTS `n` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `n`;
@@ -3407,18 +3460,19 @@ USE `n`;
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `account`
+-- Table structure for table `account`
 --
 
-CREATE TABLE `account` (
-  `UserID` int(100) NOT NULL,
+CREATE TABLE IF NOT EXISTS `account` (
+  `UserID` int(100) NOT NULL AUTO_INCREMENT,
   `PassWord` varchar(100) NOT NULL,
   `account` varchar(100) NOT NULL,
-  `name` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `name` varchar(100) NOT NULL,
+  PRIMARY KEY (`UserID`)
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 
 --
--- 傾印資料表的資料 `account`
+-- Dumping data for table `account`
 --
 
 INSERT INTO `account` (`UserID`, `PassWord`, `account`, `name`) VALUES
@@ -3430,21 +3484,27 @@ INSERT INTO `account` (`UserID`, `PassWord`, `account`, `name`) VALUES
 (11, 'e', 'w', 'q'),
 (12, 'd', 's', 'w'),
 (13, 'rr', 'ww', 'ee'),
-(14, 'cb', 'bc', 'ad');
+(14, 'cb', 'bc', 'ad'),
+(15, 'w', 'w', 'w'),
+(17, 'qwerty', 'qwex', 'w'),
+(18, 'asd', 'zxc', 'aaa'),
+(21, 'zxc', 'abc', 'uuu'),
+(22, 'zxc', 'abcx', 'uuuy');
 
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `characters`
+-- Table structure for table `characters`
 --
 
-CREATE TABLE `characters` (
-  `id` int(11) NOT NULL,
-  `name` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE IF NOT EXISTS `characters` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4;
 
 --
--- 傾印資料表的資料 `characters`
+-- Dumping data for table `characters`
 --
 
 INSERT INTO `characters` (`id`, `name`) VALUES
@@ -3459,21 +3519,52 @@ INSERT INTO `characters` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `employee`
+-- Table structure for table `emp`
 --
 
-CREATE TABLE `employee` (
+CREATE TABLE IF NOT EXISTS `emp` (
+  `id` varchar(100) NOT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `emp`
+--
+
+INSERT INTO `emp` (`id`, `name`) VALUES
+('LT001', 'abcd');
+
+--
+-- Triggers `emp`
+--
+DELIMITER $$
+CREATE TRIGGER `emp_autoid` BEFORE INSERT ON `emp` FOR EACH ROW BEGIN
+    INSERT INTO emp_seq VALUES (NULL);
+    SET NEW.id=concat('LT',right(1000+Last_insert_id(),3));
+END
+$$
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `employee`
+--
+
+CREATE TABLE IF NOT EXISTS `employee` (
   `id` varchar(20) NOT NULL,
   `name` varchar(100) NOT NULL,
   `pwd` varchar(20) NOT NULL,
   `EntryDate` date NOT NULL,
   `address` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `phone` int(20) NOT NULL
+  `phone` int(20) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- 傾印資料表的資料 `employee`
+-- Dumping data for table `employee`
 --
 
 INSERT INTO `employee` (`id`, `name`, `pwd`, `EntryDate`, `address`, `email`, `phone`) VALUES
@@ -3483,51 +3574,91 @@ INSERT INTO `employee` (`id`, `name`, `pwd`, `EntryDate`, `address`, `email`, `p
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `files`
+-- Table structure for table `emp_seq`
 --
 
-CREATE TABLE `files` (
-  `id` int(11) NOT NULL,
-  `filename` varchar(100) NOT NULL
+CREATE TABLE IF NOT EXISTS `emp_seq` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `emp_seq`
+--
+
+INSERT INTO `emp_seq` (`id`) VALUES
+(1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `files`
+--
+
+CREATE TABLE IF NOT EXISTS `files` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `filename` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `login_info`
+-- Table structure for table `hibernate_sequence`
 --
 
-CREATE TABLE `login_info` (
-  `id` int(11) NOT NULL,
-  `user` varchar(100) NOT NULL,
-  `time` varchar(100) NOT NULL
+CREATE TABLE IF NOT EXISTS `hibernate_sequence` (
+  `next_val` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- 傾印資料表的資料 `login_info`
+-- Dumping data for table `hibernate_sequence`
+--
+
+INSERT INTO `hibernate_sequence` (`next_val`) VALUES
+(11);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `login_info`
+--
+
+CREATE TABLE IF NOT EXISTS `login_info` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user` varchar(100) NOT NULL,
+  `time` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `login_info`
 --
 
 INSERT INTO `login_info` (`id`, `user`, `time`) VALUES
 (10, 'a', '2023/1/8 下午12:50:54'),
 (11, 'd', '2023/1/8 下午12:51:03'),
-(12, 'q', '2023/1/8 下午12:53:11');
+(12, 'q', '2023/1/8 下午12:53:11'),
+(13, 'w', '2023/3/13 上午1:13:53'),
+(14, 'a', '2023/4/10 下午2:29:37');
 
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `orderlist`
+-- Table structure for table `orderlist`
 --
 
-CREATE TABLE `orderlist` (
-  `id` int(100) NOT NULL,
+CREATE TABLE IF NOT EXISTS `orderlist` (
+  `id` int(100) NOT NULL AUTO_INCREMENT,
   `order_id` varchar(100) NOT NULL,
   `product_id` varchar(100) NOT NULL,
   `num` int(100) NOT NULL,
-  `price` int(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `price` int(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
 --
--- 傾印資料表的資料 `orderlist`
+-- Dumping data for table `orderlist`
 --
 
 INSERT INTO `orderlist` (`id`, `order_id`, `product_id`, `num`, `price`) VALUES
@@ -3536,18 +3667,19 @@ INSERT INTO `orderlist` (`id`, `order_id`, `product_id`, `num`, `price`) VALUES
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `orders`
+-- Table structure for table `orders`
 --
 
-CREATE TABLE `orders` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `orders` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `retailer_id` varchar(100) NOT NULL,
   `user_id` varchar(100) NOT NULL,
-  `date` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `date` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
 
 --
--- 傾印資料表的資料 `orders`
+-- Dumping data for table `orders`
 --
 
 INSERT INTO `orders` (`id`, `retailer_id`, `user_id`, `date`) VALUES
@@ -3557,19 +3689,20 @@ INSERT INTO `orders` (`id`, `retailer_id`, `user_id`, `date`) VALUES
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `product`
+-- Table structure for table `product`
 --
 
-CREATE TABLE `product` (
+CREATE TABLE IF NOT EXISTS `product` (
   `id` varchar(20) NOT NULL,
   `name` varchar(20) NOT NULL,
   `cost` int(20) NOT NULL,
   `price` int(20) NOT NULL,
-  `count` int(20) NOT NULL
+  `count` int(20) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- 傾印資料表的資料 `product`
+-- Dumping data for table `product`
 --
 
 INSERT INTO `product` (`id`, `name`, `cost`, `price`, `count`) VALUES
@@ -3580,19 +3713,20 @@ INSERT INTO `product` (`id`, `name`, `cost`, `price`, `count`) VALUES
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `supplier`
+-- Table structure for table `supplier`
 --
 
-CREATE TABLE `supplier` (
-  `Id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `supplier` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
   `Name` varchar(50) DEFAULT NULL,
   `ContactPerson` varchar(255) DEFAULT NULL,
   `Phone` int(20) DEFAULT NULL,
-  `Address` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `Address` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4;
 
 --
--- 傾印資料表的資料 `supplier`
+-- Dumping data for table `supplier`
 --
 
 INSERT INTO `supplier` (`Id`, `Name`, `ContactPerson`, `Phone`, `Address`) VALUES
@@ -3606,42 +3740,42 @@ INSERT INTO `supplier` (`Id`, `Name`, `ContactPerson`, `Phone`, `Address`) VALUE
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `user`
+-- Table structure for table `user`
 --
 
-CREATE TABLE `user` (
-  `id` varchar(10) NOT NULL,
-  `pwd` varchar(15) NOT NULL,
-  `email` varchar(20) NOT NULL,
-  `phone` varchar(15) NOT NULL
+CREATE TABLE IF NOT EXISTS `user` (
+  `id` int(11) NOT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- 傾印資料表的資料 `user`
+-- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `pwd`, `email`, `phone`) VALUES
-('A123', 'u', 'v', '78'),
-('A280', 'uuu', 'zxc132', '4654646'),
-('A555', '789', '45', '12'),
-('A888', '123', '456', '789'),
-('D33', 'q', 'dasd', '123124');
+INSERT INTO `user` (`id`, `email`, `name`, `phone`) VALUES
+(4, 'ze123@asdfgh.com', '仆街', '0987200506'),
+(5, 'e123@asdfgh.com', 'dllmer', '0987200506'),
+(6, 'ze123@asdfgh.com', 'Dllmer', '0987200506');
 
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `x`
+-- Table structure for table `x`
 --
 
-CREATE TABLE `x` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `x` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) NOT NULL,
   `addr` varchar(255) NOT NULL,
-  `birth` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `birth` date NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=816 DEFAULT CHARSET=utf8mb4;
 
 --
--- 傾印資料表的資料 `x`
+-- Dumping data for table `x`
 --
 
 INSERT INTO `x` (`id`, `name`, `addr`, `birth`) VALUES
@@ -3649,130 +3783,8 @@ INSERT INTO `x` (`id`, `name`, `addr`, `birth`) VALUES
 (24, 'asfdhe', 'zayw8qx', '1989-12-31'),
 (185, 'aaa', 'cwc', '1949-01-02'),
 (815, 'yuq', 'cnc', '1949-09-10');
-
 --
--- 已傾印資料表的索引
---
-
---
--- 資料表索引 `account`
---
-ALTER TABLE `account`
-  ADD PRIMARY KEY (`UserID`);
-
---
--- 資料表索引 `characters`
---
-ALTER TABLE `characters`
-  ADD PRIMARY KEY (`id`);
-
---
--- 資料表索引 `employee`
---
-ALTER TABLE `employee`
-  ADD PRIMARY KEY (`id`);
-
---
--- 資料表索引 `files`
---
-ALTER TABLE `files`
-  ADD PRIMARY KEY (`id`);
-
---
--- 資料表索引 `login_info`
---
-ALTER TABLE `login_info`
-  ADD PRIMARY KEY (`id`);
-
---
--- 資料表索引 `orderlist`
---
-ALTER TABLE `orderlist`
-  ADD PRIMARY KEY (`id`);
-
---
--- 資料表索引 `orders`
---
-ALTER TABLE `orders`
-  ADD PRIMARY KEY (`id`);
-
---
--- 資料表索引 `product`
---
-ALTER TABLE `product`
-  ADD PRIMARY KEY (`id`);
-
---
--- 資料表索引 `supplier`
---
-ALTER TABLE `supplier`
-  ADD PRIMARY KEY (`Id`);
-
---
--- 資料表索引 `user`
---
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`);
-
---
--- 資料表索引 `x`
---
-ALTER TABLE `x`
-  ADD PRIMARY KEY (`id`);
-
---
--- 在傾印的資料表使用自動遞增(AUTO_INCREMENT)
---
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `account`
---
-ALTER TABLE `account`
-  MODIFY `UserID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `characters`
---
-ALTER TABLE `characters`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `files`
---
-ALTER TABLE `files`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `login_info`
---
-ALTER TABLE `login_info`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `orderlist`
---
-ALTER TABLE `orderlist`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `orders`
---
-ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `supplier`
---
-ALTER TABLE `supplier`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `x`
---
-ALTER TABLE `x`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=816;
---
--- 資料庫: `phpmyadmin`
+-- Database: `phpmyadmin`
 --
 CREATE DATABASE IF NOT EXISTS `phpmyadmin` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
 USE `phpmyadmin`;
@@ -3780,42 +3792,51 @@ USE `phpmyadmin`;
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `pma__bookmark`
+-- Table structure for table `pma__bookmark`
 --
 
-CREATE TABLE `pma__bookmark` (
-  `id` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `pma__bookmark` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `dbase` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
   `user` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
   `label` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '',
-  `query` text COLLATE utf8_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Bookmarks';
+  `query` text COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Bookmarks';
+
+--
+-- Dumping data for table `pma__bookmark`
+--
+
+INSERT INTO `pma__bookmark` (`id`, `dbase`, `user`, `label`, `query`) VALUES
+(1, 'meeting_manage', 'root', ' ', 'SELECT meeting.*,meeting_room.name as meetingRoom FROM meeting JOIN meeting_room ON meeting.meetingRoomId=meeting_room.id WHERE meeting.id=\"M030\"');
 
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `pma__central_columns`
+-- Table structure for table `pma__central_columns`
 --
 
-CREATE TABLE `pma__central_columns` (
+CREATE TABLE IF NOT EXISTS `pma__central_columns` (
   `db_name` varchar(64) COLLATE utf8_bin NOT NULL,
   `col_name` varchar(64) COLLATE utf8_bin NOT NULL,
   `col_type` varchar(64) COLLATE utf8_bin NOT NULL,
-  `col_length` text COLLATE utf8_bin DEFAULT NULL,
+  `col_length` text COLLATE utf8_bin,
   `col_collation` varchar(64) COLLATE utf8_bin NOT NULL,
   `col_isNull` tinyint(1) NOT NULL,
   `col_extra` varchar(255) COLLATE utf8_bin DEFAULT '',
-  `col_default` text COLLATE utf8_bin DEFAULT NULL
+  `col_default` text COLLATE utf8_bin,
+  PRIMARY KEY (`db_name`,`col_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Central list of columns';
 
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `pma__column_info`
+-- Table structure for table `pma__column_info`
 --
 
-CREATE TABLE `pma__column_info` (
-  `id` int(5) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `pma__column_info` (
+  `id` int(5) UNSIGNED NOT NULL AUTO_INCREMENT,
   `db_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
   `table_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
   `column_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
@@ -3824,22 +3845,25 @@ CREATE TABLE `pma__column_info` (
   `transformation` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
   `transformation_options` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
   `input_transformation` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `input_transformation_options` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT ''
+  `input_transformation_options` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `db_name` (`db_name`,`table_name`,`column_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Column information for phpMyAdmin';
 
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `pma__designer_settings`
+-- Table structure for table `pma__designer_settings`
 --
 
-CREATE TABLE `pma__designer_settings` (
+CREATE TABLE IF NOT EXISTS `pma__designer_settings` (
   `username` varchar(64) COLLATE utf8_bin NOT NULL,
-  `settings_data` text COLLATE utf8_bin NOT NULL
+  `settings_data` text COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Settings related to Designer';
 
 --
--- 傾印資料表的資料 `pma__designer_settings`
+-- Dumping data for table `pma__designer_settings`
 --
 
 INSERT INTO `pma__designer_settings` (`username`, `settings_data`) VALUES
@@ -3848,158 +3872,174 @@ INSERT INTO `pma__designer_settings` (`username`, `settings_data`) VALUES
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `pma__export_templates`
+-- Table structure for table `pma__export_templates`
 --
 
-CREATE TABLE `pma__export_templates` (
-  `id` int(5) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `pma__export_templates` (
+  `id` int(5) UNSIGNED NOT NULL AUTO_INCREMENT,
   `username` varchar(64) COLLATE utf8_bin NOT NULL,
   `export_type` varchar(10) COLLATE utf8_bin NOT NULL,
   `template_name` varchar(64) COLLATE utf8_bin NOT NULL,
-  `template_data` text COLLATE utf8_bin NOT NULL
+  `template_data` text COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `u_user_type_template` (`username`,`export_type`,`template_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Saved export templates';
 
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `pma__favorite`
+-- Table structure for table `pma__favorite`
 --
 
-CREATE TABLE `pma__favorite` (
+CREATE TABLE IF NOT EXISTS `pma__favorite` (
   `username` varchar(64) COLLATE utf8_bin NOT NULL,
-  `tables` text COLLATE utf8_bin NOT NULL
+  `tables` text COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Favorite tables';
 
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `pma__history`
+-- Table structure for table `pma__history`
 --
 
-CREATE TABLE `pma__history` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `pma__history` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `username` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
   `db` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
   `table` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `timevalue` timestamp NOT NULL DEFAULT current_timestamp(),
-  `sqlquery` text COLLATE utf8_bin NOT NULL
+  `timevalue` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `sqlquery` text COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `username` (`username`,`db`,`table`,`timevalue`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='SQL history for phpMyAdmin';
 
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `pma__navigationhiding`
+-- Table structure for table `pma__navigationhiding`
 --
 
-CREATE TABLE `pma__navigationhiding` (
+CREATE TABLE IF NOT EXISTS `pma__navigationhiding` (
   `username` varchar(64) COLLATE utf8_bin NOT NULL,
   `item_name` varchar(64) COLLATE utf8_bin NOT NULL,
   `item_type` varchar(64) COLLATE utf8_bin NOT NULL,
   `db_name` varchar(64) COLLATE utf8_bin NOT NULL,
-  `table_name` varchar(64) COLLATE utf8_bin NOT NULL
+  `table_name` varchar(64) COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`username`,`item_name`,`item_type`,`db_name`,`table_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Hidden items of navigation tree';
 
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `pma__pdf_pages`
+-- Table structure for table `pma__pdf_pages`
 --
 
-CREATE TABLE `pma__pdf_pages` (
+CREATE TABLE IF NOT EXISTS `pma__pdf_pages` (
   `db_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `page_nr` int(10) UNSIGNED NOT NULL,
-  `page_descr` varchar(50) CHARACTER SET utf8 NOT NULL DEFAULT ''
+  `page_nr` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `page_descr` varchar(50) CHARACTER SET utf8 NOT NULL DEFAULT '',
+  PRIMARY KEY (`page_nr`),
+  KEY `db_name` (`db_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='PDF relation pages for phpMyAdmin';
 
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `pma__recent`
+-- Table structure for table `pma__recent`
 --
 
-CREATE TABLE `pma__recent` (
+CREATE TABLE IF NOT EXISTS `pma__recent` (
   `username` varchar(64) COLLATE utf8_bin NOT NULL,
-  `tables` text COLLATE utf8_bin NOT NULL
+  `tables` text COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Recently accessed tables';
 
 --
--- 傾印資料表的資料 `pma__recent`
+-- Dumping data for table `pma__recent`
 --
 
 INSERT INTO `pma__recent` (`username`, `tables`) VALUES
-('root', '[{\"db\":\"n\",\"table\":\"characters\"},{\"db\":\"n\",\"table\":\"employee\"},{\"db\":\"n\",\"table\":\"user\"},{\"db\":\"n\",\"table\":\"supplier\"},{\"db\":\"n\",\"table\":\"orders\"},{\"db\":\"n\",\"table\":\"orderlist\"},{\"db\":\"n\",\"table\":\"files\"},{\"db\":\"n\",\"table\":\"login_info\"},{\"db\":\"n\",\"table\":\"account\"},{\"db\":\"mmisdb\",\"table\":\"overtime\"}]');
+('root', '[{\"db\":\"n\",\"table\":\"user\"},{\"db\":\"meeting_manage\",\"table\":\"meeting\"},{\"db\":\"meeting_manage\",\"table\":\"meeting_member\"},{\"db\":\"meeting_manage\",\"table\":\"user\"},{\"db\":\"meeting_manage\",\"table\":\"meeting_room\"},{\"db\":\"meeting_manage\",\"table\":\"meetingroom_borrow\"},{\"db\":\"meeting_manage\",\"table\":\"meeting_sequence\"},{\"db\":\"n\",\"table\":\"emp\"},{\"db\":\"n\",\"table\":\"student\"},{\"db\":\"n\",\"table\":\"employee\"}]');
 
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `pma__relation`
+-- Table structure for table `pma__relation`
 --
 
-CREATE TABLE `pma__relation` (
+CREATE TABLE IF NOT EXISTS `pma__relation` (
   `master_db` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
   `master_table` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
   `master_field` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
   `foreign_db` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
   `foreign_table` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `foreign_field` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT ''
+  `foreign_field` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+  PRIMARY KEY (`master_db`,`master_table`,`master_field`),
+  KEY `foreign_field` (`foreign_db`,`foreign_table`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Relation table';
 
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `pma__savedsearches`
+-- Table structure for table `pma__savedsearches`
 --
 
-CREATE TABLE `pma__savedsearches` (
-  `id` int(5) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `pma__savedsearches` (
+  `id` int(5) UNSIGNED NOT NULL AUTO_INCREMENT,
   `username` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
   `db_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
   `search_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `search_data` text COLLATE utf8_bin NOT NULL
+  `search_data` text COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `u_savedsearches_username_dbname` (`username`,`db_name`,`search_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Saved searches';
 
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `pma__table_coords`
+-- Table structure for table `pma__table_coords`
 --
 
-CREATE TABLE `pma__table_coords` (
+CREATE TABLE IF NOT EXISTS `pma__table_coords` (
   `db_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
   `table_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `pdf_page_number` int(11) NOT NULL DEFAULT 0,
-  `x` float UNSIGNED NOT NULL DEFAULT 0,
-  `y` float UNSIGNED NOT NULL DEFAULT 0
+  `pdf_page_number` int(11) NOT NULL DEFAULT '0',
+  `x` float UNSIGNED NOT NULL DEFAULT '0',
+  `y` float UNSIGNED NOT NULL DEFAULT '0',
+  PRIMARY KEY (`db_name`,`table_name`,`pdf_page_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Table coordinates for phpMyAdmin PDF output';
 
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `pma__table_info`
+-- Table structure for table `pma__table_info`
 --
 
-CREATE TABLE `pma__table_info` (
+CREATE TABLE IF NOT EXISTS `pma__table_info` (
   `db_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
   `table_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `display_field` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT ''
+  `display_field` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+  PRIMARY KEY (`db_name`,`table_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Table information for phpMyAdmin';
 
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `pma__table_uiprefs`
+-- Table structure for table `pma__table_uiprefs`
 --
 
-CREATE TABLE `pma__table_uiprefs` (
+CREATE TABLE IF NOT EXISTS `pma__table_uiprefs` (
   `username` varchar(64) COLLATE utf8_bin NOT NULL,
   `db_name` varchar(64) COLLATE utf8_bin NOT NULL,
   `table_name` varchar(64) COLLATE utf8_bin NOT NULL,
   `prefs` text COLLATE utf8_bin NOT NULL,
-  `last_update` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`username`,`db_name`,`table_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Tables'' UI preferences';
 
 --
--- 傾印資料表的資料 `pma__table_uiprefs`
+-- Dumping data for table `pma__table_uiprefs`
 --
 
 INSERT INTO `pma__table_uiprefs` (`username`, `db_name`, `table_name`, `prefs`, `last_update`) VALUES
@@ -4009,237 +4049,73 @@ INSERT INTO `pma__table_uiprefs` (`username`, `db_name`, `table_name`, `prefs`, 
 ('root', 'mmisdb', 'supplier', '{\"sorted_col\":\"`supplier`.`SupplierId` ASC\"}', '2022-01-02 18:22:53'),
 ('root', 'mvcfinal', 'action', '{\"sorted_col\":\"`id` ASC\"}', '2022-01-14 08:05:37'),
 ('root', 'mvcfinal', 'cdata', '{\"sorted_col\":\"`cdata`.`weekday` ASC\"}', '2022-01-13 09:22:08'),
-('root', 'mvcfinal', 'role_action', '{\"sorted_col\":\"`action_id`  ASC\"}', '2022-01-14 08:11:19');
+('root', 'mvcfinal', 'role_action', '{\"sorted_col\":\"`action_id`  ASC\"}', '2022-01-14 08:11:19'),
+('root', 'n', 'account', '{\"CREATE_TIME\":\"2023-03-06 21:19:30\",\"col_order\":[0,2,1,3],\"col_visib\":[1,1,1,1]}', '2023-04-29 12:11:51');
 
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `pma__tracking`
+-- Table structure for table `pma__tracking`
 --
 
-CREATE TABLE `pma__tracking` (
+CREATE TABLE IF NOT EXISTS `pma__tracking` (
   `db_name` varchar(64) COLLATE utf8_bin NOT NULL,
   `table_name` varchar(64) COLLATE utf8_bin NOT NULL,
   `version` int(10) UNSIGNED NOT NULL,
   `date_created` datetime NOT NULL,
   `date_updated` datetime NOT NULL,
   `schema_snapshot` text COLLATE utf8_bin NOT NULL,
-  `schema_sql` text COLLATE utf8_bin DEFAULT NULL,
-  `data_sql` longtext COLLATE utf8_bin DEFAULT NULL,
+  `schema_sql` text COLLATE utf8_bin,
+  `data_sql` longtext COLLATE utf8_bin,
   `tracking` set('UPDATE','REPLACE','INSERT','DELETE','TRUNCATE','CREATE DATABASE','ALTER DATABASE','DROP DATABASE','CREATE TABLE','ALTER TABLE','RENAME TABLE','DROP TABLE','CREATE INDEX','DROP INDEX','CREATE VIEW','ALTER VIEW','DROP VIEW') COLLATE utf8_bin DEFAULT NULL,
-  `tracking_active` int(1) UNSIGNED NOT NULL DEFAULT 1
+  `tracking_active` int(1) UNSIGNED NOT NULL DEFAULT '1',
+  PRIMARY KEY (`db_name`,`table_name`,`version`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Database changes tracking for phpMyAdmin';
 
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `pma__userconfig`
+-- Table structure for table `pma__userconfig`
 --
 
-CREATE TABLE `pma__userconfig` (
+CREATE TABLE IF NOT EXISTS `pma__userconfig` (
   `username` varchar(64) COLLATE utf8_bin NOT NULL,
-  `timevalue` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `config_data` text COLLATE utf8_bin NOT NULL
+  `timevalue` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `config_data` text COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='User preferences storage for phpMyAdmin';
 
 --
--- 傾印資料表的資料 `pma__userconfig`
+-- Dumping data for table `pma__userconfig`
 --
 
 INSERT INTO `pma__userconfig` (`username`, `timevalue`, `config_data`) VALUES
-('root', '2023-03-06 12:47:41', '{\"Console\\/Mode\":\"collapse\",\"lang\":\"zh_TW\"}');
+('root', '2023-09-27 07:26:54', '{\"PmaNoRelation_DisableWarning\":true,\"VersionCheck\":false,\"Console\\/Mode\":\"collapse\",\"FirstDayOfCalendar\":7,\"Server\\/hide_db\":\"\",\"2fa\":{\"type\":\"db\",\"backend\":\"\",\"settings\":[]}}');
 
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `pma__usergroups`
+-- Table structure for table `pma__usergroups`
 --
 
-CREATE TABLE `pma__usergroups` (
+CREATE TABLE IF NOT EXISTS `pma__usergroups` (
   `usergroup` varchar(64) COLLATE utf8_bin NOT NULL,
   `tab` varchar(64) COLLATE utf8_bin NOT NULL,
-  `allowed` enum('Y','N') COLLATE utf8_bin NOT NULL DEFAULT 'N'
+  `allowed` enum('Y','N') COLLATE utf8_bin NOT NULL DEFAULT 'N',
+  PRIMARY KEY (`usergroup`,`tab`,`allowed`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='User groups with configured menu items';
 
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `pma__users`
+-- Table structure for table `pma__users`
 --
 
-CREATE TABLE `pma__users` (
+CREATE TABLE IF NOT EXISTS `pma__users` (
   `username` varchar(64) COLLATE utf8_bin NOT NULL,
-  `usergroup` varchar(64) COLLATE utf8_bin NOT NULL
+  `usergroup` varchar(64) COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`username`,`usergroup`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Users and their assignments to user groups';
-
---
--- 已傾印資料表的索引
---
-
---
--- 資料表索引 `pma__bookmark`
---
-ALTER TABLE `pma__bookmark`
-  ADD PRIMARY KEY (`id`);
-
---
--- 資料表索引 `pma__central_columns`
---
-ALTER TABLE `pma__central_columns`
-  ADD PRIMARY KEY (`db_name`,`col_name`);
-
---
--- 資料表索引 `pma__column_info`
---
-ALTER TABLE `pma__column_info`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `db_name` (`db_name`,`table_name`,`column_name`);
-
---
--- 資料表索引 `pma__designer_settings`
---
-ALTER TABLE `pma__designer_settings`
-  ADD PRIMARY KEY (`username`);
-
---
--- 資料表索引 `pma__export_templates`
---
-ALTER TABLE `pma__export_templates`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `u_user_type_template` (`username`,`export_type`,`template_name`);
-
---
--- 資料表索引 `pma__favorite`
---
-ALTER TABLE `pma__favorite`
-  ADD PRIMARY KEY (`username`);
-
---
--- 資料表索引 `pma__history`
---
-ALTER TABLE `pma__history`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `username` (`username`,`db`,`table`,`timevalue`);
-
---
--- 資料表索引 `pma__navigationhiding`
---
-ALTER TABLE `pma__navigationhiding`
-  ADD PRIMARY KEY (`username`,`item_name`,`item_type`,`db_name`,`table_name`);
-
---
--- 資料表索引 `pma__pdf_pages`
---
-ALTER TABLE `pma__pdf_pages`
-  ADD PRIMARY KEY (`page_nr`),
-  ADD KEY `db_name` (`db_name`);
-
---
--- 資料表索引 `pma__recent`
---
-ALTER TABLE `pma__recent`
-  ADD PRIMARY KEY (`username`);
-
---
--- 資料表索引 `pma__relation`
---
-ALTER TABLE `pma__relation`
-  ADD PRIMARY KEY (`master_db`,`master_table`,`master_field`),
-  ADD KEY `foreign_field` (`foreign_db`,`foreign_table`);
-
---
--- 資料表索引 `pma__savedsearches`
---
-ALTER TABLE `pma__savedsearches`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `u_savedsearches_username_dbname` (`username`,`db_name`,`search_name`);
-
---
--- 資料表索引 `pma__table_coords`
---
-ALTER TABLE `pma__table_coords`
-  ADD PRIMARY KEY (`db_name`,`table_name`,`pdf_page_number`);
-
---
--- 資料表索引 `pma__table_info`
---
-ALTER TABLE `pma__table_info`
-  ADD PRIMARY KEY (`db_name`,`table_name`);
-
---
--- 資料表索引 `pma__table_uiprefs`
---
-ALTER TABLE `pma__table_uiprefs`
-  ADD PRIMARY KEY (`username`,`db_name`,`table_name`);
-
---
--- 資料表索引 `pma__tracking`
---
-ALTER TABLE `pma__tracking`
-  ADD PRIMARY KEY (`db_name`,`table_name`,`version`);
-
---
--- 資料表索引 `pma__userconfig`
---
-ALTER TABLE `pma__userconfig`
-  ADD PRIMARY KEY (`username`);
-
---
--- 資料表索引 `pma__usergroups`
---
-ALTER TABLE `pma__usergroups`
-  ADD PRIMARY KEY (`usergroup`,`tab`,`allowed`);
-
---
--- 資料表索引 `pma__users`
---
-ALTER TABLE `pma__users`
-  ADD PRIMARY KEY (`username`,`usergroup`);
-
---
--- 在傾印的資料表使用自動遞增(AUTO_INCREMENT)
---
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `pma__bookmark`
---
-ALTER TABLE `pma__bookmark`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `pma__column_info`
---
-ALTER TABLE `pma__column_info`
-  MODIFY `id` int(5) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `pma__export_templates`
---
-ALTER TABLE `pma__export_templates`
-  MODIFY `id` int(5) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `pma__history`
---
-ALTER TABLE `pma__history`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `pma__pdf_pages`
---
-ALTER TABLE `pma__pdf_pages`
-  MODIFY `page_nr` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `pma__savedsearches`
---
-ALTER TABLE `pma__savedsearches`
-  MODIFY `id` int(5) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- 資料庫: `test`
---
-CREATE DATABASE IF NOT EXISTS `test` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `test`;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

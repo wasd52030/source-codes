@@ -1,0 +1,11 @@
+<div class="alert alert-primary">
+    PetShop寵物店
+</div>
+<p>公司名稱：@ViewData["company"]</p>
+<p>公司地址：@ViewData["address"]</p>
+<p>販賣的寵物有：</p>
+<ul>
+    @foreach(var item in ViewData.Model){
+        <li>@item</li>
+    }
+</ul>

@@ -1,9 +1,10 @@
+from decimal import Decimal
 from typing import List
 import pandas
 
 
 def discountedPaybackPeriod(
-    initialInvestment: float, cashFlows: List[float], discountRate: float
+    initialInvestment: Decimal, cashFlows: List[Decimal], discountRate: Decimal
 ):
     t = [
         [0, initialInvestment, 1, initialInvestment, initialInvestment],
@@ -38,7 +39,7 @@ def discountedPaybackPeriod(
 
 
 def modifiedInternalRateOfReturn(
-    initial_investment: float, cash_flows: List[float], capitalRate: float
+    initial_investment: Decimal, cash_flows: List[Decimal], capitalRate: Decimal
 ):
     # 期數
     n = len(cash_flows)
@@ -50,7 +51,7 @@ def modifiedInternalRateOfReturn(
         ]
     )
 
-    MIRR = (sCIF / initial_investment) ** (1 / n) - 1
+    MIRR = (sCIF / initial_investment) ** Decimal(1 / n) - 1
     MIRR = round(MIRR, 4)
 
     print(f"MIRR:{MIRR}")
@@ -60,16 +61,16 @@ def main():
     n = int(input("請輸入期數: "))
 
     # 輸入現金流
-    cashFlows = [float(input(f"請輸入第{i+1}期金額: ")) for i in range(n)]
+    cashFlows = [Decimal(input(f"請輸入第{i+1}期金額: ")) for i in range(n)]
 
     # 折現率
-    discountRate = float(input("請輸入折現率: "))
+    discountRate = Decimal(input("請輸入折現率: "))
 
     # 資金成本率
-    capitalRate = float(input("請輸入資金成本率: "))
+    capitalRate = Decimal(input("請輸入資金成本率: "))
 
     # 初始投資
-    initialInvestment = int(input("請輸入初始投資額: "))
+    initialInvestment = Decimal(input("請輸入初始投資額: "))
 
     discountedPaybackPeriod(initialInvestment, cashFlows, discountRate)
     print()

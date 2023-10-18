@@ -36,4 +36,4 @@ if (response.IsSuccessStatusCode is false)
 var body = await response.Content.ReadAsStringAsync();
 client.Dispose();
 
-Console.WriteLine(body);
+body.Dump();

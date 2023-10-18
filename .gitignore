@@ -20,3 +20,9 @@ business_BigData/final/Big Data-final第十一組.pptx
 **/bin/
 **/obj/
 ML_application/C109152304.zip
+
+# 必須先擋掉所有檔案，才能加入不能擋的特殊例外！
+# 如26-28行
+CSharpScripts/*
+!CSharpScripts/*.csx
+!CSharpScripts/readme.md

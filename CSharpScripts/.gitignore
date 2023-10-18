@@ -1,0 +1,4 @@
+# 除了副檔名為csx之外的通通忽略
+!*.csx
+# 除了readme.md之外的通通忽略
+!readne.md

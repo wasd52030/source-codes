@@ -1,5 +1,5 @@
+#r "nuget: Dapper, 2.1.15"
 #r "nuget: MySqlConnector, 2.2.7"
-#r "nuget: Dapper, 2.1.11"
 
 using Dapper;
 using MySqlConnector;

@@ -1,4 +1,4 @@
-#r "nuget:Microsoft.AspNetCore.WebUtilities"
+#r "nuget: Microsoft.AspNetCore.WebUtilities, 2.2.0"
 
 using System.Net.Http;
 using Microsoft.AspNetCore.WebUtilities;

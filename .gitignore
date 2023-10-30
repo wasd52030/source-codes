@@ -26,3 +26,5 @@ ML_application/C109152304.zip
 CSharpScripts/*
 !CSharpScripts/*.csx
 !CSharpScripts/readme.md
+
+*/*.autosave.csx

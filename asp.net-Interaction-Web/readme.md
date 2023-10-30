@@ -13,4 +13,6 @@
   
   ![](./AfterAutoInject.png)
   <center>圖2. 使用AutoInject</center>
-  參考： https://www.bilibili.com/video/BV1pQ4y1p7bV
+  - 參考
+    - https://blog.miniasp.com/post/2020/11/30/Introducing-Roslyn-Source-Generators
+    - https://www.bilibili.com/video/BV1pQ4y1p7bV

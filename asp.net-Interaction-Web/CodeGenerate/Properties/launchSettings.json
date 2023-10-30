@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "yuanshen": {
+      "commandName": "DebugRoslynComponent",
+      "targetProject": "..\\mvc-main\\mvc-main.csproj"
+    }
+  }
+}

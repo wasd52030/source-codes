@@ -12,6 +12,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Bogus" Version="34.0.2" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.12" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.12" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.12">
@@ -23,11 +24,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference 
-			Include="..\CodeGenerate\CodeGenerate.csproj" 
-			OutputItemType="Analyzer"
-			ReferenceOutputAssembly="false"
-		/>
+		<ProjectReference Include="..\CodeGenerate\CodeGenerate.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
 	</ItemGroup>
 
 </Project>

@@ -1,5 +1,5 @@
 ﻿@{
-    var webName = "20231016";
+    var webName = "MVCMain";
     var title = $"{((ViewData["Title"] != null) ? $"{ViewData["Title"]}-" : "")}{webName}";
 }
 
@@ -19,7 +19,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">20231016</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MvcMain</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -39,13 +39,19 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="PetShop" asp-action="Index">PetShop</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Employee" asp-action="EmployeeList">EmployeeList</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Employee" asp-action="Employees">EmployeeCRUD</a>
+                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main" class="pb-3" style="background-color:#20c997;color:white;">
             @RenderBody()
         </main>
     </div>

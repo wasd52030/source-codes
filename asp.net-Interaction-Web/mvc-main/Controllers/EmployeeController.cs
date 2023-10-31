@@ -1,10 +1,11 @@
 using MvcMain.Models;
 using Microsoft.AspNetCore.Mvc;
 using MvcMain.Attributes;
+using Bogus;
 
 namespace MvcMain.Controllers
 {
-    [AutoInject] 
+    [AutoInject]
     [Route("[controller]")]
     public partial class EmployeeController : Controller
     {
@@ -16,6 +17,21 @@ namespace MvcMain.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        [Route("[action]")]
+        public IActionResult EmployeeList()
+        {
+            var eid = 0;
+            var employeeFaker = new Faker<Employee>("zh_TW").RuleFor(e => e.id, f => eid++)
+                                                            .RuleFor(e => e.name, f => $"{f.Name.LastName()}{f.Name.FirstName()}")
+                                                            .RuleFor(e => e.phone, f => f.Phone.PhoneNumberFormat(2))
+                                                            .RuleFor(e => e.email, f => {
+                                                                return new Faker().Internet.Email();
+                                                            });
+
+            var employees = employeeFaker.Generate(10);
+            return View(employees);
         }
 
 

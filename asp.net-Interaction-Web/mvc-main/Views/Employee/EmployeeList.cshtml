@@ -1,7 +1,7 @@
 @model IEnumerable<MvcMain.Models.Employee>
 
 @{
-    ViewData["Title"] = "Employees";
+    ViewData["Title"] = "EmployeeList";
 }
 
 <style type="text/css">
@@ -27,8 +27,9 @@
 </style>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a href="#" onclick="alert('just for List Display');">Create New</a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
@@ -64,9 +65,8 @@
                     @Html.DisplayFor(modelItem => item.email)
                 </td>
                 <td>
-                    @Html.ActionLink("Update", "Update", new { id=item.id }) |
-                    @* @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) | *@
-                    @Html.ActionLink("Delete", "Delete", new { id=item.id })
+                    <a href="#" onclick="alert('just for List Display');">Update</a>
+                    <a href="#" onclick="alert('just for List Display');">Delete</a>
                 </td>
             </tr>
         }

@@ -71,6 +71,7 @@ public class AutoInjectSourceGenerator : ISourceGenerator
 
         var className = classNode.Identifier.ToString();
         var pairs = new List<Tuple<string, string>>();
+        Debug.WriteLine(6);
         foreach (var field in fieldNodeWithAutoInject)
         {
             //Debug.WriteLine(field.Modifiers);

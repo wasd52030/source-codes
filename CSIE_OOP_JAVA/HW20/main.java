@@ -1,6 +1,7 @@
 // file encode utf8 build command -> javac -encoding utf-8 main.java
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class main {
@@ -10,9 +11,7 @@ public class main {
     }
 
     public static <T> void printArray(T[] arr) {
-        for (var i : arr) {
-            System.out.print(i + " ");
-        }
+        System.out.println(Arrays.toString(arr));
         System.out.println(arr.getClass().getComponentType().getName());
     }
 

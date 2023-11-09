@@ -26,13 +26,9 @@ public class main {
                 min = item;
             }
         }
-        if (min instanceof Character) {
-            System.out.println("陣列中的最大值為: " + (Character) max);
-            System.out.println("陣列中的最小值為: " + (Character) min);
-        } else {
-            System.out.println("陣列中的最大值為: " + max);
-            System.out.println("陣列中的最小值為: " + min);
-        }
+
+        System.out.println("陣列中的最大值為: " + max);
+        System.out.println("陣列中的最小值為: " + min);
     }
 
     public static void main(String[] args) throws IOException {

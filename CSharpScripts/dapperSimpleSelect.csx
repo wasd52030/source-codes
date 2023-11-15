@@ -9,11 +9,8 @@ record user(string id,string name,string email,string phone){
 }
 
 using (var db=new MySqlConnection("Server=127.0.0.1;Database=n;Uid=a;Pwd=a31813141;")){
-    var users=db.Query<user>("select * from user");
-    foreach (var user in users)
-    {
-        Console.WriteLine(user);
-    }
+    db.Query<user>("select * from user").ToList().ForEach(Console.WriteLine);
+    Console.WriteLine();
     
-    db.Query<user>("select * from user where id=@id",new{id=4}).ToList().ForEach(u=>Console.WriteLine(u));
+    db.Query<user>("select * from user where id=@id",new{id=4}).ToList().ForEach(Console.WriteLine);
 }

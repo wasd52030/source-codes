@@ -1,4 +1,4 @@
-"Hello, World!".halfToFull().Dump();
+Console.WriteLine("Hello, World!".halfToFull());
 
 unsafe static string halfToFull(this string input) {
   fixed(char * p = input) {

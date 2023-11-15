@@ -1,6 +1,6 @@
 # CSharpScripts
 
-乳題，用來放CSharpScripts(csx)的地方。
+乳題，用來放CSharpScript(csx)的地方。
 
 
 

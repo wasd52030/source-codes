@@ -20,10 +20,17 @@ long[] Larr = new long[] {
   600_000_000
 };
 
-Iarr.Dump().findMAxAndMin();
-Darr.Dump().findMAxAndMin();
-Carr.Dump().findMAxAndMin();
-Larr.Dump().findMAxAndMin();
+Console.WriteLine($"[{string.Join(",",Iarr)}]");
+Iarr.findMAxAndMin();
+
+Console.WriteLine($"[{string.Join(",",Darr)}]");
+Darr.findMAxAndMin();
+
+Console.WriteLine($"[{string.Join(",",Carr)}]");
+Carr.findMAxAndMin();
+
+Console.WriteLine($"[{string.Join(",",Larr)}]");
+Larr.findMAxAndMin();
 
 public static void findMAxAndMin<T>(this T[] arr) where T: IComparable {
   T max = arr[0], min = arr[0];

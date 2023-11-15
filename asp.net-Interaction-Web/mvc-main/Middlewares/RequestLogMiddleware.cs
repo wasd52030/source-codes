@@ -1,11 +1,11 @@
 namespace MvcMain.Middlewares;
 
-public class HttpLogMiddleware
+public class RequestLogMiddleware
 {
     private readonly RequestDelegate next;
-    private readonly ILogger<HttpLogMiddleware> logger;
+    private readonly ILogger<RequestLogMiddleware> logger;
 
-    public HttpLogMiddleware(RequestDelegate next, ILogger<HttpLogMiddleware> logger)
+    public RequestLogMiddleware(RequestDelegate next, ILogger<RequestLogMiddleware> logger)
     {
         this.next = next;
         this.logger = logger;
@@ -23,10 +23,10 @@ public class HttpLogMiddleware
     }
 }
 
-public static class HttpLogMiddlewareExtensions
+public static class RequestLogMiddlewareExtensions
 {
-    public static void UseHttpLog(this IApplicationBuilder app)
+    public static void UseRequestLog(this IApplicationBuilder app)
     {
-        app.UseMiddleware<HttpLogMiddleware>();
+        app.UseMiddleware<RequestLogMiddleware>();
     }
 }

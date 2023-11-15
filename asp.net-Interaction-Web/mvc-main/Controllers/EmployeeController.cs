@@ -26,7 +26,8 @@ namespace MvcMain.Controllers
             var employeeFaker = new Faker<Employee>("zh_TW").RuleFor(e => e.id, f => eid++)
                                                             .RuleFor(e => e.name, f => $"{f.Name.LastName()}{f.Name.FirstName()}")
                                                             .RuleFor(e => e.phone, f => f.Phone.PhoneNumberFormat(2))
-                                                            .RuleFor(e => e.email, f => {
+                                                            .RuleFor(e => e.email, f =>
+                                                            {
                                                                 return new Faker().Internet.Email();
                                                             });
 
@@ -63,10 +64,10 @@ namespace MvcMain.Controllers
             return View(employee);
         }
         [Route("[action]")]
-        public IActionResult Update(int id)
+        public async Task<IActionResult> Update(int id)
         {
             Console.WriteLine(id);
-            var emp = EmployeeService.getEmployeeById(id);
+            var emp = await EmployeeService.getEmployeeById(id);
             return View(emp);
         }
 

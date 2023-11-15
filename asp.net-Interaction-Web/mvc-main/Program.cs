@@ -40,7 +40,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseHttpLog();
+app.UseRequestLog();
 
 app.UseAuthorization();
 

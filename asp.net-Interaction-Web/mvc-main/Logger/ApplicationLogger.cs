@@ -38,7 +38,20 @@ class ApplicationLogger : ILogger
                 Console.ForegroundColor = color;
                 Console.Write($" - {currentTimeStamp}    ");
                 Console.ForegroundColor = config.LogLevels[logLevel];
-                Console.WriteLine($"{formatter(state, exception)}");
+                
+                // Log the formatted message
+                var message = $"{formatter(state, exception)}";
+
+                // If an exception is present, log the exception details and stack trace
+                if (exception != null)
+                {
+                    message += Environment.NewLine + $"Exception: {exception.GetType().FullName}";
+                    message += Environment.NewLine + $"Message: {exception.Message}";
+                    message += Environment.NewLine + $"Stack Trace: {exception.StackTrace}";
+                }
+
+                Console.WriteLine(message);
+
                 Console.ForegroundColor = color;
             }
         }

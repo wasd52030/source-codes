@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 public interface IEmployeeService
 {
     Task<List<Employee>> getEmployees();
-    Employee? getEmployeeById(int id);
+    Task<Employee?> getEmployeeById(int id);
     Task<bool> NewEmployee(Employee employee);
     Task<bool> UpdateEmployee(Employee employee);
     Task<bool> DeleteEmployee(int id);
@@ -24,7 +24,7 @@ public class EmployeeService : IEmployeeService
         return await dbContext.Employees.ToListAsync();
     }
 
-    public Employee? getEmployeeById(int id) => dbContext.Employees.FirstOrDefault(e => e.id == id);
+    public async Task<Employee?> getEmployeeById(int id) => await dbContext.Employees.FirstOrDefaultAsync(e => e.id == id);
 
     public async Task<bool> NewEmployee(Employee employee)
     {
@@ -43,7 +43,7 @@ public class EmployeeService : IEmployeeService
 
     public async Task<bool> DeleteEmployee(int id)
     {
-        var emp=getEmployeeById(id);
+        var emp = await getEmployeeById(id);
         dbContext.Employees.Remove(emp);
         await dbContext.SaveChangesAsync();
         return true;

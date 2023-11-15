@@ -3,6 +3,8 @@ import shutil
 import calendar
 import statistics
 from decimal import Decimal, ROUND_HALF_UP
+from typing import Dict
+from numpy.typing import ArrayLike
 import pandas
 import numpy
 import seaborn
@@ -23,12 +25,12 @@ def manageFolder(name: str):
         os.mkdir(f'./{name}')
 
 
-def pieCharFormatter(pct: float, value: float) -> str:
+def pieCharFormatter(pct: float, value: ArrayLike) -> str:
     absolute = int(numpy.round(pct/100.*numpy.sum(value)))
     return "{:.1f}%\n({:d})".format(pct, absolute)
 
 
-def describe(sample: pandas.Series) -> str:
+def describe(sample: pandas.Series) -> Dict[str, Decimal]:
     # 平均數,中位數,眾數,全距,四分位距(IQR),四分位差(QD),平均絕對離差(MAD),
     # 樣本變異數(s^2),樣本標準差(s),P20,P25(Q1),P50(Q2),P75(Q3),P80,變異係數(CV)
     Descirbes = {
@@ -123,10 +125,10 @@ def unitPrice_Normalization():
     standard = StandardScaler().fit(d)
     standard_scaled = standard.transform(d)
 
-    seaborn.histplot(robust_scaled[:, 2], kde=True)
+    seaborn.histplot(robust_scaled[:, 2], kde=True) # type: ignore
     pyplot.savefig("./plots/unitPrice_Normalization-RobustScaler")
     pyplot.cla()
-    seaborn.histplot(standard_scaled[:, 2], kde=True)
+    seaborn.histplot(standard_scaled[:, 2], kde=True) # type: ignore
     pyplot.savefig("./plots/unitPrice_Normalization-StandardScaler")
     pyplot.cla()
     print("採用RobustScaler對單位售價的正規化的製圖已存於 ./plots/unitPrice_Normalization-RobustScaler.png！")
@@ -149,7 +151,7 @@ def revenue_Normalization():
     seaborn.histplot(minMax_scaled[:, 2], kde=True)
     pyplot.savefig("./plots/revenue_Normalization-MinMaxScaler")
     pyplot.cla()
-    seaborn.histplot(maxAbsScaler_scaled[:, 2], kde=True)
+    seaborn.histplot(maxAbsScaler_scaled[:, 2], kde=True) # type: ignore
     pyplot.savefig("./plots/revenue_Normalization-MaxAbsScaler")
     pyplot.cla()
 
@@ -246,7 +248,7 @@ def repoClassifier():
     repo_clf = clf.fit(train_x, train_y)
     y_predicted = repo_clf.predict_proba(test_x)
 
-    fpr, tpr, threshold = roc_curve(test_y['回購'], y_predicted[:, 1])
+    fpr, tpr, threshold = roc_curve(test_y['回購'], y_predicted[:, 1]) # type: ignore
     repo_auc = auc(fpr, tpr)
 
     # Plot the ROC

@@ -12,23 +12,21 @@ public class main {
     public static void main(String[] args) throws IOException {
         ArrayList<User> Users = new ArrayList<>();
 
-        String account = "";
         boolean flag = false, aflag = false;
 
         while (!flag) {
             aflag = false;
             while (!aflag) {
                 System.out.print("請輸入帳號: ");
-                account = scan.nextLine();
+                String account = scan.nextLine();
                 if (Users.size() > 0) {
-                    for (var user : Users) {
-                        if (user.account.equals(account)) {
-                            System.out.println("帳號已存在，請重新註冊");
-                        } else {
-                            Users.add(new User(account));
-                            aflag = true;
-                            break;
-                        }
+                    var exists = Users.stream().filter(u -> u.account.equals(account)).count();
+                    if (exists > 0) {
+                        System.out.println("帳號已存在，請重新註冊");
+                    } else {
+                        Users.add(new User(account));
+                        aflag = true;
+                        break;
                     }
                 } else {
                     Users.add(new User(account));
@@ -56,7 +54,7 @@ class User {
     private final String numbers = "0123456789";
     private final String upperLetter = "QWERTYUIOPASDFGHJKLZXCVBNM";
     private final String lowerLetter = "qwertyuiopasdfghjklzxcvbnm";
-    private final Date registerDate=new Date();
+    private final Date registerDate = new Date();
     private String[] emailSplit;
     private SimpleDateFormat ft = new SimpleDateFormat("YYYY/MM/dd hh:mm:ss");
 

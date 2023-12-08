@@ -1,7 +1,9 @@
 // reference -> https://www.bilibili.com/video/BV1Kc411Q751
-IEnumerable<int> TopologicalSort(IDictionary<int, ISet<int>> garph)
+IEnumerable<T> TopologicalSort<T>(IDictionary<T, ISet<T>> garph) where T:IComparable<T>
 {
     var count_dict = garph.ToDictionary(k => k.Key, v => 0);
+    var queue = new Queue<T>();
+    var res = new List<T>();
 
     foreach (var item in garph)
     {
@@ -11,8 +13,6 @@ IEnumerable<int> TopologicalSort(IDictionary<int, ISet<int>> garph)
         }
     }
 
-    var queue = new Queue<int>();
-
     foreach (var item in count_dict)
     {
         if (item.Value == 0)
@@ -21,9 +21,8 @@ IEnumerable<int> TopologicalSort(IDictionary<int, ISet<int>> garph)
         }
     }
 
-
-    var res = new List<int>();
-    while (queue.Count > 0)
+    // while queue is non-empty do
+    while (queue.Any())
     {
         var n = queue.Dequeue();
         res.Add(n);

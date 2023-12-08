@@ -5,99 +5,96 @@ using Microsoft.Extensions.Configuration;
 
 async Task getPlayListData(string url, List<JsonElement> videoList, string apiKey, string pageToken = "", int i = 0)
 {
-    Uri playListUrl = new Uri(url);
+    Uri playListUrl = new(url);
     var playListArguments = playListUrl.Query
                                 .Substring(1) // Remove '?'
                                 .Split('&')
                                 .Select(q => q.Split('='))
                                 .ToDictionary(q => q.FirstOrDefault(), q => q.Skip(1).FirstOrDefault());
 
-    UriBuilder apiUrl = new UriBuilder($"https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId={playListArguments["list"]}&key={apiKey}");
+    UriBuilder apiUrl = new($"https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId={playListArguments["list"]}&key={apiKey}");
     if (pageToken != "")
     {
         apiUrl.Query = apiUrl.Query.Substring(1) + "&" + $"pageToken={pageToken}";
     }
 
-    HttpClient client = new HttpClient();
+    HttpClient client = new();
     var res = await client.GetStringAsync(apiUrl.Uri);
-    using (JsonDocument json = JsonDocument.Parse(res, new JsonDocumentOptions { AllowTrailingCommas = true }))
+    using JsonDocument json = JsonDocument.Parse(res, new JsonDocumentOptions { AllowTrailingCommas = true });
+    JsonElement root = json.RootElement;
+    JsonElement items = root.GetProperty("items");
+    foreach (var video in items.EnumerateArray())
     {
-        JsonElement root = json.RootElement;
-        JsonElement items = root.GetProperty("items");
-        foreach (var video in items.EnumerateArray())
+        videoList.Add(video);
+    }
+    if (root.TryGetProperty("nextPageToken", out JsonElement token))
+    {
+        i++;
+        Console.WriteLine(i);
+        await getPlayListData(url, videoList, apiKey, token.GetString()!, i);
+    }
+    else
+    {
+        JsonSerializerOptions options = new()
         {
-            videoList.Add(video);
-        }
-        if (root.TryGetProperty("nextPageToken", out JsonElement token))
-        {
-            i++;
-            Console.WriteLine(i);
-            await getPlayListData(url, videoList, apiKey, token.GetString()!, i);
-        }
-        else
-        {
-            JsonSerializerOptions options = new JsonSerializerOptions
-            {
-                Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
-                WriteIndented = true
-            };
-            await File.WriteAllTextAsync("./data.json", JsonSerializer.Serialize(new { items = videoList }, options));
-        }
+            Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+            WriteIndented = true
+        };
+        await File.WriteAllTextAsync("./data.json", JsonSerializer.Serialize(new { items = videoList }, options));
     }
 }
 
 async Task getVideoDetail(string path, string apiKey)
 {
     string file = await File.ReadAllTextAsync(path);
-    List<Object> details = new List<Object>();
-    using (JsonDocument json = JsonDocument.Parse(file, new JsonDocumentOptions { AllowTrailingCommas = true }))
+    List<object> details = new();
+    
+    using JsonDocument json = JsonDocument.Parse(file, new JsonDocumentOptions { AllowTrailingCommas = true });
+    JsonElement root = json.RootElement;
+    JsonElement items = root.GetProperty("items");
+    foreach (var video in items.EnumerateArray())
     {
-        JsonElement root = json.RootElement;
-        JsonElement items = root.GetProperty("items");
-        foreach (var video in items.EnumerateArray())
+        string? title = video.GetProperty("snippet").GetProperty("title").GetString();
+        string? id = video.GetProperty("snippet").GetProperty("resourceId").GetProperty("videoId").GetString();
+
+
+        HttpClient client = new();
+        string url = $"https://youtube.googleapis.com/youtube/v3/videos?part=snippet&id={id}&key={apiKey}";
+        var res = await client.GetStringAsync(url);
+        using (JsonDocument apiRes = JsonDocument.Parse(res, new JsonDocumentOptions { AllowTrailingCommas = true }))
         {
-            string? title = video.GetProperty("snippet").GetProperty("title").GetString();
-            string? id = video.GetProperty("snippet").GetProperty("resourceId").GetProperty("videoId").GetString();
-
-
-            HttpClient client = new HttpClient();
-            string url = $"https://youtube.googleapis.com/youtube/v3/videos?part=snippet&id={id}&key={apiKey}";
-            var res = await client.GetStringAsync(url);
-            using (JsonDocument apiRes = JsonDocument.Parse(res, new JsonDocumentOptions { AllowTrailingCommas = true }))
+            JsonElement resRoot = apiRes.RootElement;
+            var data = resRoot.GetProperty("items").EnumerateArray().ToArray();
+            if (data.Count() == 0)
             {
-                JsonElement resRoot = apiRes.RootElement;
-                var data = resRoot.GetProperty("items").EnumerateArray().ToArray();
-                if (data.Count() == 0)
-                {
-                    Console.WriteLine($"影片id: {id}未找到");
-                    continue;
-                }
-                var detail = new
-                {
-                    title = title,
-                    id = id,
-                    lang = (data[0].GetProperty("snippet").TryGetProperty("defaultAudioLanguage", out JsonElement lang))
-                            ? lang.GetString()
-                            : "ukunown"
-                };
-                details.Add(detail);
+                Console.WriteLine($"影片id: {id}未找到");
+                continue;
             }
-            Console.WriteLine($"影片 {title};id: {id} ok！");
+            var detail = new
+            {
+                title,
+                id,
+                lang = data[0].GetProperty("snippet").TryGetProperty("defaultAudioLanguage", out JsonElement lang)
+                        ? lang.GetString()
+                        : "ukunown"
+            };
+            details.Add(detail);
         }
-
-        JsonSerializerOptions options = new JsonSerializerOptions
-        {
-            Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
-            WriteIndented = true
-        };
-        await File.WriteAllTextAsync("./videos.json", JsonSerializer.Serialize(new { items = details }, options));
+        Console.WriteLine($"影片 {title};id: {id} ok！");
     }
+
+    JsonSerializerOptions options = new()
+    {
+        Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+        WriteIndented = true
+    };
+    await File.WriteAllTextAsync("./videos.json", JsonSerializer.Serialize(new { items = details }, options));
 }
 
 async Task dataAnalysis(string path)
 {
     string file = await File.ReadAllTextAsync(path);
-    Dictionary<string, int> stat = new Dictionary<string, int>();
+    Dictionary<string, int> stat = new();
     using (JsonDocument json = JsonDocument.Parse(file, new JsonDocumentOptions { AllowTrailingCommas = true }))
     {
         JsonElement root = json.RootElement;
@@ -134,9 +131,11 @@ async Task main()
             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
             .Build();
 
-    Configure config = new Configure();
-    config.apiKey = configuration.GetValue<string>("YoutubeAPIKey")!;
-    config.isDownloading = configuration.GetValue<bool>("isDownloading");
+    Configure config = new()
+    {
+        apiKey = configuration.GetValue<string>("YoutubeAPIKey")!,
+        isDownloading = configuration.GetValue<bool>("isDownloading")
+    };
 
     if (config.isDownloading)
     {

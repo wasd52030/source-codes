@@ -3,5 +3,5 @@ import sketchs.*
 
 //YourPAppletClass::class.java.name
 fun main() {
-    PApplet.main(processingPlayground::class.java.name)
+    PApplet.main(VoiceFFT::class.java.name)
 }

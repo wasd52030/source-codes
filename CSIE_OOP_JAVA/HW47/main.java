@@ -6,11 +6,15 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class main {
     private static final Scanner scan = new Scanner(System.in);
+    private static Map<String, Integer> sales = Order.itemMap.entrySet()
+            .stream()
+            .collect(Collectors.toMap(k -> k.getKey(), v -> 0));
 
     public static void main(String[] args) throws IOException {
         var orders = new ArrayList<Order>();
@@ -107,27 +111,40 @@ public class main {
     }
 
     static void salesTable(ArrayList<Order> order) {
-        var sales = order.stream().collect(Collectors.groupingBy(k -> k.getItemId()));
+        order.stream()
+                .collect(Collectors.groupingBy(k -> k.getItemId()))
+                .forEach((itemid, orders) -> {
+                    sales.merge(
+                            itemid,
+                            orders.stream()
+                                    .mapToInt(Order::getNumber)
+                                    .sum(),
+                            Integer::sum);
+                });
+
         System.out.println("商品代號\t商品數量");
-        for (var s : sales.entrySet()) {
-            var sum = s.getValue().stream()
-                    .map(i -> i.getNumber())
-                    .reduce(0, (past, curr) -> past + curr);
-            System.out.printf("%s\t\t%d\n", s.getKey(), sum);
-        }
+        sales.forEach((itemId, sum) -> System.out.printf("%s\t\t%d\n", itemId, sum));
     }
 
     static void salesPopularityGraph(ArrayList<Order> orders) {
-        var total = orders.stream().map(i -> i.getNumber()).reduce(0, (past, curr) -> past + curr);
+        var total = orders.stream().mapToInt(Order::getNumber).sum();
 
-        var sales = orders.stream().collect(Collectors.groupingBy(k -> k.getItemId()));
+        orders.stream()
+                .collect(Collectors.groupingBy(Order::getItemId))
+                .forEach((itemId, itemList) -> {
+                    sales.merge(
+                            itemId,
+                            itemList.stream()
+                                    .mapToInt(Order::getNumber)
+                                    .sum(),
+                            Integer::sum);
+                });
 
-        for (var o : sales.entrySet()) {
-            var saleTotal = o.getValue().stream().map(i -> i.getNumber()).reduce(0, (past, curr) -> past + curr);
-            var product = o.getKey();
+        System.out.println("------------- [銷售人氣圖] -------------");
+        sales.forEach((itemId, saleTotal) -> {
             int percent = (int) Math.round((saleTotal / (float) total) * 100);
-            System.out.printf("%s.%s:%4s\n", product, Order.itemMap.get(product), "*".repeat(percent));
-        }
+            System.out.printf("%s.%s:%4s\n", itemId, Order.itemMap.get(itemId), "*".repeat(percent));
+        });
     }
 }
 

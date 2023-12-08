@@ -69,8 +69,8 @@ public class main {
         System.out.println("商品代號\t商品數量");
         for (var s : sales.entrySet()) {
             var sum = s.getValue().stream()
-                                  .map(i -> i.getNumber())
-                                  .reduce(0, (past, curr) -> past + curr);
+                    .map(i -> i.getNumber())
+                    .reduce(0, (past, curr) -> past + curr);
             System.out.printf("%s\t\t%d\n", s.getKey(), sum);
         }
     }

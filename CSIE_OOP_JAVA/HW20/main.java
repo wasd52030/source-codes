@@ -12,7 +12,7 @@ public class main {
 
     public static <T> void printArray(T[] arr) {
         System.out.println(Arrays.toString(arr));
-        System.out.println(arr.getClass().getComponentType().getName());
+        System.out.println(arr.getClass().getSimpleName());
     }
 
     public static <T extends Comparable<T>> void findMinAndMax(T[] arr) {

@@ -27,10 +27,6 @@ dependencies {
     // https://mvnrepository.com/artifact/org.processing/serial
     implementation("org.processing:serial:3.3.7")
 
-    // https://mvnrepository.com/artifact/ddf.minim/ddf.minim
-//    implementation("ddf.minim:ddf.minim:2.2.0")
-
-
     //required for processing.serial
     implementation("io.github.java-native:jssc:2.9.4")
     implementation(kotlin("stdlib-jdk8"))
@@ -38,7 +34,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
 
     // reference: https://stackoverflow.com/questions/54166069/how-do-you-add-local-jar-file-dependency-to-build-gradle-kt-file
-    implementation(fileTree(mapOf("dir" to "lib/SimpleOpenNI/library", "include" to listOf("*.jar"))))
+    implementation(fileTree("lib"){include("**/*.jar")})
 }
 
 application {

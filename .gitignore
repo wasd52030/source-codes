@@ -6,6 +6,10 @@ __pycache__
 **/go.sum
 AzureCould/20221103/model.pb.png
 *.mp4
+*.mp3
+*.aif
+*.aiff
+*.wav
 *.docx
 *.pttx
 AzureCould/20221208/azureMid2/statics/Flutter Google Map With Live Location Tracking.wav

@@ -13,7 +13,7 @@ class VoiceFFT : PApplet() {
     private val scale = 5
     private val w = 6
 
-    private val IskraSvobody = SoundFile(this, "static/Искра свободы.aif")
+    private lateinit var sound: SoundFile
     private val FFT = FFT(this, bands)
 
     override fun settings() {
@@ -21,11 +21,12 @@ class VoiceFFT : PApplet() {
     }
 
     override fun setup() {
-        barWidth = width / bands.toFloat();
+        barWidth = width / bands.toFloat()
 
-        IskraSvobody.loop()
+        sound = SoundFile(this, "static/[milet] Anytime Anywhere.aiff")
+        sound.loop()
 
-        FFT.input(IskraSvobody)
+        FFT.input(sound)
     }
 
     override fun draw() {

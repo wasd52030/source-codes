@@ -1,18 +1,48 @@
-using System.ComponentModel;
+﻿namespace MvcMain.Models;
 
-namespace MvcMain.Models;
-
-public record Employee
+public partial class Employee
 {
-    [DisplayName("員工編號")]
-    public int id { get; set; }
+    public long EmployeeId { get; set; }
 
-    [DisplayName("員工姓名")]
-    public string name { get; set; }
+    public string? LastName { get; set; }
 
-    [DisplayName("連絡電話")]
-    public string phone { get; set; }
+    public string? FirstName { get; set; }
 
-    [DisplayName("電子郵件")]
-    public string? email { get; set; }
-};
+    public string? Title { get; set; }
+
+    public string? TitleOfCourtesy { get; set; }
+
+    public byte[]? BirthDate { get; set; }
+
+    public byte[]? HireDate { get; set; }
+
+    public string? Address { get; set; }
+
+    public string? City { get; set; }
+
+    public string? Region { get; set; }
+
+    public string? PostalCode { get; set; }
+
+    public string? Country { get; set; }
+
+    public string? HomePhone { get; set; }
+
+    public string? Extension { get; set; }
+
+    public byte[]? Photo { get; set; }
+
+    public string? Notes { get; set; }
+
+    public long? ReportsTo { get; set; }
+
+    public string? PhotoPath { get; set; }
+
+    public virtual ICollection<Employee> InverseReportsToNavigation { get; set; } = new List<Employee>();
+
+    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+
+    public virtual Employee? ReportsToNavigation { get; set; }
+
+    public virtual ICollection<Territory> Territories { get; set; } = new List<Territory>();
+}

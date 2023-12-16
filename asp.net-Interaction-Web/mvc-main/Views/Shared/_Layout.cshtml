@@ -34,16 +34,13 @@
                                 asp-action="Privacy">Privacy</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" href="/HelloWorld/Welcome/Alex/10">HelloWorld-Welcome</a>
+                            <a class="nav-link text-dark" href="~/HelloWorld/Welcome/Alex/10">HelloWorld-Welcome</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="PetShop" asp-action="Index">PetShop</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Employee" asp-action="EmployeeList">EmployeeList</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Employee" asp-action="Employees">EmployeeCRUD</a>
+                            <a class="nav-link text-dark" asp-controller="Employees" asp-action="Index">Employee</a>
                         </li>
                     </ul>
                 </div>
@@ -51,7 +48,8 @@
         </nav>
     </header>
     <div class="container">
-        <main role="main" class="pb-3" style="background-color:#20c997;color:white;">
+        @* style="background-color:#20c997;color:white;" *@
+        <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>

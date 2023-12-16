@@ -2,7 +2,12 @@
 
 乳題，這門課的作業與實驗，主要講的是`asp.net core mvc`，不是`asp.net mvc`實在是令人驚訝，印象中大學這種教授做完ppt就可以用到退休的地方竟然會與時俱進的那麼快呢XD
 
+## note
+- add view by model
+  - dotnet aspnet-codegenerator view ActionName [Empty|Create|Edit|Delete|Details|List] -outdir Views/ControllerName
+  - example -> dotnet aspnet-codegenerator view Employees List -m Employee -outDir Views/Employee
 
+## note by date
 - 20231029
   - 最近發現了一個很有趣的東西，Roslyn Source Generator，這次以生成DI會寫的那一大坨Constructor來練習
     ![](./BigConstructor.png)

@@ -1,7 +1,8 @@
+using Microsoft.EntityFrameworkCore;
 using MvcMain.Data;
 using MvcMain.Logger;
 using MvcMain.Middlewares;
-using Microsoft.EntityFrameworkCore;
+using MvcMain.Models;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,15 +16,18 @@ builder.Services.AddLogging(logging =>
     logging.AddApplicationLogger();
 });
 
-builder.Services.AddTransient<IEmployeeService, EmployeeService>();
 
-builder.Services.AddDbContext<ApplicationDBContext>(options =>
-{
-    options.UseMySql(
-        builder.Configuration.GetConnectionString("DefaultConnection"),
-        new MySqlServerVersion(new Version(5, 7, 43))
-    );
-});
+//sqlite db
+builder.Services.AddDbContext<NorthwindContext>();
+
+// MySql db
+// builder.Services.AddDbContext<ApplicationDBContext>(options =>
+// {
+//     options.UseMySql(
+//         builder.Configuration.GetConnectionString("DefaultConnection"),
+//         new MySqlServerVersion(new Version(5, 7, 43))
+//     );
+// });
 
 var app = builder.Build();
 
@@ -33,6 +37,7 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
+    app.UsePathBase("/C109152304");
 }
 
 app.UseHttpsRedirection();
@@ -44,9 +49,11 @@ app.UseRequestLog();
 
 app.UseAuthorization();
 
+
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}"
+);
 
 app.MapControllers();
 

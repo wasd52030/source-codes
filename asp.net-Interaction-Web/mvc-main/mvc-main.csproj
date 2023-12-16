@@ -15,7 +15,7 @@
 		<Message Text="6" Importance="High" />
 		<Message Text="generating zip file of dist......" Importance="High" />
 		<!-- Requires: powershell environment -->
-		<Exec Command="powershell Compress-Archive $(PublishDir)* $(PublishDir)..\$(PublishDirName).zip" />
+		<Exec Command="powershell Compress-Archive -Force $(PublishDir)* $(ProjectDir)..\$(PublishDirName).zip" />
 	</Target>
 
 	<ItemGroup>
@@ -23,9 +23,22 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Content Include="Data\**">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+
+	<ItemGroup>
 		<PackageReference Include="Bogus" Version="34.0.2" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.12" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.12">
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		  <PrivateAssets>all</PrivateAssets>
+		</PackageReference>
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.12" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.12" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.12" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.12">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>

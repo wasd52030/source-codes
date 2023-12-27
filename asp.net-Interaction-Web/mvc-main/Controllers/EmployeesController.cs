@@ -1,38 +1,40 @@
-using System.Text.Unicode;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using MvcMain.Attributes;
 using MvcMain.Models;
 
 namespace mvc_main.Controllers
 {
-    public class EmployeesController : Controller
+    [AutoInject]
+    public partial class EmployeesController : Controller
     {
-        private readonly NorthwindContext _context;
+        [AutoInject]
+        private readonly NorthwindContext Context;
 
-        public EmployeesController(NorthwindContext context)
-        {
-            _context = context;
-        }
+        // public EmployeesController(NorthwindContext context)
+        // {
+        //     Context = context;
+        // }
 
         // GET: Employees
         public async Task<IActionResult> Index()
         {
-            var northwindContext = _context.Employees.Include(e => e.ReportsToNavigation);
+            Console.WriteLine(Context == null);
+            var northwindContext = Context.Employees.Include(e => e.ReportsToNavigation);
             var el = await northwindContext.ToListAsync();
-            Console.WriteLine(System.Text.Encoding.UTF8.GetString(el[0].BirthDate!));
             return View(el);
         }
 
         // GET: Employees/Details/5
         public async Task<IActionResult> Details(long? id)
         {
-            if (id == null || _context.Employees == null)
+            if (id == null || Context.Employees == null)
             {
                 return NotFound();
             }
 
-            var employee = await _context.Employees
+            var employee = await Context.Employees
                 .Include(e => e.ReportsToNavigation)
                 .FirstOrDefaultAsync(m => m.EmployeeId == id);
             if (employee == null)
@@ -46,7 +48,7 @@ namespace mvc_main.Controllers
         // GET: Employees/Create
         public IActionResult Create()
         {
-            ViewData["ReportsTo"] = new SelectList(_context.Employees, "EmployeeId", "EmployeeId");
+            ViewData["ReportsTo"] = new SelectList(Context.Employees, "EmployeeId", "EmployeeId");
             return View();
         }
 
@@ -55,32 +57,32 @@ namespace mvc_main.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EmployeeId,LastName,FirstName,Title,TitleOfCourtesy,BirthDate,HireDate,Address,City,Region,PostalCode,Country,HomePhone,Extension,Photo,Notes,ReportsTo,PhotoPath")] Employee employee)
+        public async Task<IActionResult> Create([Bind("EmployeeId,LastName,FirstName,Title,TitleOfCourtesy,BirthDate,HireDate,Address,City,Region,PostalCode,Country,HomePhone,Extension,ReportsTo,Notes")] Employee employee)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(employee);
-                await _context.SaveChangesAsync();
+                Context.Add(employee);
+                await Context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ReportsTo"] = new SelectList(_context.Employees, "EmployeeId", "EmployeeId", employee.ReportsTo);
+            ViewData["ReportsTo"] = new SelectList(Context.Employees, "EmployeeId", "EmployeeId", employee.ReportsTo);
             return View(employee);
         }
 
         // GET: Employees/Edit/5
         public async Task<IActionResult> Edit(long? id)
         {
-            if (id == null || _context.Employees == null)
+            if (id == null || Context.Employees == null)
             {
                 return NotFound();
             }
 
-            var employee = await _context.Employees.FindAsync(id);
+            var employee = await Context.Employees.FindAsync(id);
             if (employee == null)
             {
                 return NotFound();
             }
-            ViewData["ReportsTo"] = new SelectList(_context.Employees, "EmployeeId", "EmployeeId", employee.ReportsTo);
+            ViewData["ReportsTo"] = new SelectList(Context.Employees, "EmployeeId", "EmployeeId", employee.ReportsTo);
             return View(employee);
         }
 
@@ -89,9 +91,10 @@ namespace mvc_main.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("EmployeeId,LastName,FirstName,Title,TitleOfCourtesy,BirthDate,HireDate,Address,City,Region,PostalCode,Country,HomePhone,Extension,Photo,Notes,ReportsTo,PhotoPath")] Employee employee)
+        public async Task<IActionResult> Edit(long id, [Bind("EmployeeId,LastName,FirstName,Title,TitleOfCourtesy,BirthDate,HireDate,Address,City,Region,PostalCode,Country,HomePhone,Extension,Notes,ReportsTo")] Employee employee)
         {
-            if (id != employee.EmployeeId)
+            var e = Context.Employees.FirstOrDefault(e => e.EmployeeId == id);
+            if (id != employee.EmployeeId && e == null)
             {
                 return NotFound();
             }
@@ -100,8 +103,9 @@ namespace mvc_main.Controllers
             {
                 try
                 {
-                    _context.Update(employee);
-                    await _context.SaveChangesAsync();
+                    Context.Entry(e!).CurrentValues.SetValues(employee);
+                    // Context.Update(employee);
+                    await Context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -116,19 +120,19 @@ namespace mvc_main.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ReportsTo"] = new SelectList(_context.Employees, "EmployeeId", "EmployeeId", employee.ReportsTo);
+            ViewData["ReportsTo"] = new SelectList(Context.Employees, "EmployeeId", "EmployeeId", employee.ReportsTo);
             return View(employee);
         }
 
         // GET: Employees/Delete/5
         public async Task<IActionResult> Delete(long? id)
         {
-            if (id == null || _context.Employees == null)
+            if (id == null || Context.Employees == null)
             {
                 return NotFound();
             }
 
-            var employee = await _context.Employees
+            var employee = await Context.Employees
                 .Include(e => e.ReportsToNavigation)
                 .FirstOrDefaultAsync(m => m.EmployeeId == id);
             if (employee == null)
@@ -144,23 +148,23 @@ namespace mvc_main.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
-            if (_context.Employees == null)
+            if (Context.Employees == null)
             {
                 return Problem("Entity set 'NorthwindContext.Employees'  is null.");
             }
-            var employee = await _context.Employees.FindAsync(id);
+            var employee = await Context.Employees.FindAsync(id);
             if (employee != null)
             {
-                _context.Employees.Remove(employee);
+                Context.Employees.Remove(employee);
             }
 
-            await _context.SaveChangesAsync();
+            await Context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool EmployeeExists(long id)
         {
-            return (_context.Employees?.Any(e => e.EmployeeId == id)).GetValueOrDefault();
+            return (Context.Employees?.Any(e => e.EmployeeId == id)).GetValueOrDefault();
         }
     }
 }

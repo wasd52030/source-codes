@@ -43,13 +43,15 @@
                 @Html.DisplayNameFor(model => model.BirthDate)
             </dt>
             <dd class="col-sm-10">
-                @System.Text.Encoding.UTF8.GetString(Model.BirthDate!);
+                @* @System.Text.Encoding.UTF8.GetString(item.BirthDate!) *@
+                @Html.DisplayFor(model => model.BirthDate)
             </dd>
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.HireDate)
             </dt>
             <dd class="col-sm-10">
-                @System.Text.Encoding.UTF8.GetString(Model.HireDate!)
+                @* @System.Text.Encoding.UTF8.GetString(Model.HireDate!) *@
+                @Html.DisplayFor(model => model.HireDate)
             </dd>
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.Address)
@@ -98,10 +100,14 @@
             </dt>
             <dd class="col-sm-10">
                 @{
-                    var base64 = Convert.ToBase64String(Model.Photo);
-                    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                    if (Model.Photo != null)
+                    {
+                        var base64 = Convert.ToBase64String(Model.Photo);
+                        var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                        <img src="@imgSrc">
+                    }
+                    <img src="">
                 }
-                <img src="@imgSrc">
             </dd>
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.Notes)

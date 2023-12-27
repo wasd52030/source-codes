@@ -43,7 +43,7 @@ public class AutoInjectSourceGenerator : ISourceGenerator
 
         // find using 
         // find namespace
-        var usingNodes = nodes.OfType<UsingStatementSyntax>();
+        var usingNodes = nodes.OfType<UsingDirectiveSyntax>();
         var namespaceNode = nodes.OfType<NamespaceDeclarationSyntax>().FirstOrDefault();
 
         if (namespaceNode == null) return;
@@ -52,7 +52,7 @@ public class AutoInjectSourceGenerator : ISourceGenerator
         var strBuild = new StringBuilder();
         foreach (var node in usingNodes)
         {
-            strBuild.AppendLine(usingNodes.ToString());
+            strBuild.AppendLine(node.ToString());
         }
 
         var namespaceName = namespaceNode.Name;
@@ -60,7 +60,8 @@ public class AutoInjectSourceGenerator : ISourceGenerator
         strBuild.AppendLine("{");
 
         var modifiers = classNode.Modifiers;
-        strBuild.AppendLine($"{modifiers} class {classNode.Identifier}");
+        var baseList = classNode.BaseList;
+        strBuild.AppendLine($"{modifiers} class {classNode.Identifier} {baseList}");
         strBuild.AppendLine("{");
 
         var fieldNodes = classNode.DescendantNodes().OfType<FieldDeclarationSyntax>();
@@ -99,6 +100,7 @@ public class AutoInjectSourceGenerator : ISourceGenerator
 
         try
         {
+            Debug.WriteLine(strBuild.ToString());
             _context.AddSource($"{classNode.Identifier}.g.cs", strBuild.ToString());
         }
         catch (Exception e)

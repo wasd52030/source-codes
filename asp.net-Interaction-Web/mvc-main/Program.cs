@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using MvcMain.Data;
 using MvcMain.Logger;
 using MvcMain.Middlewares;
 using MvcMain.Models;
@@ -17,8 +16,12 @@ builder.Services.AddLogging(logging =>
 });
 
 
-//sqlite db
+//sqlite northwind db
 builder.Services.AddDbContext<NorthwindContext>();
+
+//sqlite blog db
+builder.Services.AddDbContext<BlogContext>();
+
 
 // MySql db
 // builder.Services.AddDbContext<ApplicationDBContext>(options =>

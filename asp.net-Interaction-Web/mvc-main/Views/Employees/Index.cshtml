@@ -2,8 +2,8 @@
 <!DOCTYPE html>
 
 <p>
-    <h1>Index</h1>
-    <a asp-action="Create">Create New</a>
+<h1>Index</h1>
+<a asp-action="Create">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -53,12 +53,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.Notes)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PhotoPath)
+            @* <th>
+            @Html.DisplayNameFor(model => model.PhotoPath)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ReportsToNavigation)
-            </th>
+            @Html.DisplayNameFor(model => model.ReportsToNavigation)
+            </th> *@
             <th></th>
         </tr>
     </thead>
@@ -79,11 +79,12 @@
                     @Html.DisplayFor(modelItem => item.TitleOfCourtesy)
                 </td>
                 <td>
-                    @System.Text.Encoding.UTF8.GetString(item.BirthDate!)
+                    @* @System.Text.Encoding.UTF8.GetString(item.BirthDate!) *@
+                    @Html.DisplayFor(modelItem => item.BirthDate)
                 </td>
                 <td>
-                    @System.Text.Encoding.UTF8.GetString(item.HireDate!)
-                    @* @Html.DisplayFor(modelItem => item.HireDate) *@
+                    @* @System.Text.Encoding.UTF8.GetString(item.HireDate!) *@
+                    @Html.DisplayFor(modelItem => item.HireDate)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Address)
@@ -108,20 +109,24 @@
                 </td>
                 <td>
                     @{
-                        var base64=Convert.ToBase64String(item.Photo);
-                        var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                        if (item.Photo != null)
+                        {
+                            var base64 = Convert.ToBase64String(item.Photo);
+                            var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                            <img src="@imgSrc">
+                        }
+                        <img src="">
                     }
-                    <img src="@imgSrc">
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Notes)
+                    @* </td>
+                <td>
+                @Html.DisplayFor(modelItem => item.PhotoPath)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.PhotoPath)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ReportsToNavigation.EmployeeId)
-                </td>
+                @Html.DisplayFor(modelItem => item.ReportsToNavigation.EmployeeId)
+                </td> *@
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.EmployeeId">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.EmployeeId">Details</a> |

@@ -12,9 +12,9 @@ public partial class Employee
 
     public string? TitleOfCourtesy { get; set; }
 
-    public byte[]? BirthDate { get; set; }
+    public DateTime? BirthDate { get; set; }
 
-    public byte[]? HireDate { get; set; }
+    public DateTime? HireDate { get; set; }
 
     public string? Address { get; set; }
 

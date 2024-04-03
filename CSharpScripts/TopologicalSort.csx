@@ -42,11 +42,11 @@ IEnumerable<T> TopologicalSort<T>(IDictionary<T, ISet<T>> garph) where T:ICompar
 
 
 var garph = new Dictionary<int, ISet<int>>(){
-    {1,new HashSet<int>(){2,3}},
     {2,new HashSet<int>(){4}},
-    {3,new HashSet<int>(){4}},
     {4,new HashSet<int>(){5}},
-    {5,new HashSet<int>(){}}
+    {3,new HashSet<int>(){4}},
+    {5,new HashSet<int>(){}},
+    {1,new HashSet<int>(){2,3}},
 };
 
 Console.WriteLine($"[{string.Join(",", TopologicalSort(garph))}]");

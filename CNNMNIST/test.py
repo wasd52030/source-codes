@@ -1,14 +1,13 @@
 import tkinter
 from PIL import ImageGrab
 import cv2
-from matplotlib import pyplot
 import tensorflow
 import numpy
 
 class testApp:
     def __init__(self) -> None:
         self.model = tensorflow.keras.models.load_model("CNNMNIST.keras")
-        self.fileName = "test.jpg"
+        # self.fileName = "test.jpg"
 
         self.root = tkinter.Tk()
 
@@ -48,11 +47,6 @@ class testApp:
         img=cv2.cvtColor(numpy.array(canvas),cv2.COLOR_RGB2BGR)
         img = cv2.resize(img, (28, 28))
         pixel = (255 - cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)) / 255  # RGB->GRAY
-        fig = pyplot.gcf()
-        fig.set_size_inches(2, 2)
-
-        # pyplot.imshow(pixel, cmap="binary")
-        # pyplot.show()
 
         # for Convolutional Neural Network(CNN)
         pixelarray = pixel.reshape(-1, 28, 28, 1)

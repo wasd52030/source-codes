@@ -37,3 +37,5 @@ CSharpScripts/*
 */*.autosave.csx
 ArticleMVC/dist.zip
 ArticleMVC/dist/*
+
+**/**/*.lnk

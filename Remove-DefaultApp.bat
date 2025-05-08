@@ -31,14 +31,12 @@ if %OS%==64BIT GOTO 64BIT
 echo.
 echo This is a 32-bit operating system.
 echo Removing OneDrive setup files.
-
 %SystemRoot%\System32\OneDriveSetup.exe /uninstall
 
 :64BIT
 echo.
 echo This is a 64-bit operating system.
 echo Removing OneDrive setup files.
-
 %SystemRoot%\SysWOW64\OneDriveSetup.exe /uninstall
 
 pause

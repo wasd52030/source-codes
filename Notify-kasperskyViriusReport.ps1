@@ -7,7 +7,7 @@ $Template = [Windows.UI.Notifications.ToastNotificationManager]::GetTemplateCont
 $RawXml = [xml] $Template.GetXml()
 # ($RawXml.toast.visual.binding.text | Where-Object { $_.id -eq "1" }).AppendChild($RawXml.CreateTextNode("")) > $null
 ($RawXml.toast.visual.binding.text | Where-Object { $_.id -eq "2" }).AppendChild($RawXml.CreateTextNode("請值班同仁於1555(A)、2355(B)、0755(C)將卡巴病毒報告匯出成PDF")) > $null
-($RawXml.toast.visual.binding.text | Where-Object { $_.id -eq "3" }).AppendChild($RawXml.CreateTextNode("B班同仁匯出完後將當天全部的PDF檔案寄outlook給管制官")) > $null
+($RawXml.toast.visual.binding.text | Where-Object { $_.id -eq "3" }).AppendChild($RawXml.CreateTextNode("B班同仁匯出完後將當天全部的PDF檔案寄outlook給領班")) > $null
 
 $SerializedXml = New-Object Windows.Data.Xml.Dom.XmlDocument
 $SerializedXml.LoadXml($RawXml.OuterXml)

@@ -15,6 +15,7 @@ set GetAppx=Get-AppxPackage -AllUsers
 set filter=Where-Object { $_.Name -like '*%%a*' }
 set RemoveAct=ForEach-Object { Remove-AppxPackage -Package $_.PackageFullName -ErrorAction SilentlyContinue;Write-Host Removed: $($_.Name) }
 for %%a in (%appxList%) do ( powershell "%GetAppx% | %filter% | %RemoveAct%" )
+
 echo.
 goto RemoveOneDrive
 

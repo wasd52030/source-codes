@@ -6,13 +6,14 @@ if not "%1"=="am_admin" (
 
 set appxList=3d;alarms;bing;Calendar;camera;communicationsapps;Feedback;help;maps;note;office;people;Phone;Reality;skype;solitaire;soundrecorder;started;Tips;Wallet;Weather;xbox;zune
 
+REM 確實移除 Cortana（Microsoft.549981C3F5F10）
+set RemoveCortana="Get-AppxPackage -AllUsers Microsoft.549981C3F5F10 | ForEach-Object { Remove-AppxPackage -Package $_.PackageFullName -ErrorAction SilentlyContinue; Write-Host ('Removed: Cortana (' + $_.Name + ')') }"
+powershell -Command %RemoveCortana%
+
+REM 移除其他Default Appx
 set GetAppx=Get-AppxPackage -AllUsers
 set filter=Where-Object { $_.Name -like '*%%a*' }
 set RemoveAct=ForEach-Object { Remove-AppxPackage -Package $_.PackageFullName -ErrorAction SilentlyContinue;Write-Host Removed: $($_.Name) }
-set RemoveCortana="Get-AppxPackage -AllUsers Microsoft.549981C3F5F10 | ForEach-Object { Remove-AppxPackage -Package $_.PackageFullName -ErrorAction SilentlyContinue; Write-Host ('Removed: Cortana (' + $_.Name + ')') }"
-REM 確實移除 Cortana（Microsoft.549981C3F5F10）
-powershell -Command %RemoveCortana%
-REM 移除其他Default Appx
 for %%a in (%appxList%) do ( powershell "%GetAppx% | %filter% | %RemoveAct%" )
 echo.
 goto RemoveOneDrive

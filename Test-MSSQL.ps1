@@ -41,6 +41,7 @@ function Get-MSSQL(){
 $db = Get-MSSQL
 $db | Format-Table -AutoSize
 
+# 依據資料庫實際欄位取值
 foreach($row in $db.Rows){
     Write-Host $row["emp_id"], $row["fname"], $row["lname"], $row["job_id"], $row["job_lvl"], $row["pub_id"], $row["hire_date"]
 }

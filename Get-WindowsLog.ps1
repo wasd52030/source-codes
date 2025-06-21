@@ -12,6 +12,7 @@ function Check-Administrator {
     }
 }
 
+
 function Get-WindowsLog {
     param (
         [hashtable]$filterHashTable,

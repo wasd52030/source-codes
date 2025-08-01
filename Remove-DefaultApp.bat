@@ -4,17 +4,23 @@ if not "%1"=="am_admin" (
     exit /b
 )
 
+
 set appxList=3d;alarms;bing;Calendar;camera;communicationsapps;Feedback;help;maps;note;office;people;Phone;Reality;skype;solitaire;soundrecorder;started;Tips;Wallet;Weather;xbox;zune
 
-REM 確實移除 Cortana（Microsoft.549981C3F5F10）
+REM 確實移除當前使用者的 Cortana（Microsoft.549981C3F5F10）
 set RemoveCortana="Get-AppxPackage -AllUsers Microsoft.549981C3F5F10 | ForEach-Object { Remove-AppxPackage -Package $_.PackageFullName -ErrorAction SilentlyContinue; Write-Host ('Removed: Cortana (' + $_.Name + ')') }"
 powershell -Command %RemoveCortana%
 
-REM 移除其他Default Appx
+REM 移除當前使用者的其他Default Appx
 set GetAppx=Get-AppxPackage -AllUsers
 set filter=Where-Object { $_.Name -like '*%%a*' }
 set RemoveAct=ForEach-Object { Remove-AppxPackage -Package $_.PackageFullName -ErrorAction SilentlyContinue;Write-Host Removed: $($_.Name) }
 for %%a in (%appxList%) do ( powershell "%GetAppx% | %filter% | %RemoveAct%" )
+
+
+REM 移除未來使用者的Default Appx(含Cortana)
+set appxList=%appxList%;Microsoft.549981C3F5F10
+for %%x in (%appxList%) do ( powershell -Command "Get-AppxProvisionedPackage -Online | Where-Object { $_.DisplayName -match '%%x' } | ForEach-Object { Remove-AppxProvisionedPackage -Online -PackageName $_.PackageName -ErrorAction SilentlyContinue; Write-Host ('Removed Provisioned: ' + $_.DisplayName) }" )
 
 echo.
 goto RemoveOneDrive

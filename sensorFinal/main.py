@@ -251,7 +251,7 @@ if __name__ == "__main__":
     dht11_data = []
 
     # line notify header
-    headers = {"Authorization": "Bearer YH0OHNw8ymq85mhIgsxYqrDT9Lhio9wuFIeTJC2nBbH"}
+    headers = {"Authorization": "Bearer 114514"}
 
     screen = ili9341_Adafruit(cs=Pin(8), dc=Pin(24), rst=Pin(25))
 

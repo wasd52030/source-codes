@@ -9,8 +9,6 @@ using Npgsql;
 
 public class MergeService
 {
-    // ... (Main Method 保持不變，但我們會傳入多個 JSON B)
-
     public static async Task RunAsync()
     {
         // string jsonA = @"{
@@ -33,11 +31,11 @@ public class MergeService
         //     }
         //   ]
         // }";
-        string jsonA =
+        string tamplate =
             await File.ReadAllTextAsync(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "./customTitle.json"));
 
-        // JSON B 陣列
-        string[] jsonBs = new string[]
+
+        string[] instances = new string[]
         {
             // JSON B 1: 包含 B 和新的 C
             // @"{ ""items"": [
@@ -59,7 +57,7 @@ public class MergeService
             await File.ReadAllTextAsync(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "./Виктор собел-6_videosLangCheck.json"))
         };
         
-        List<VideoData> mergedVideos = MergeData(jsonA, jsonBs);
+        List<VideoData> mergedVideos = MergeData(tamplate, instances);
 
         // #region Merge Debug
         // Console.WriteLine("--- 合併結果 (僅展示 lang 檢查邏輯) ---");
@@ -109,7 +107,6 @@ public class MergeService
                                 existingVideo.lang = item.lang;
                             }
                         }
-
                     }
                     else
                     {

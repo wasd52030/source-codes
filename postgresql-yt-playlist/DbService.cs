@@ -6,7 +6,7 @@ public class DbService
 {
     private const string ConnectionString = "Host=localhost;Port=5432;Database=Youtube-Playlist-DB;Username=postgres;Password=password";
 
-    public async Task InsertDataAsync(List<VideoData> mergedVideos)
+    public async Task InsertDataAsync(List<VideoData> videos)
     {
         using IDbConnection db = new NpgsqlConnection(ConnectionString);
         db.Open();
@@ -14,7 +14,7 @@ public class DbService
 
         try
         {
-            foreach (var video in mergedVideos)
+            foreach (var video in videos)
             {
                 // A. 寫入 videos table (使用 ON CONFLICT DO NOTHING 避免重複插入)
                 var videoSql = @"
@@ -35,9 +35,9 @@ public class DbService
                     
                     await db.ExecuteAsync(playlistSql, new { p.id, p.title, p.owner }, transaction);
 
-                    // B2. 寫入 video_playlist_links 連接表
+                    // B2. 寫入 playlist_item 連接表
                     var linkSql = @"
-                        INSERT INTO video_playlist_links (video_id, playlist_id, position)
+                        INSERT INTO playlist_item (video_id, playlist_id, position)
                         VALUES (@VideoId, @PlaylistId, @Position)
                         ON CONFLICT (video_id, playlist_id) 
                         DO UPDATE SET position = EXCLUDED.position;"; // 如果已存在，則更新 position

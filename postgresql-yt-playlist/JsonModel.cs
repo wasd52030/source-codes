@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 public class PlaylistInfo
 {
     public string id { get; set; }
@@ -16,19 +18,12 @@ public class VideoData
     public string lang { get; set; } // 來自第二個 JSON
 }
 
-public class InputJson1
+public class CustomTitleJson
 {
     public List<VideoData> videos { get; set; }
 }
 
-public class InputJson2Item
+public class VideosLangCheckJson
 {
-    public string id { get; set; }
-    public string title { get; set; }
-    public string lang { get; set; }
-}
-
-public class InputJson2
-{
-    public List<InputJson2Item> items { get; set; }
+    [JsonPropertyName("items")] public List<VideoData> items { get; set; }
 }

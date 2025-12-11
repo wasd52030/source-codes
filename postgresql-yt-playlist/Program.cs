@@ -22,5 +22,33 @@ async Task PostgresqlTest()
     transaction.Commit();
 }
 
+async Task Main()
+{
+    string customTitle =
+            await File.ReadAllTextAsync(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "./assets/customTitle.json"));
 
-await MergeService.RunAsync();
+    var customTitleData = JsonSerializer.Deserialize<CustomTitleJson>(customTitle);
+
+    var videosLangChecks = new List<string>
+    {
+        await File.ReadAllTextAsync(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "./assets/Виктор собел-BBBGGGMMM_videosLangCheck.json")),
+        await File.ReadAllTextAsync(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "./assets/Виктор собел-酷東東_videosLangCheck.json")),
+        await File.ReadAllTextAsync(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "./assets/Виктор собел-6_videosLangCheck.json"))
+    };
+
+    DbService dbService = new DbService();
+
+    await dbService.InsertDataAsync(customTitleData!.videos);
+    foreach (var x in videosLangChecks)
+    {
+        var data = JsonSerializer.Deserialize<VideosLangCheckJson>(x);
+        await dbService.InsertDataAsync(data!.items);
+    }
+
+    // Console.WriteLine(customTitle);
+
+    // videosLangChecks.ToList().ForEach(x => Console.WriteLine(x));
+}
+
+
+await Main();

@@ -118,8 +118,8 @@ public class MergeService
                             id = item.id,
                             title = item.title,
                             lang = item.lang,
-                            comment = null,
-                            CoverUrl = null,
+                            comment = "",
+                            CoverUrl = "",
                             playlists = new List<PlaylistInfo>()
                         };
                         videoMap.Add(newVideo.id, newVideo);

@@ -9,6 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+		<Content Include="assets/*">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Dapper" Version="2.1.66" />
     <PackageReference Include="Npgsql" Version="10.0.0" />
   </ItemGroup>

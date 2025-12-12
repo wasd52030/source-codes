@@ -58,7 +58,7 @@ public class YTPlaylistDbService
     }
 
 
-    public async Task UpdateDataAsync(List<VideoData> videos)
+    public async Task UpdateAsync(List<VideoData> videos)
     {
         using IDbConnection db = new NpgsqlConnection(ConnectionString);
         db.Open();

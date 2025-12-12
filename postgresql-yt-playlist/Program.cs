@@ -22,6 +22,14 @@ async Task PostgresqlTest()
     transaction.Commit();
 }
 
+
+async Task Insert(List<VideoData> videos)
+{
+    YTPlaylistDbService dbService = new YTPlaylistDbService();
+
+    await dbService.InsertAsync(videos);
+}
+
 async Task Main()
 {
     string customTitle =
@@ -36,14 +44,7 @@ async Task Main()
         await File.ReadAllTextAsync(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "./assets/Виктор собел-6_videosLangCheck.json"))
     };
 
-    DbService dbService = new DbService();
-
-    await dbService.InsertDataAsync(customTitleData!.videos);
-    foreach (var x in videosLangChecks)
-    {
-        var data = JsonSerializer.Deserialize<VideosLangCheckJson>(x);
-        await dbService.InsertDataAsync(data!.items);
-    }
+    
 
     // Console.WriteLine(customTitle);
 

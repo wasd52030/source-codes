@@ -66,7 +66,7 @@ async Task Main()
     });
     rootCommand.Add(insertCommand);
     
-    var updateCommand = new Command(name: "upadte", description: "更新資料庫");
+    var updateCommand = new Command(name: "update", description: "更新資料庫");
     updateCommand.SetAction(async (ctx) =>
     {
         await Update(customTitleData!.videos);
@@ -77,9 +77,7 @@ async Task Main()
     });
     rootCommand.Add(updateCommand);
 
-
-
-
+    await rootCommand.Parse(args).InvokeAsync();
 
     // Console.WriteLine(customTitle);
 
